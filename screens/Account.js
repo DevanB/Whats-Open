@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView, Text } from 'react-native';
+import { View, Text } from 'react-native';
 
 export default class AccountScreen extends React.Component {
   render() {
     return (
-      <ScrollView>
+      <View>
         <Text>Account Screen</Text>
-      </ScrollView>
+      </View>
     );
   }
 }

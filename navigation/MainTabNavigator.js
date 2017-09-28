@@ -1,24 +1,92 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 
 import Colors from '../constants/Colors';
 
-import MapScreen from '../screens/MapScreen';
-import ReportScreen from '../screens/ReportScreen';
-import AccountScreen from '../screens/AccountScreen';
+import AccountScreen from '../screens/Account';
+import MapScreen from '../screens/Map';
+import PlaceDetailsScreen from '../screens/PlaceDetails';
+import ReportScreen from '../screens/Report';
 
-export default TabNavigator(
+const MapTabNavigator = StackNavigator(
   {
     Map: {
       screen: MapScreen
     },
+    PlaceDetails: {
+      screen: PlaceDetailsScreen
+    }
+  },
+  {
+    initialRouteName: 'Map',
+    navigationOptions: () => ({
+      gesturesEnabled: true,
+      headerBackTitle: 'Back',
+      headerBackTitleStyle: {
+        color: 'black'
+      },
+      headerTintColor: 'black',
+      headerTitleStyle: {
+        color: 'black',
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: 'rgb(248,205,70)'
+      }
+    })
+  }
+);
+
+const ReportTabNavigator = StackNavigator(
+  {
     Report: {
       screen: ReportScreen
     },
+    PlaceDetails: {
+      screen: PlaceDetailsScreen
+    }
+  },
+  {
+    initialRouteName: 'Report',
+    navigationOptions: () => ({
+      gesturesEnabled: true,
+      headerBackTitle: 'Back',
+      headerBackTitleStyle: {
+        color: 'black'
+      },
+      headerTintColor: 'black',
+      headerTitleStyle: {
+        color: 'black',
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: 'rgb(248,205,70)'
+      }
+    })
+  }
+);
+
+export default TabNavigator(
+  {
+    Map: {
+      screen: MapTabNavigator,
+      navigationOptions: {
+        tabBarLabel: "What's Open?"
+      }
+    },
+    Report: {
+      screen: ReportTabNavigator,
+      navigationOptions: {
+        tabBarLabel: 'Report'
+      }
+    },
     Account: {
-      screen: AccountScreen
+      screen: AccountScreen,
+      navigationOptions: {
+        tabBarLabel: 'Account'
+      }
     }
   },
   {
