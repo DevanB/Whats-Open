@@ -26,7 +26,10 @@ const MainStack = StackNavigator(
 const ModalNavigator = StackNavigator(
   {
     MainStack: {
-      screen: MainStack
+      screen: MainStack,
+      navigationOptions: {
+        header: null
+      }
     },
     ReportPlace: {
       screen: ReportPlaceScreen
@@ -34,8 +37,19 @@ const ModalNavigator = StackNavigator(
   },
   {
     initialRouteName: 'MainStack',
-    headerMode: 'none',
-    mode: 'modal'
+    headerMode: 'screen',
+    mode: 'modal',
+    navigationOptions: () => ({
+      gesturesEnabled: true,
+      headerTintColor: 'black',
+      headerTitleStyle: {
+        color: 'black',
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: 'rgb(248,205,70)'
+      }
+    })
   }
 );
 
