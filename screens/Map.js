@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionList, StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Location, MapView, Permissions } from 'expo';
 import LocationCell from '../components/LocationCell';
 import MapLegend from '../components/MapLegend';
@@ -148,5 +148,3 @@ export default class Map extends React.Component {
     this.setState({ location, region });
   }
 }
-
-const styles = StyleSheet.create({});
