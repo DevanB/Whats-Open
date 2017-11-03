@@ -38,71 +38,73 @@ export default class ReportPlace extends React.Component {
   render() {
     const { navigation: { state: { params } } } = this.props;
     return (
-      <ScrollView style={styles.container}>
-        <MapView
-          region={{
-            ...params.coordinates,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
-          showsPointsOfInterest={false}
-          showsTraffic={false}
-          style={{ height: WindowHeight * 0.3 }}>
-          <MapView.Marker
-            title={params.name}
-            description={buildAddress(params.location)}
-            coordinate={params.coordinates}>
-            <Marker status={params.user_defined.status} />
-          </MapView.Marker>
-        </MapView>
-        <View style={styles.informationView}>
-          <Text style={styles.headerName}>{params.name}</Text>
-          <Text style={styles.addressText}>{buildAddress(params.location)}</Text>
-          <TouchableWithoutFeedback onPress={() => this._handlePressOpen()}>
-            <View style={styles.statusView}>
-              <Text
-                style={{
-                  color: 'rgb(3, 3, 3)',
-                  fontSize: 19,
-                  letterSpacing: -0.4,
-                  paddingBottom: 15,
-                  paddingTop: 15
-                }}>
-                Status
-              </Text>
-              <Text
-                style={{
-                  color: 'rgb(128, 127, 148)',
-                  fontSize: 19,
-                  letterSpacing: -0.4,
-                  paddingBottom: 15,
-                  paddingTop: 15,
-                  position: 'absolute',
-                  right: 18
-                }}
-                onPress={() => this._handlePressOpen()}>
-                {this.state.status}
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <TextInput
-            autoCorrect={false}
-            onChangeText={comment => this.setState({ comment })}
-            type="text"
-            multiline={true}
-            numberOfLines={4}
-            placeholder="Comments"
-            ref={view => {
-              this._input = view;
+      <View style={styles.outer}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <MapView
+            region={{
+              ...params.coordinates,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
             }}
-            selectionColor="black"
-            underlineColorAndroid="#888"
-            value={this.state.comment}
-            style={[styles.input, { marginTop: 18 }]}
-          />
-        </View>
+            showsPointsOfInterest={false}
+            showsTraffic={false}
+            style={{ height: WindowHeight * 0.3 }}>
+            <MapView.Marker
+              title={params.name}
+              description={buildAddress(params.location)}
+              coordinate={params.coordinates}>
+              <Marker status={params.user_defined.status} />
+            </MapView.Marker>
+          </MapView>
+          <View style={styles.informationView}>
+            <Text style={styles.headerName}>{params.name}</Text>
+            <Text style={styles.addressText}>{buildAddress(params.location)}</Text>
+            <TouchableWithoutFeedback onPress={() => this._handlePressOpen()}>
+              <View style={styles.statusView}>
+                <Text
+                  style={{
+                    color: 'rgb(3, 3, 3)',
+                    fontSize: 19,
+                    letterSpacing: -0.4,
+                    paddingBottom: 15,
+                    paddingTop: 15
+                  }}>
+                  Status
+                </Text>
+                <Text
+                  style={{
+                    color: 'rgb(128, 127, 148)',
+                    fontSize: 19,
+                    letterSpacing: -0.4,
+                    paddingBottom: 15,
+                    paddingTop: 15,
+                    position: 'absolute',
+                    right: 18
+                  }}
+                  onPress={() => this._handlePressOpen()}>
+                  {this.state.status}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <TextInput
+              autoCorrect={false}
+              onChangeText={comment => this.setState({ comment })}
+              type="text"
+              multiline={true}
+              numberOfLines={4}
+              placeholder="Comments"
+              ref={view => {
+                this._input = view;
+              }}
+              selectionColor="black"
+              underlineColorAndroid="#888"
+              value={this.state.comment}
+              style={[styles.input, { marginTop: 18 }]}
+            />
+          </View>
+        </ScrollView>
         {this._maybeRenderModal()}
-      </ScrollView>
+      </View>
     );
   }
 
@@ -174,10 +176,17 @@ export default class ReportPlace extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  outer: {
+    height: '100%'
+  },
   container: {
+    backgroundColor: 'rgba(250, 250, 250, 0.8)',
     display: 'flex',
-    flex: 1,
-    backgroundColor: 'rgba(250, 250, 250, 0.8)'
+    flex: 1
+  },
+  contentContainer: {
+    height: '100%',
+    justifyContent: 'flex-end'
   },
   addressText: {
     color: 'rgb(143, 142, 148)',
