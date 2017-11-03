@@ -1,14 +1,18 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { MapView } from 'expo';
 import Touchable from 'react-native-platform-touchable';
 import Marker from '../components/Marker';
 import HeaderActions from '../components/ReportHeaderActions';
+import buildAddress from '../helpers/buildAddress';
+const { height: WindowHeight } = Dimensions.get('window');
+
+import { CLOSED, LIMITED, OPEN } from '../constants/LocationStatus';
 
 export default class PlaceDetails extends React.Component {
   static navigationOptions = props => {
     return {
-      title: props.navigation.state.params.title,
+      title: props.navigation.state.params.name,
       headerRight: props.navigation.state.params.reportScreen && <HeaderActions.Right navigation={props.navigation} />
     };
   };
@@ -28,25 +32,36 @@ export default class PlaceDetails extends React.Component {
   render() {
     const { navigation: { state: { params } } } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
         <MapView
           region={{
-            ...params.latlng,
+            ...params.coordinates,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
           showsPointsOfInterest={false}
           showsTraffic={false}
-          style={{ flexShrink: 0, flexBasis: '40%' }}>
-          <MapView.Marker title={params.title} description={params.description} coordinate={params.latlng}>
-            <Marker status={params.status} />
+          style={{ height: WindowHeight * 0.3 }}>
+          <MapView.Marker
+            title={params.name}
+            description={buildAddress(params.location)}
+            coordinate={params.coordinates}>
+            <Marker status={params.user_defined.status} />
           </MapView.Marker>
         </MapView>
         <View style={styles.informationView}>
-          <Text style={styles.headerTitle}>{params.title}</Text>
-          <Text style={styles.addressText}>{params.address}</Text>
-          <Touchable style={styles.button}>
-            <Text style={styles.buttonText}>Currently Open</Text>
+          <Text style={styles.headerName}>{params.name}</Text>
+          <Text style={styles.addressText}>{buildAddress(params.location)}</Text>
+          <Touchable
+            style={[
+              styles.button,
+              params.user_defined.status === CLOSED && styles.red,
+              params.user_defined.status === LIMITED && styles.yellow,
+              params.user_defined.status === OPEN && styles.green
+            ]}>
+            <Text style={[styles.buttonText, params.user_defined.status === LIMITED && styles.blackText]}>
+              {params.user_defined.status}
+            </Text>
           </Touchable>
           <View
             style={{
@@ -74,9 +89,11 @@ export default class PlaceDetails extends React.Component {
               marginBottom: 20
             }}
           />
-          <Text style={styles.reportedByText}>Reported by 31 people</Text>
+          <View style={styles.recentCommentsContainer}>
+            <Text style={styles.recentCommentsHeader}>RECENT COMMENTS</Text>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -88,7 +105,6 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   button: {
-    backgroundColor: 'rgb(24, 177, 50)',
     borderRadius: 8,
     marginBottom: 25,
     marginTop: 13,
@@ -109,7 +125,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.1,
     marginRight: 10
   },
-  headerTitle: {
+  headerName: {
     color: 'rgb(3, 3, 3)',
     fontSize: 17,
     letterSpacing: -0.4,
@@ -121,13 +137,12 @@ const styles = StyleSheet.create({
     letterSpacing: -0.1
   },
   hoursContainer: {
-    marginBottom: 25
+    marginBottom: 18
   },
   hoursListing: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    justifyContent: 'flex-start',
-    width: 'auto'
+    justifyContent: 'space-between'
   },
   hoursText: {
     color: 'rgb(109, 109, 114)',
@@ -136,15 +151,35 @@ const styles = StyleSheet.create({
     marginBottom: 7.5
   },
   informationView: {
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
     flexGrow: 1,
     flexBasis: '60%',
     paddingLeft: 18,
     paddingRight: 18,
     paddingTop: 17
   },
-  reportedByText: {
-    color: 'rgb(3, 3, 3)',
-    fontSize: 13
+  green: {
+    backgroundColor: 'rgb(48,193,73)'
+  },
+  red: {
+    backgroundColor: 'rgb(254, 40, 81)'
+  },
+  yellow: {
+    backgroundColor: 'rgb(255, 205, 0)'
+  },
+  blackText: {
+    color: 'black'
+  },
+  recentCommentsContainer: {
+    marginBottom: 18
+  },
+  recentCommentsHeader: {
+    color: 'rgb(109, 109, 114)',
+    fontSize: 11,
+    letterSpacing: 0.3,
+    marginBottom: 7.5
+  },
+  container: {
+    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+    flex: 1
   }
 });

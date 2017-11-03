@@ -1,7 +1,8 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Touchable from 'react-native-platform-touchable';
+import buildAddress from '../helpers/buildAddress';
 
 import { OPEN, CLOSED, LIMITED } from '../constants/LocationStatus';
 import Colors from '../constants/Colors';
@@ -18,20 +19,24 @@ export default class LocationCell extends React.PureComponent {
               <View
                 style={[
                   styles.circle,
-                  this.props.item.status === CLOSED && styles.red,
-                  this.props.item.status === LIMITED && styles.yellow,
-                  this.props.item.status === OPEN && styles.green
+                  this.props.item.user_defined && this.props.item.user_defined.status === CLOSED && styles.red,
+                  this.props.item.user_defined && this.props.item.user_defined.status === LIMITED && styles.yellow,
+                  this.props.item.user_defined && this.props.item.user_defined.status === OPEN && styles.green
                 ]}
               />
             )}
           </View>
           <View style={styles.locationDetails}>
             <View style={styles.header}>
-              <Text style={styles.title}>{this.props.item.title}</Text>
+              <Text numberOfLines={1} style={styles.name}>
+                {this.props.item.name}
+              </Text>
               <Text style={styles.lastUpdatedDate}>{this.props.item.updatedAt}</Text>
             </View>
             <View style={styles.footer}>
-              <Text style={styles.address}>{this.props.item.address}</Text>
+              <Text numberOfLines={1} style={styles.address}>
+                {buildAddress(this.props.item.location)}
+              </Text>
             </View>
           </View>
           <View style={styles.detailsIndicator}>
@@ -49,17 +54,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(250,250,250,0.8)',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: 'rgba(178,178,178,0.5)',
+    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    justifyContent: 'space-between',
     paddingBottom: 12,
     paddingLeft: 8,
     paddingRight: 8,
     paddingTop: 11
   },
   statusIndicator: {
-    flexShrink: 0,
-    marginRight: 8
+    flexBasis: 20
   },
   circle: {
     borderRadius: 50,
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(255, 205, 0)'
   },
   locationDetails: {
-    flexGrow: 1
+    flex: 1
   },
   header: {
     alignItems: 'center',
@@ -84,24 +88,26 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     justifyContent: 'space-between'
   },
-  title: {
+  name: {
+    flex: 1,
     fontSize: 17,
     letterSpacing: -0.4,
     marginBottom: 3
   },
   lastUpdatedDate: {
+    alignSelf: 'flex-end',
     color: 'rgb(143,142,148)',
     fontSize: 11,
-    letterSpacing: -0.2
+    letterSpacing: -0.2,
+    top: -8
   },
   footer: {},
   address: {
     color: 'rgb(143,142,148)',
+    flex: 1,
     fontSize: 13,
     letterSpacing: -0.2
   },
-  detailsIndicator: {
-    flexShrink: 0
-  },
+  detailsIndicator: {},
   indicator: {}
 });

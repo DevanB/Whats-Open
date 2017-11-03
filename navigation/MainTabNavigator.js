@@ -68,6 +68,32 @@ const ReportTabNavigator = StackNavigator(
   }
 );
 
+const AccountTabNavigator = StackNavigator(
+  {
+    Account: {
+      screen: AccountScreen
+    }
+  },
+  {
+    initialRouteName: 'Account',
+    navigationOptions: () => ({
+      gesturesEnabled: true,
+      headerBackTitle: 'Back',
+      headerBackTitleStyle: {
+        color: 'black'
+      },
+      headerTintColor: 'black',
+      headerTitleStyle: {
+        color: 'black',
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: 'rgb(248,205,70)'
+      }
+    })
+  }
+);
+
 export default TabNavigator(
   {
     Map: {
@@ -83,7 +109,7 @@ export default TabNavigator(
       }
     },
     Account: {
-      screen: AccountScreen,
+      screen: AccountTabNavigator,
       navigationOptions: {
         tabBarLabel: 'Account'
       }

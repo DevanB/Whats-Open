@@ -10,15 +10,15 @@ export default class MapLegend extends React.PureComponent {
       <View style={styles.legendBox}>
         <View style={styles.row}>
           <Marker status={OPEN} legend={true} style={{ marginRight: 6 }} />
-          <Text style={styles.legendText}>Fully open</Text>
+          <Text style={styles.legendText}>{OPEN}</Text>
         </View>
         <View style={styles.row}>
           <Marker status={LIMITED} legend={true} style={{ marginRight: 6 }} />
-          <Text style={styles.legendText}>Limited hours</Text>
+          <Text style={styles.legendText}>{LIMITED}</Text>
         </View>
         <View style={styles.row}>
           <Marker status={CLOSED} legend={true} style={{ marginRight: 6 }} />
-          <Text style={styles.legendText}>Closed</Text>
+          <Text style={styles.legendText}>{CLOSED}</Text>
         </View>
       </View>
     );

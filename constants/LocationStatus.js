@@ -1,5 +1,5 @@
-const OPEN = 'open';
-const LIMITED = 'limited';
-const CLOSED = 'closed';
+const OPEN = 'Normal Hours';
+const LIMITED = 'Limited Hours';
+const CLOSED = 'Closed';
 
 export { OPEN, LIMITED, CLOSED };

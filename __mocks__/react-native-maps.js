@@ -1,6 +1,7 @@
 jest.mock('react-native-maps', () => {
   const React = require.requireActual('react');
   const MapView = require.requireActual('react-native-maps');
+  const propTypes = require.requireActual('prop-types');
 
   class MockCallout extends React.Component {
     render() {
@@ -20,9 +21,6 @@ jest.mock('react-native-maps', () => {
     }
   }
 
-  MockCallout.propTypes = MapView.Callout.propTypes;
-  MockMarker.propTypes = MapView.Marker.propTypes;
-  MockMapView.propTypes = MapView.propTypes;
   MockMapView.Marker = MockMarker;
   MockMapView.Callout = MockCallout;
   return MockMapView;

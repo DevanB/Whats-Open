@@ -11,7 +11,7 @@ export default class Marker extends React.PureComponent {
           styles.marker,
           this.props.legend && styles.legendMarker,
           this.props.status === CLOSED && styles.red,
-          this.props.status == LIMITED && styles.yellow,
+          this.props.status === LIMITED && styles.yellow,
           this.props.status === OPEN && styles.green,
           { ...this.props.style }
         ]}
