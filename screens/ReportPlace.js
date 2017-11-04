@@ -103,7 +103,7 @@ export default class ReportPlace extends React.Component {
               numberOfLines={4}
               placeholder="Comments"
               ref={view => {
-                this._input = view;
+                this._commentsInput = view;
               }}
               selectionColor="black"
               underlineColorAndroid="#888"
@@ -125,6 +125,10 @@ export default class ReportPlace extends React.Component {
     }).start(() => {
       this.setState({ modalIsVisible: false });
     });
+  };
+
+  _handlePressNext = () => {
+    this._commentsInput.focus();
   };
 
   _handlePressOpen = () => {
@@ -212,7 +216,7 @@ export default class ReportPlace extends React.Component {
             transform: [{ translateY }]
           }}>
           <View style={styles.toolbar}>
-            <Button title="Next" onPress={this._handlePressDone} />
+            <Button title="Next" onPress={this._handlePressNext} />
             <Button title="Done" onPress={this._handlePressDone} />
           </View>
           <Picker
@@ -232,7 +236,6 @@ export default class ReportPlace extends React.Component {
 const styles = StyleSheet.create({
   addressText: {
     color: 'rgb(143, 142, 148)',
-    flex: 1,
     fontSize: 13,
     letterSpacing: -0.2,
     paddingLeft: 18,
@@ -249,7 +252,6 @@ const styles = StyleSheet.create({
   },
   headerName: {
     color: 'rgb(3, 3, 3)',
-    flex: 1,
     fontSize: 17,
     letterSpacing: -0.4,
     marginBottom: 3,
