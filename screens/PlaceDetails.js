@@ -4,6 +4,7 @@ import {
   Button,
   Dimensions,
   InteractionManager,
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -70,7 +71,8 @@ export default class PlaceDetails extends React.Component {
               params.user_defined.status === CLOSED && styles.red,
               params.user_defined.status === LIMITED && styles.yellow,
               params.user_defined.status === OPEN && styles.green
-            ]}>
+            ]}
+            onPress={() => this._openDirections()}>
             <Text style={[styles.buttonText, params.user_defined.status === LIMITED && styles.blackText]}>
               {params.user_defined.status}
             </Text>
@@ -154,6 +156,14 @@ export default class PlaceDetails extends React.Component {
         </MapView.Marker>
       </MapView>
     );
+  }
+
+  _openDirections() {
+    const { navigation: { state: { params: { location } } } } = this.props;
+
+    let daddr = encodeURIComponent(buildAddress(location));
+
+    Linking.openURL(`http://maps.apple.com/?daddr=${daddr}`);
   }
 }
 
