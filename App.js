@@ -28,8 +28,8 @@ export default class App extends React.Component {
     if (!this.state.appIsReady) {
       return (
         <AppLoading
-          startAsync={loadUserAsync}
-          conError={console.warn}
+          startAsync={this._loadAppAsync}
+          onError={console.warn}
           onFinish={() => this.setState({ appIsReady: true })}
         />
       );
@@ -41,6 +41,17 @@ export default class App extends React.Component {
         </View>
       </ApolloProvider>
     );
+  }
+
+  async _loadAppAsync() {
+    // require any images like icons in this below array like so:
+    // require('./assets/images/whatever-icon.png
+    const images = [];
+
+    const cacheImages = images.map(image => {
+      return Asset.fromModule(image).downloadAsync();
+    });
+    return Promise.all(cacheImages);
   }
 
   async _getLocationAsync() {
