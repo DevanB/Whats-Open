@@ -143,8 +143,6 @@ export default class ReportPlace extends React.Component {
       outputRange: [300, 0]
     });
 
-    console.log('translateY, ', translateY);
-
     return (
       <View style={StyleSheet.absoluteFill} pointerEvents={this.state.modalIsVisible ? 'auto' : 'none'}>
         <TouchableWithoutFeedback onPress={this._handlePressDone}>

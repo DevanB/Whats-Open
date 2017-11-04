@@ -21,8 +21,9 @@ export default class Map extends React.Component {
   };
 
   state = {
-    location: { coords: { latitude: 0, longitude: 0 } },
     errorMessage: null,
+    location: { coords: { latitude: 0, longitude: 0 } },
+    regionSet: false,
     sections
   };
 
@@ -36,9 +37,13 @@ export default class Map extends React.Component {
         <View>
           <MapView
             region={this.state.region}
-            showsPointsOfInterest={false}
-            showsTraffic={false}
-            showsUserLocation={false}
+            onRegionChangeComplete={region => {
+              if (this.state.regionSet) this.setState({ region });
+            }}
+            onMapReady={() => {
+              this.setState({ regionSet: true });
+            }}
+            showsUserLocation={true}
             style={{ flexShrink: 0, flexBasis: WindowHeight * 0.3 }}>
             {this.state.sections[0].data.map(marker => (
               <MapView.Marker key={marker.id} coordinate={marker.coordinates}>
