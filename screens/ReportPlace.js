@@ -1,8 +1,10 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Animated,
   Button,
   Dimensions,
+  InteractionManager,
   Picker,
   ScrollView,
   StyleSheet,
@@ -30,35 +32,42 @@ export default class ReportPlace extends React.Component {
 
   state = {
     comments: '',
+    shouldRenderMap: false,
+    shouldRenderOverlay: true,
     status: 'Closed',
     modalIsVisible: false,
     modalAnimatedValue: new Animated.Value(0)
   };
+
+  componentDidMount() {
+    this._isMounted = true;
+
+    InteractionManager.runAfterInteractions(() => {
+      this._isMounted && this.setState({ shouldRenderMap: true });
+      setTimeout(() => {
+        this._isMounted && this.setState({ shouldRenderOverlay: false });
+      }, 500);
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     const { navigation: { state: { params } } } = this.props;
     return (
       <View style={styles.outer}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <MapView
-            region={{
-              ...params.coordinates,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421
-            }}
-            showsPointsOfInterest={false}
-            showsTraffic={false}
-            style={{ height: WindowHeight * 0.3 }}>
-            <MapView.Marker
-              title={params.name}
-              description={buildAddress(params.location)}
-              coordinate={params.coordinates}>
-              <Marker status={params.user_defined.status} />
-            </MapView.Marker>
-          </MapView>
+          {this._maybeRenderMap()}
+          {this._maybeRenderOverlay()}
           <View style={styles.informationView}>
-            <Text style={styles.headerName}>{params.name}</Text>
-            <Text style={styles.addressText}>{buildAddress(params.location)}</Text>
+            <Text numberOfLines={1} style={styles.headerName}>
+              {params.name}
+            </Text>
+            <Text numberOfLines={1} style={styles.addressText}>
+              {buildAddress(params.location)}
+            </Text>
             <TouchableWithoutFeedback onPress={() => this._handlePressOpen()}>
               <View style={styles.statusView}>
                 <Text
@@ -132,6 +141,53 @@ export default class ReportPlace extends React.Component {
     });
   };
 
+  _maybeRenderOverlay() {
+    if (!this.state.shouldRenderOverlay) return;
+
+    if (this.state.shouldRenderMap) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={[
+            styles.map,
+            {
+              backgroundColor: '#f9f5ed',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0
+            }
+          ]}
+        />
+      );
+    } else {
+      return <View style={[styles.map, { backgroundColor: '#f9f5ed' }]} />;
+    }
+  }
+
+  _maybeRenderMap() {
+    const { navigation: { state: { params } } } = this.props;
+
+    if (!this.state.shouldRenderMap) return;
+
+    return (
+      <MapView
+        region={{
+          ...params.coordinates,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }}
+        cacheEnabled={true}
+        showsPointsOfInterest={false}
+        showsTraffic={false}
+        style={styles.map}>
+        <MapView.Marker title={params.name} description={buildAddress(params.location)} coordinate={params.coordinates}>
+          <Marker status={params.user_defined.status} />
+        </MapView.Marker>
+      </MapView>
+    );
+  }
+
   _maybeRenderModal = () => {
     if (!this.state.modalIsVisible) {
       return null;
@@ -174,8 +230,13 @@ export default class ReportPlace extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  outer: {
-    height: '100%'
+  addressText: {
+    color: 'rgb(143, 142, 148)',
+    flex: 1,
+    fontSize: 13,
+    letterSpacing: -0.2,
+    paddingLeft: 18,
+    paddingRight: 18
   },
   container: {
     backgroundColor: 'rgba(250, 250, 250, 0.8)',
@@ -183,18 +244,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   contentContainer: {
-    height: '100%',
+    height: WindowHeight,
     justifyContent: 'flex-end'
-  },
-  addressText: {
-    color: 'rgb(143, 142, 148)',
-    fontSize: 13,
-    letterSpacing: -0.2,
-    paddingLeft: 18,
-    paddingRight: 18
   },
   headerName: {
     color: 'rgb(3, 3, 3)',
+    flex: 1,
     fontSize: 17,
     letterSpacing: -0.4,
     marginBottom: 3,
@@ -203,8 +258,24 @@ const styles = StyleSheet.create({
   },
   informationView: {
     flexGrow: 1,
-    flexBasis: '60%',
+    flexBasis: WindowHeight * 0.7,
     paddingTop: 17
+  },
+  input: {
+    backgroundColor: '#fff',
+    color: 'rgb(143, 142, 148)',
+    fontSize: 19,
+    letterSpacing: -0.4,
+    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 15
+  },
+  map: {
+    height: WindowHeight * 0.3
+  },
+  outer: {
+    height: WindowHeight
   },
   statusView: {
     backgroundColor: 'white',
@@ -218,15 +289,5 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     justifyContent: 'space-between'
-  },
-  input: {
-    backgroundColor: '#fff',
-    color: 'rgb(143, 142, 148)',
-    fontSize: 19,
-    letterSpacing: -0.4,
-    paddingBottom: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 15
   }
 });

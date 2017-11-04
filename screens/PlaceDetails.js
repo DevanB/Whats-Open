@@ -1,5 +1,14 @@
 import React from 'react';
-import { Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Dimensions,
+  InteractionManager,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { MapView } from 'expo';
 import Touchable from 'react-native-platform-touchable';
 import Marker from '../components/Marker';
@@ -26,29 +35,32 @@ export default class PlaceDetails extends React.Component {
       { day: 'Tuesday', hours: '7:00 AM to 10:00 PM' },
       { day: 'Wednesday', hours: '7:00 AM to 10:00 PM' },
       { day: 'Thursday', hours: '7:00 AM to 10:00 PM' }
-    ]
+    ],
+    shouldRenderMap: false,
+    shouldRenderOverlay: true
   };
+
+  componentDidMount() {
+    this._isMounted = true;
+
+    InteractionManager.runAfterInteractions(() => {
+      this._isMounted && this.setState({ shouldRenderMap: true });
+      setTimeout(() => {
+        this._isMounted && this.setState({ shouldRenderOverlay: false });
+      }, 500);
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     const { navigation: { state: { params } } } = this.props;
     return (
       <ScrollView style={styles.container}>
-        <MapView
-          region={{
-            ...params.coordinates,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
-          showsPointsOfInterest={false}
-          showsTraffic={false}
-          style={{ height: WindowHeight * 0.3 }}>
-          <MapView.Marker
-            title={params.name}
-            description={buildAddress(params.location)}
-            coordinate={params.coordinates}>
-            <Marker status={params.user_defined.status} />
-          </MapView.Marker>
-        </MapView>
+        {this._maybeRenderMap()}
+        {this._maybeRenderOverlay()}
         <View style={styles.informationView}>
           <Text style={styles.headerName}>{params.name}</Text>
           <Text style={styles.addressText}>{buildAddress(params.location)}</Text>
@@ -96,6 +108,53 @@ export default class PlaceDetails extends React.Component {
       </ScrollView>
     );
   }
+
+  _maybeRenderOverlay() {
+    if (!this.state.shouldRenderOverlay) return;
+
+    if (this.state.shouldRenderMap) {
+      return (
+        <ActivityIndicator
+          size="large"
+          style={[
+            styles.map,
+            {
+              backgroundColor: '#f9f5ed',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0
+            }
+          ]}
+        />
+      );
+    } else {
+      return <View style={[styles.map, { backgroundColor: '#f9f5ed' }]} />;
+    }
+  }
+
+  _maybeRenderMap() {
+    const { navigation: { state: { params } } } = this.props;
+
+    if (!this.state.shouldRenderMap) return;
+
+    return (
+      <MapView
+        region={{
+          ...params.coordinates,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }}
+        cacheEnabled={true}
+        showsPointsOfInterest={false}
+        showsTraffic={false}
+        style={styles.map}>
+        <MapView.Marker title={params.name} description={buildAddress(params.location)} coordinate={params.coordinates}>
+          <Marker status={params.user_defined.status} />
+        </MapView.Marker>
+      </MapView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -103,6 +162,9 @@ const styles = StyleSheet.create({
     color: 'rgb(143, 142, 148)',
     letterSpacing: -0.2,
     fontSize: 13
+  },
+  blackText: {
+    color: 'black'
   },
   button: {
     borderRadius: 8,
@@ -118,12 +180,19 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
     textAlign: 'center'
   },
+  container: {
+    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+    flex: 1
+  },
   day: {
     color: 'rgb(3, 3, 3)',
     fontSize: 13,
     fontWeight: '500',
     letterSpacing: -0.1,
     marginRight: 10
+  },
+  green: {
+    backgroundColor: 'rgb(48,193,73)'
   },
   headerName: {
     color: 'rgb(3, 3, 3)',
@@ -157,17 +226,8 @@ const styles = StyleSheet.create({
     paddingRight: 18,
     paddingTop: 17
   },
-  green: {
-    backgroundColor: 'rgb(48,193,73)'
-  },
-  red: {
-    backgroundColor: 'rgb(254, 40, 81)'
-  },
-  yellow: {
-    backgroundColor: 'rgb(255, 205, 0)'
-  },
-  blackText: {
-    color: 'black'
+  map: {
+    height: WindowHeight * 0.3
   },
   recentCommentsContainer: {
     marginBottom: 18
@@ -178,8 +238,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     marginBottom: 7.5
   },
-  container: {
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
-    flex: 1
+  red: {
+    backgroundColor: 'rgb(254, 40, 81)'
+  },
+  yellow: {
+    backgroundColor: 'rgb(255, 205, 0)'
   }
 });
