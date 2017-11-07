@@ -27,16 +27,20 @@ export default class MapLegend extends React.PureComponent {
 const styles = StyleSheet.create({
   legendBox: {
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    borderRadius: 5,
+    borderRadius: 8,
     bottom: 10,
     flexDirection: 'column',
     height: 'auto',
     left: 10,
-    paddingBottom: 3,
-    paddingLeft: 7,
-    paddingRight: 7,
-    paddingTop: 5,
+    paddingBottom: 6,
+    paddingLeft: 10,
+    paddingRight: 13,
+    paddingTop: 8,
     position: 'absolute',
+    shadowColor: 'black',
+    shadowOffset: {height: 3, width: 0},
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
     width: 'auto'
   },
   legendText: {

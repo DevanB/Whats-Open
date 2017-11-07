@@ -9,9 +9,9 @@ export default class SectionHeader extends React.PureComponent {
 
 const styles = StyleSheet.create({
   sectionHeader: {
-    backgroundColor: 'rgba(250,250,250,0.8)',
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(178,178,178,0.5)',
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    borderBottomWidth: 2,
+    borderColor: 'red',
     color: 'rgb(109,109,114)',
     letterSpacing: 0.3,
     paddingBottom: 8,
