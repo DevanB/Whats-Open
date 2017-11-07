@@ -276,6 +276,9 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#fff',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0, 0, 0, 0.25)',
+    borderTopWidth: StyleSheet.hairlineWidth,
     color: 'rgb(143, 142, 148)',
     fontSize: 19,
     letterSpacing: -0.4,
@@ -292,6 +295,9 @@ const styles = StyleSheet.create({
   },
   statusView: {
     backgroundColor: 'white',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0, 0, 0, 0.25)',
+    borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 18,
     paddingLeft: 18
   },
