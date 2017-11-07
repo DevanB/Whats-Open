@@ -58,7 +58,7 @@ const ModalNavigator = StackNavigator(
     headerMode: 'screen',
     mode: 'modal',
     navigationOptions: () => ({
-      gesturesEnabled: true,
+      gesturesEnabled: false,
       headerTintColor: 'black',
       headerTitleStyle: {
         color: 'black',
