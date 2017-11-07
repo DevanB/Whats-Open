@@ -94,8 +94,8 @@ export default class PlaceDetails extends React.Component {
           </View>
           <View
             style={{
-              borderBottomColor: 'rgb(200, 199, 204)',
-              borderBottomWidth: 1,
+              borderBottomColor: 'rgba(0, 0, 0, 0.15)',
+              borderBottomWidth: StyleSheet.hairlineWidth,
               marginBottom: 20
             }}
           />
@@ -225,7 +225,8 @@ const styles = StyleSheet.create({
   hoursListing: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 3
   },
   hoursText: {
     color: 'rgb(109, 109, 114)',

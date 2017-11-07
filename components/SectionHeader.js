@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     color: 'rgb(109,109,114)',
     fontSize: 11,
     letterSpacing: 0.3,
-    paddingBottom: 8,
+    paddingBottom: 7,
     paddingLeft: 15,
     paddingTop: 8,
     shadowColor: 'black',

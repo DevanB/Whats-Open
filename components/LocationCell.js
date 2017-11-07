@@ -14,18 +14,18 @@ export default class LocationCell extends React.PureComponent {
         onPress={() =>
           this.props.navigateOnPress('PlaceDetails', { ...this.props.item, reportScreen: this.props.reportScreen })}>
         <View style={styles.container}>
-          <View style={styles.statusIndicator}>
-            {this.props.statusIcon && (
+          {this.props.statusIcon && (
+            <View style={styles.statusIndicator}>
               <View
                 style={[
-                  styles.circle,
+                  styles.status,
                   this.props.item.user_defined && this.props.item.user_defined.status === CLOSED && styles.red,
                   this.props.item.user_defined && this.props.item.user_defined.status === LIMITED && styles.yellow,
                   this.props.item.user_defined && this.props.item.user_defined.status === OPEN && styles.green
                 ]}
-              />
-            )}
-          </View>
+              /> 
+            </View>
+          )}
           <View style={styles.locationDetails}>
             <View style={styles.header}>
               <Text numberOfLines={1} style={styles.name}>
@@ -40,7 +40,7 @@ export default class LocationCell extends React.PureComponent {
             </View>
           </View>
           <View style={styles.detailsIndicator}>
-            <MaterialIcons name="chevron-right" size={20} color="lightgray" />
+            <MaterialIcons name="chevron-right" size={20} color="gray" />
           </View>
         </View>
       </Touchable>
@@ -57,18 +57,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    paddingBottom: 12,
-    paddingLeft: 8,
+    paddingBottom: 13,
+    paddingLeft: 15,
     paddingRight: 8,
-    paddingTop: 11
+    paddingTop: 13
   },
   statusIndicator: {
-    flexBasis: 20
+    flexBasis: 15
   },
-  circle: {
-    borderRadius: 50,
-    height: 12,
-    width: 12
+  status: {
+    borderRadius: 5,
+    height: 34,
+    width: 5
   },
   green: {
     backgroundColor: 'rgb(48,193,73)'
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 17,
     letterSpacing: -0.4,
-    marginBottom: 3
+    marginBottom: 5
   },
   lastUpdatedDate: {
     alignSelf: 'flex-end',
