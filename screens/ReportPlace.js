@@ -270,6 +270,8 @@ const styles = StyleSheet.create({
     paddingRight: 18
   },
   informationView: {
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderTopWidth: StyleSheet.hairlineWidth,
     flexGrow: 1,
     flexBasis: WindowHeight * 0.7,
     paddingTop: 17

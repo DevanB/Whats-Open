@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 8,
     shadowColor: 'black',
-    shadowOffset: {height: 5, width: 0},
-    shadowOpacity: 0.07,
-    shadowRadius: 5
+    shadowOffset: {height: StyleSheet.hairlineWidth, width: 0},
+    shadowOpacity: 0.15,
+    shadowRadius: 0
   }
 });

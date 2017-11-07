@@ -236,13 +236,16 @@ const styles = StyleSheet.create({
   },
   informationHeader: {
     backgroundColor: 'white',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderTopWidth: StyleSheet.hairlineWidth,
     paddingLeft: 18,
     paddingRight: 18,
-    paddingTop: 18,
-    shadowColor: 'black',
-    shadowOffset: {height: 5, width: 0},
-    shadowOpacity: 0.07,
-    shadowRadius: 5
+    paddingTop: 18
+    // shadowColor: 'black',
+    // shadowOffset: {height: StyleSheet.hairlineWidth, width: 0},
+    // shadowOpacity: 0.2,
+    // shadowRadius: 0
   },
   informationView: {
     flexGrow: 1,
