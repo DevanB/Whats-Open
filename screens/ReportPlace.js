@@ -102,12 +102,10 @@ export default class ReportPlace extends React.Component {
               onChangeText={comment => this.setState({ comment })}
               type="text"
               multiline={true}
-              numberOfLines={4}
-              placeholder="Comments"
-              ref={view => {
-                this._commentsInput = view;
-              }}
-              selectionColor="black"
+              placeholder="Comment"
+              placeholderTextColor="#999999"
+              ref={view => { this._commentsInput = view; }}
+              selectionColor="rgb(248,205,70)"
               underlineColorAndroid="#888"
               value={this.state.comment}
               style={[styles.input, { marginTop: 18 }]}
@@ -281,8 +279,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'rgba(0, 0, 0, 0.25)',
     borderTopWidth: StyleSheet.hairlineWidth,
-    color: 'rgb(143, 142, 148)',
-    fontSize: 19,
+    color: '#333333',
+    fontSize: 17,
     letterSpacing: -0.4,
     paddingBottom: 15,
     paddingLeft: 15,
