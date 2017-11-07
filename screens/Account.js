@@ -11,6 +11,7 @@ function inSignUpState(navigationState) {
 export default class AccountScreen extends React.Component {
   static navigationOptions = props => {
     return {
+      headerLeft: <Button title="Cancel" onPress={() => props.navigation.goBack()} color="black" />,
       title: 'Account'
     };
   };

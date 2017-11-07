@@ -13,7 +13,7 @@ class HeaderActionsLeft extends React.PureComponent {
     return (
       <TouchableWithoutFeedback onPress={() => navigate('Account')}>
         <View style={styles.container}>
-          <Text>Sign In</Text>
+          <Text style={styles.inner}>Sign In</Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: isSmallDevice ? 5 : 10,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  inner: {
+    fontSize: 17
   }
 });
 
