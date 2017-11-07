@@ -37,10 +37,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     position: 'absolute',
     right: 12,
-    shadowColor: 'black',
-    shadowOffset: {height: 3, width: 0},
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
     width: 'auto'
   },
   legendText: {
