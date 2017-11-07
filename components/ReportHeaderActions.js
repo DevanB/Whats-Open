@@ -20,7 +20,7 @@ class HeaderActionsRight extends React.PureComponent {
           background={Touchable.Ripple('#fff', true)}
           style={styles.button}
           onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}>
-          <Text>Report</Text>
+          <Text style={styles.inner}>Report</Text>
         </Touchable>
       </View>
     );
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: isSmallDevice ? 5 : 10,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  inner: {
+    fontSize: 17
   }
 });
 
