@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 17,
     letterSpacing: -0.4,
-    marginBottom: 5
+    marginBottom: 3
   },
   lastUpdatedDate: {
     alignSelf: 'flex-end',
