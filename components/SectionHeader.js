@@ -13,10 +13,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: 'red',
     color: 'rgb(109,109,114)',
+    fontSize: 11,
     letterSpacing: 0.3,
     paddingBottom: 8,
     paddingLeft: 15,
     paddingTop: 8,
-    fontSize: 11
+    shadowColor: 'black',
+    shadowOffset: {height: 5, width: 0},
+    shadowOpacity: 0.07,
+    shadowRadius: 5
   }
 });

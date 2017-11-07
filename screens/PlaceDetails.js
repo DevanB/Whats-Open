@@ -62,7 +62,7 @@ export default class PlaceDetails extends React.Component {
       <ScrollView style={styles.container}>
         {this._maybeRenderMap()}
         {this._maybeRenderOverlay()}
-        <View style={styles.informationView}>
+        <View style={styles.informationHeader}>
           <Text style={styles.headerName}>{params.name}</Text>
           <Text style={styles.addressText}>{buildAddress(params.location)}</Text>
           <Touchable
@@ -78,13 +78,8 @@ export default class PlaceDetails extends React.Component {
               {params.user_defined.status}
             </Text>
           </Touchable>
-          <View
-            style={{
-              borderBottomColor: 'rgb(200, 199, 204)',
-              borderBottomWidth: 1,
-              marginBottom: 20
-            }}
-          />
+        </View>
+        <View style={styles.informationView}>
           <View style={styles.hoursContainer}>
             <Text style={styles.hoursText}>HOURS</Text>
             {this.state.hours.map((hour, index) => (
@@ -185,16 +180,17 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   button: {
-    borderRadius: 8,
+    borderRadius: 4,
     marginBottom: 25,
     marginTop: 13,
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: 12,
+    paddingTop: 12,
     width: '100%'
   },
   buttonText: {
     color: 'rgb(251, 251, 251)',
     fontSize: 13,
+    fontWeight: '500',
     letterSpacing: -0.3,
     textAlign: 'center'
   },
@@ -236,6 +232,16 @@ const styles = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 0.3,
     marginBottom: 7.5
+  },
+  informationHeader: {
+    backgroundColor: 'white',
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingTop: 18,
+    shadowColor: 'black',
+    shadowOffset: {height: 5, width: 0},
+    shadowOpacity: 0.07,
+    shadowRadius: 5
   },
   informationView: {
     flexGrow: 1,

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: 'rgba(250,250,250,0.8)',
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'rgba(178,178,178,0.5)',
     display: 'flex',
     flexDirection: 'row',
