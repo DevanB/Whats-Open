@@ -104,7 +104,9 @@ export default class ReportPlace extends React.Component {
               multiline={true}
               placeholder="Comment"
               placeholderTextColor="#999999"
-              ref={view => { this._commentsInput = view; }}
+              ref={view => {
+                this._commentsInput = view;
+              }}
               selectionColor="rgb(248,205,70)"
               underlineColorAndroid="#888"
               value={this.state.comment}
@@ -181,7 +183,7 @@ export default class ReportPlace extends React.Component {
           latitudeDelta: 0.0119,
           longitudeDelta: 0.0119
         }}
-        cacheEnabled={false}
+        cacheEnabled={true}
         onRegionChangeComplete={region => {
           if (this.state.regionSet) this.setState({ region });
         }}

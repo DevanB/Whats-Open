@@ -148,7 +148,7 @@ export default class PlaceDetails extends React.Component {
           latitudeDelta: 0.0119,
           longitudeDelta: 0.0119
         }}
-        cacheEnabled={false}
+        cacheEnabled={true}
         onRegionChangeComplete={region => {
           if (this.state.regionSet) this.setState({ region });
         }}
@@ -190,11 +190,15 @@ class Comment extends React.Component {
             </View>
           </View>
           <Text style={styles.commentText}>
-            Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+            Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis
+            dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+            risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis
+            mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis
+            consectetur purus sit amet fermentum.
           </Text>
         </View>
       </View>
-    )
+    );
   }
 }
 
@@ -227,7 +231,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 10
   },
   commentContainer: {
     backgroundColor: 'white',
@@ -240,7 +244,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     paddingBottom: 16,
     paddingLeft: 18,
-    paddingTop: 16 
+    paddingTop: 16
   },
   commentHeader: {
     alignItems: 'center',
