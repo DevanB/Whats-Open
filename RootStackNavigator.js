@@ -1,24 +1,39 @@
+//@ flow
+
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import MainTabNavigator from './MainTabNavigator';
-import SearchScreen from '../screens/Search';
-import ReportPlaceScreen from '../screens/ReportPlace';
+import MapScreen from './screens/Map';
+import SearchScreen from './screens/Search';
+import ReportPlaceScreen from './screens/ReportPlace';
+import PlaceDetailsScreen from './screens/PlaceDetails';
+import AccountScreen from './screens/Account';
 
 const MainStack = StackNavigator(
   {
     Main: {
-      screen: MainTabNavigator
+      screen: MapScreen
     },
     Search: {
-      screen: SearchScreen
+      screen: SearchScreen,
+      headerMode: 'none'
+    },
+    PlaceDetails: {
+      screen: PlaceDetailsScreen
     }
   },
   {
-    initialRouteName: 'Main',
-    headerMode: 'none',
+    headerMode: 'screen',
     navigationOptions: () => ({
-      gesturesEnabled: true
+      gesturesEnabled: true,
+      headerTintColor: 'black',
+      headerTitleStyle: {
+        color: 'black',
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: 'rgb(248,205,70)'
+      }
     })
   }
 );
@@ -33,6 +48,9 @@ const ModalNavigator = StackNavigator(
     },
     ReportPlace: {
       screen: ReportPlaceScreen
+    },
+    Account: {
+      screen: AccountScreen
     }
   },
   {

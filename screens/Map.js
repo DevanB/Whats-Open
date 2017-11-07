@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { Dimensions, Text, View } from 'react-native';
 import { Location, MapView, Permissions } from 'expo';
@@ -12,15 +14,31 @@ const { height: WindowHeight } = Dimensions.get('window');
 import HeaderActions from '../components/HeaderActions';
 import sections from '../constants/data';
 
+type Region = {
+  latitude: number,
+  longitude: number,
+  latitudeDelta: number,
+  longitudeDelta: number
+};
+
+type Props = {};
+
+type State = {
+  errorMessage: string,
+  region: Region,
+  location: {}
+};
+
 export default class Map extends React.Component {
   static navigationOptions = props => {
     return {
+      headerLeft: <HeaderActions.Left navigation={props.navigation} />,
       headerRight: <HeaderActions.Right navigation={props.navigation} />,
       title: "What's Open?"
     };
   };
 
-  state = {
+  state: State = {
     errorMessage: null,
     location: { coords: { latitude: 0, longitude: 0 } },
     regionSet: false,
@@ -44,7 +62,10 @@ export default class Map extends React.Component {
               this.setState({ regionSet: true });
             }}
             showsUserLocation={true}
-            style={{ flexShrink: 0, flexBasis: WindowHeight * 0.3 }}>
+            showsPointsOfInterest={false}
+            showsTraffic={false}
+            style={{ flexShrink: 0, flexBasis: WindowHeight * 0.3 }}
+          >
             {this.state.sections[0].data.map(marker => (
               <MapView.Marker key={marker.id} coordinate={marker.coordinates}>
                 <Marker status={marker.user_defined && marker.user_defined.status} />
@@ -91,8 +112,8 @@ export default class Map extends React.Component {
     let region = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
+      latitudeDelta: 0.0119,
+      longitudeDelta: 0.0119
     };
     this.setState({ location, region });
   }

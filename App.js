@@ -1,12 +1,14 @@
+// @flow
+
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { StyleSheet, View } from 'react-native';
-import { AppLoading, Location, Permissions } from 'expo';
+import { AppLoading, Asset, Location, Permissions } from 'expo';
 import { getUser, loadUserAsync } from 'react-native-authentication-helpers';
-import RootStackNavigator from './navigation/RootStackNavigator';
+import RootStackNavigator from './RootStackNavigator';
 
 const client = new ApolloClient({
   link: new HttpLink('https://5xxlqvm39.lp.gql.zone/graphql'),
@@ -17,7 +19,7 @@ export default class App extends React.Component {
   state = {
     appIsReady: false,
     location: null,
-    errorMessage: null
+    errorMessage: ''
   };
 
   componentWillMount() {

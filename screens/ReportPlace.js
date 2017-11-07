@@ -77,7 +77,8 @@ export default class ReportPlace extends React.Component {
                     letterSpacing: -0.4,
                     paddingBottom: 15,
                     paddingTop: 15
-                  }}>
+                  }}
+                >
                   Status
                 </Text>
                 <Text
@@ -90,7 +91,8 @@ export default class ReportPlace extends React.Component {
                     position: 'absolute',
                     right: 18
                   }}
-                  onPress={() => this._handlePressOpen()}>
+                  onPress={() => this._handlePressOpen()}
+                >
                   {this.state.status}
                 </Text>
               </View>
@@ -178,13 +180,20 @@ export default class ReportPlace extends React.Component {
       <MapView
         region={{
           ...params.coordinates,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
+          latitudeDelta: 0.0119,
+          longitudeDelta: 0.0119
         }}
-        cacheEnabled={true}
+        cacheEnabled={false}
+        onRegionChangeComplete={region => {
+          if (this.state.regionSet) this.setState({ region });
+        }}
+        onMapReady={() => {
+          this.setState({ regionSet: true });
+        }}
         showsPointsOfInterest={false}
         showsTraffic={false}
-        style={styles.map}>
+        style={styles.map}
+      >
         <MapView.Marker title={params.name} description={buildAddress(params.location)} coordinate={params.coordinates}>
           <Marker status={params.user_defined.status} />
         </MapView.Marker>
@@ -214,7 +223,8 @@ export default class ReportPlace extends React.Component {
             bottom: 0,
             left: 0,
             transform: [{ translateY }]
-          }}>
+          }}
+        >
           <View style={styles.toolbar}>
             <Button title="Next" onPress={this._handlePressNext} />
             <Button title="Done" onPress={this._handlePressDone} />
@@ -222,7 +232,8 @@ export default class ReportPlace extends React.Component {
           <Picker
             style={{ width: WindowWidth, backgroundColor: '#e1e1e1' }}
             selectedValue={this.state.status}
-            onValueChange={itemValue => this.setState({ status: itemValue })}>
+            onValueChange={itemValue => this.setState({ status: itemValue })}
+          >
             <Picker.Item label={OPEN} value={OPEN} />
             <Picker.Item label={LIMITED} value={LIMITED} />
             <Picker.Item label={CLOSED} value={CLOSED} />

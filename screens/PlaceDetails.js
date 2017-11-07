@@ -23,7 +23,7 @@ export default class PlaceDetails extends React.Component {
   static navigationOptions = props => {
     return {
       title: props.navigation.state.params.name,
-      headerRight: props.navigation.state.params.reportScreen && <HeaderActions.Right navigation={props.navigation} />
+      headerRight: <HeaderActions.Right navigation={props.navigation} />
     };
   };
 
@@ -72,7 +72,8 @@ export default class PlaceDetails extends React.Component {
               params.user_defined.status === LIMITED && styles.yellow,
               params.user_defined.status === OPEN && styles.green
             ]}
-            onPress={() => this._openDirections()}>
+            onPress={() => this._openDirections()}
+          >
             <Text style={[styles.buttonText, params.user_defined.status === LIMITED && styles.blackText]}>
               {params.user_defined.status}
             </Text>
@@ -144,13 +145,20 @@ export default class PlaceDetails extends React.Component {
       <MapView
         region={{
           ...params.coordinates,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
+          latitudeDelta: 0.0119,
+          longitudeDelta: 0.0119
         }}
-        cacheEnabled={true}
+        cacheEnabled={false}
+        onRegionChangeComplete={region => {
+          if (this.state.regionSet) this.setState({ region });
+        }}
+        onMapReady={() => {
+          this.setState({ regionSet: true });
+        }}
         showsPointsOfInterest={false}
         showsTraffic={false}
-        style={styles.map}>
+        style={styles.map}
+      >
         <MapView.Marker title={params.name} description={buildAddress(params.location)} coordinate={params.coordinates}>
           <Marker status={params.user_defined.status} />
         </MapView.Marker>

@@ -24,7 +24,8 @@ export default class HeaderIconButton extends React.PureComponent {
         }}
         background={Touchable.Ripple('#fff', true)}
         style={styles.button}
-        onPress={this.props.onPress}>
+        onPress={this.props.onPress}
+      >
         <Icon.Ionicons name={presetIconName} style={{ color: '#000' }} size={presetIconSize} />
       </Touchable>
     );
@@ -34,8 +35,8 @@ export default class HeaderIconButton extends React.PureComponent {
 const IconNames = {
   ...Platform.select({
     ios: {
-      create: {
-        name: 'ios-add-outline',
+      person: {
+        name: 'ios-person-outline',
         size: 33
       },
       search: {
@@ -44,8 +45,8 @@ const IconNames = {
       }
     },
     android: {
-      create: {
-        name: 'md-create',
+      person: {
+        name: 'md-person',
         size: 25
       },
       search: {
