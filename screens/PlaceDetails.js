@@ -101,6 +101,11 @@ export default class PlaceDetails extends React.Component {
           />
           <View style={styles.recentCommentsContainer}>
             <Text style={styles.recentCommentsHeader}>RECENT COMMENTS</Text>
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
           </View>
         </View>
       </ScrollView>
@@ -170,6 +175,29 @@ export default class PlaceDetails extends React.Component {
   }
 }
 
+class Comment extends React.Component {
+  render() {
+    return (
+      <View style={styles.comment}>
+        <View style={styles.commentContainer}>
+          <View style={styles.commentHeader}>
+            <View style={styles.commentInitialsContainer}>
+              <Text style={styles.commentInitials}>GS</Text>
+            </View>
+            <View>
+              <Text style={styles.commentName}>Geauxtrude Suedemont</Text>
+              <Text style={styles.commentMeta}>July 25, 2017</Text>
+            </View>
+          </View>
+          <Text style={styles.commentText}>
+            Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+          </Text>
+        </View>
+      </View>
+    )
+  }
+}
+
 const styles = StyleSheet.create({
   addressText: {
     color: 'rgb(143, 142, 148)',
@@ -194,12 +222,75 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
     textAlign: 'center'
   },
+  comment: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  commentContainer: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    borderRightWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flexShrink: 1,
+    paddingBottom: 16,
+    paddingLeft: 18,
+    paddingTop: 16 
+  },
+  commentHeader: {
+    alignItems: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginBottom: 14,
+    paddingBottom: 14
+  },
+  commentInitialsContainer: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 40,
+    display: 'flex',
+    flexShrink: 0,
+    height: 40,
+    justifyContent: 'center',
+    marginLeft: -2,
+    marginRight: 12,
+    width: 40
+  },
+  commentInitials: {
+    color: '#777777',
+    fontSize: 17
+  },
+  commentMeta: {
+    color: '#888888',
+    fontSize: 13
+  },
+  commentName: {
+    color: '#333333',
+    fontSize: 15,
+    fontWeight: '600',
+    marginBottom: 3
+  },
+  commentText: {
+    color: '#777777',
+    fontSize: 15,
+    lineHeight: 20,
+    paddingRight: 18
+  },
   container: {
     backgroundColor: 'rgba(250, 250, 250, 0.8)',
     flex: 1
   },
   day: {
     color: 'rgb(3, 3, 3)',
+    flexBasis: 105,
     fontSize: 13,
     fontWeight: '500',
     letterSpacing: -0.1,
@@ -225,7 +316,7 @@ const styles = StyleSheet.create({
   hoursListing: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     marginBottom: 3
   },
   hoursText: {
