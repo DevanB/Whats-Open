@@ -8,6 +8,10 @@ function inSignUpState(navigationState) {
   return !!(navigationState.params && navigationState.params.signUp);
 }
 
+function inAccountDetails(navigationState) {
+  return !!(navigationState.params && navigationState.params.accountDetails);
+}
+
 export default class AccountScreen extends React.Component {
   static navigationOptions = props => {
     return {
@@ -23,12 +27,13 @@ export default class AccountScreen extends React.Component {
   };
 
   render() {
+    let showAccountDetails = inAccountDetails(this.props.navigation.state);
     let showSignUpForm = inSignUpState(this.props.navigation.state);
 
     return (
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <View>
-          <Text style={styles.header}>{showSignUpForm ? 'Create an Account' : 'Sign In'}</Text>
+          <Text style={styles.header}>{showSignUpForm ? 'Create an Account' : showAccountDetails ? 'My Account' : 'Sign In'}</Text>
           {showSignUpForm && (
             <StyledTextInput
               onChangeText={name => this.setState({ name })}
@@ -38,6 +43,15 @@ export default class AccountScreen extends React.Component {
               value={this.state.name}
             />
           )}
+          {showAccountDetails && (
+            <StyledTextInput
+              onChangeText={name => this.setState({ name })}
+              onSubmitEditing={() => this._emailInput.focus()}
+              type="text"
+              placeholder="Name"
+              value="Geauxtrude Suedemont"
+            />
+          )}
           <View>
             <StyledTextInput
               onChangeText={email => this.setState({ email })}
@@ -45,19 +59,33 @@ export default class AccountScreen extends React.Component {
               keyboardType="email-address"
               type="text"
               placeholder="Email"
-              value={this.state.email}
+              value={showAccountDetails ? 'geauxtrude@apple.com' : this.state.email}
             />
             <StyledTextInput
               onChangeText={password => this.setState({ password })}
               secureTextEntry={true}
               type="text"
-              placeholder="Password"
+              placeholder={showAccountDetails ? 'Current password' : 'Password'}
               value={this.state.password}
-              lastStyledTextInputInGroup={true}
+              lastStyledTextInputInGroup={showAccountDetails ? false : true}
             />
+            {showAccountDetails &&
+              <StyledTextInput
+                onChangeText={password => this.setState({ password })}
+                secureTextEntry={true}
+                type="text"
+                placeholder={showAccountDetails ? 'New password' : 'Password'}
+                value={this.state.password}
+                lastStyledTextInputInGroup={true}
+              />
+            }
             {showSignUpForm ? (
               <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]}>
                 <Text style={styles.buttonText}>Create Account</Text>
+              </TouchableOpacity>
+            ) : showAccountDetails ? (
+              <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]}>
+                <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             ) : (
               <View>
@@ -72,8 +100,14 @@ export default class AccountScreen extends React.Component {
             <Button
               color="#777777"
               fontSize={15}
-              onPress={() => this.props.navigation.setParams({ signUp: !showSignUpForm })}
+              onPress={() => this.props.navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })}
               title={showSignUpForm ? 'Already have an account?' : 'Need to create an account?'}
+            />
+            <Button
+              color="#777777"
+              fontSize={15}
+              onPress={() => this.props.navigation.setParams({ accountDetails: !showAccountDetails, signUp: false })}
+              title={showAccountDetails ? 'Hide account details' : 'Show account details'}
             />
           </View>
         </View>
