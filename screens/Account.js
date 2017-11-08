@@ -1,8 +1,12 @@
+// @flow
+
 import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from 'react-native-platform-button';
 import StyledTextInput from '../components/StyledTextInput';
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
+
+import SignUp from './SignUp';
 
 function inSignUpState(navigationState) {
   return !!(navigationState.params && navigationState.params.signUp);
@@ -32,71 +36,21 @@ export default class AccountScreen extends React.Component {
 
     return (
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <View>
-          <Text style={styles.header}>{showSignUpForm ? 'Create an Account' : showAccountDetails ? 'My Account' : 'Sign In'}</Text>
-          {showSignUpForm && (
-            <StyledTextInput
-              onChangeText={name => this.setState({ name })}
-              onSubmitEditing={() => this._emailInput.focus()}
-              type="text"
-              placeholder="Name"
-              value={this.state.name}
-            />
-          )}
-          {showAccountDetails && (
-            <StyledTextInput
-              onChangeText={name => this.setState({ name })}
-              onSubmitEditing={() => this._emailInput.focus()}
-              type="text"
-              placeholder="Name"
-              value="Geauxtrude Suedemont"
-            />
-          )}
+        {showSignUpForm ? (
+          <SignUp
+            name={this.state.name}
+            email={this.state.email}
+            password={this.state.password}
+            navigation={this.props.navigation}
+            showSignUpForm={showSignUpForm}
+            showAccountDetails={showAccountDetails}
+            setEmail={this.setEmail}
+            setPassword={this.setPassword}
+            setName={this.setName}
+          />
+        ) : (
           <View>
-            <StyledTextInput
-              onChangeText={email => this.setState({ email })}
-              onSubmitEditing={() => this._passwordInput.focus()}
-              keyboardType="email-address"
-              type="text"
-              placeholder="Email"
-              value={showAccountDetails ? 'geauxtrude@apple.com' : this.state.email}
-            />
-            <StyledTextInput
-              onChangeText={password => this.setState({ password })}
-              secureTextEntry={true}
-              type="text"
-              placeholder={showAccountDetails ? 'Current password' : 'Password'}
-              value={this.state.password}
-              lastStyledTextInputInGroup={showAccountDetails ? false : true}
-            />
-            {showAccountDetails &&
-              <StyledTextInput
-                onChangeText={password => this.setState({ password })}
-                secureTextEntry={true}
-                type="text"
-                placeholder={showAccountDetails ? 'New password' : 'Password'}
-                value={this.state.password}
-                lastStyledTextInputInGroup={true}
-              />
-            }
-            {showSignUpForm ? (
-              <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]}>
-                <Text style={styles.buttonText}>Create Account</Text>
-              </TouchableOpacity>
-            ) : showAccountDetails ? (
-              <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]}>
-                <Text style={styles.buttonText}>Save</Text>
-              </TouchableOpacity>
-            ) : (
-              <View>
-                <TouchableOpacity style={[styles.button, { marginTop: 16 }]}>
-                  <Text style={styles.buttonText}>Sign In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}>
-                  <Text style={styles.buttonText}>Forgot Password</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+            <Text>Yo</Text>
             <Button
               color="#777777"
               fontSize={15}
@@ -110,10 +64,22 @@ export default class AccountScreen extends React.Component {
               title={showAccountDetails ? 'Hide account details' : 'Show account details'}
             />
           </View>
-        </View>
+        )}
       </ScrollView>
     );
   }
+
+  setEmail = (email: string) => {
+    this.setState({ email });
+  };
+
+  setPassword = (password: string) => {
+    this.setState({ password });
+  };
+
+  setName = (name: string) => {
+    this.setState({ name });
+  };
 }
 
 const styles = StyleSheet.create({
