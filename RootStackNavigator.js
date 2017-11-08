@@ -10,14 +10,10 @@ import ReportPlaceSignUpScreen from './screens/ReportPlaceSignUp';
 import PlaceDetailsScreen from './screens/PlaceDetails';
 import AccountScreen from './screens/Account';
 
-const MainStack = StackNavigator(
+const MainScreens = StackNavigator(
   {
     Main: {
       screen: MapScreen
-    },
-    Search: {
-      screen: SearchScreen,
-      headerMode: 'none'
     },
     PlaceDetails: {
       screen: PlaceDetailsScreen
@@ -39,7 +35,32 @@ const MainStack = StackNavigator(
   }
 );
 
-const ModalNavigator = StackNavigator(
+const MainStack = StackNavigator(
+  {
+    Main: {
+      screen: MainScreens
+    },
+    Search: {
+      screen: SearchScreen
+    }
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: () => ({
+      gesturesEnabled: true,
+      headerTintColor: 'black',
+      headerTitleStyle: {
+        color: 'black',
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: 'rgb(248,205,70)'
+      }
+    })
+  }
+);
+
+export default (ModalNavigator = StackNavigator(
   {
     MainStack: {
       screen: MainStack,
@@ -70,10 +91,4 @@ const ModalNavigator = StackNavigator(
       }
     })
   }
-);
-
-export default class RootStackNavigator extends React.Component {
-  render() {
-    return <ModalNavigator />;
-  }
-}
+));
