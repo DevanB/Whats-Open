@@ -53,9 +53,10 @@ export default class AccountScreen extends React.Component {
               type="text"
               placeholder="Password"
               value={this.state.password}
+              lastStyledTextInputInGroup={true}
             />
             {showSignUpForm ? (
-              <TouchableOpacity style={[styles.button, { marginTop: 16 }]}>
+              <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]}>
                 <Text style={styles.buttonText}>Create Account</Text>
               </TouchableOpacity>
             ) : (
@@ -63,13 +64,13 @@ export default class AccountScreen extends React.Component {
                 <TouchableOpacity style={[styles.button, { marginTop: 16 }]}>
                   <Text style={styles.buttonText}>Sign In</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { borderTopWidth: 0, marginBottom: 9 }]}>
+                <TouchableOpacity style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}>
                   <Text style={styles.buttonText}>Forgot Password</Text>
                 </TouchableOpacity>
               </View>
             )}
             <Button
-              color="rgb(3, 3, 3)"
+              color="#777777"
               fontSize={15}
               onPress={() => this.props.navigation.setParams({ signUp: !showSignUpForm })}
               title={showSignUpForm ? 'Already have an account?' : 'Need to create an account?'}

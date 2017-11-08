@@ -102,18 +102,18 @@ export default class PlaceDetails extends React.Component {
           />
           <View style={styles.recentCommentsContainer}>
             <Text style={styles.recentCommentsHeader}>RECENT COMMENTS</Text>
-            <Text style={styles.recentCommentsEmpty}>Looks like no one has commented on this location. Have you visited here in the past 24 hours?</Text>
+            {/* <Text style={styles.recentCommentsEmpty}>Looks like no one has commented on this location. Have you visited here in the past 24 hours?</Text>
             <Touchable
               style={styles.recentCommentButton}
               onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}
             >
               <Text style={styles.recentCommentButtonText}>Leave a comment</Text>
-            </Touchable>
-            {/* <Comment />
+            </Touchable> */}
             <Comment />
             <Comment />
             <Comment />
-            <Comment /> */}
+            <Comment />
+            <Comment />
           </View>
         </View>
       </ScrollView>

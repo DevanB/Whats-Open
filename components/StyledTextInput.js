@@ -11,8 +11,9 @@ export default class StyledTextInput extends React.Component {
         ref={view => {
           this._input = view;
         }}
-        selectionColor="black"
+        selectionColor="rgb(248,205,70)"
         underlineColorAndroid="#888"
+        placeholderTextColor="#bababa"
         {...props}
         style={[styles.input, lastStyledTextInputInGroup && styles.lastInGroup, this.props.style]}
       />
@@ -30,12 +31,13 @@ const styles = StyleSheet.create({
       ios: {
         padding: 15,
         backgroundColor: '#fff',
-        color: 'rgb(143, 142, 148)',
-        borderColor: '#eee',
-        borderWidth: 1,
+        color: '#333333',
+        borderColor: 'rgba(0, 0, 0, 0.25)',
+        borderWidth: StyleSheet.hairlineWidth,
         borderBottomWidth: 0
       },
       android: {
+        color: '#333333',
         fontSize: 16,
         paddingVertical: 10,
         paddingHorizontal: 5,
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     })
   },
   lastInGroup: {
-    borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
+    borderBottomWidth: Platform.OS === 'ios' ? StyleSheet.hairlineWidth : 0,
     marginBottom: 10
   }
 });

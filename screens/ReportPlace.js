@@ -103,7 +103,7 @@ export default class ReportPlace extends React.Component {
               type="text"
               multiline={true}
               placeholder="Comment"
-              placeholderTextColor="#999999"
+              placeholderTextColor="#bababa"
               ref={view => {
                 this._commentsInput = view;
               }}
