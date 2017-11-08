@@ -57,6 +57,7 @@ export default class PlaceDetails extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     const { navigation: { state: { params } } } = this.props;
     return (
       <ScrollView style={styles.container}>
@@ -101,11 +102,18 @@ export default class PlaceDetails extends React.Component {
           />
           <View style={styles.recentCommentsContainer}>
             <Text style={styles.recentCommentsHeader}>RECENT COMMENTS</Text>
+            <Text style={styles.recentCommentsEmpty}>Looks like no one has commented on this location. Have you visited here in the past 24 hours?</Text>
+            <Touchable
+              style={styles.recentCommentButton}
+              onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}
+            >
+              <Text style={styles.recentCommentButtonText}>Leave a comment</Text>
+            </Touchable>
+            {/* <Comment />
             <Comment />
             <Comment />
             <Comment />
-            <Comment />
-            <Comment />
+            <Comment /> */}
           </View>
         </View>
       </ScrollView>
@@ -352,8 +360,31 @@ const styles = StyleSheet.create({
   map: {
     height: WindowHeight * 0.3
   },
+  recentCommentButton: {
+    backgroundColor: '#0099ff',
+    borderRadius: 4,
+    marginBottom: 40,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 13,
+    paddingBottom: 12,
+    paddingTop: 12,
+    width: 170
+  },
+  recentCommentButtonText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500',
+    letterSpacing: -0.3,
+    textAlign: 'center'
+  },
   recentCommentsContainer: {
     marginBottom: 18
+  },
+  recentCommentsEmpty: {
+    fontSize: 17,
+    marginTop: 40,
+    textAlign: 'center'
   },
   recentCommentsHeader: {
     color: 'rgb(109, 109, 114)',
