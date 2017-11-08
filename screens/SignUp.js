@@ -33,6 +33,7 @@ const SignUpScreen = ({
     <Text style={styles.header}>Create an Account</Text>
     <StyledTextInput
       clearButtonMode="while-editing"
+      autoCapitalize="words"
       onChangeText={name => setName(name)}
       onSubmitEditing={() => this._emailInput.focus()}
       returnKeyType="next"

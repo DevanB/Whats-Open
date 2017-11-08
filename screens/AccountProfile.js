@@ -4,6 +4,7 @@ import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from 'react-native-platform-button';
 import StyledTextInput from '../components/StyledTextInput';
+import { clearUser } from 'react-native-authentication-helpers';
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
 
 function inSignUpState(navigationState) {
@@ -39,6 +40,7 @@ export default class AccountScreen extends React.Component {
             onChangeText={name => this.setState({ name })}
             onSubmitEditing={() => this._emailInput.focus()}
             type="text"
+            autoCaptialize="words"
             placeholder="Name"
             returnKeyType="next"
             value="Geauxtrude Suedemont"
@@ -89,7 +91,7 @@ export default class AccountScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
-            onPress={() => console.log('sign out')}
+            onPress={() => clearUser()}
           >
             <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>

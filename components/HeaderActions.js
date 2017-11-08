@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Dimensions, Platform, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { withUser } from 'react-native-authentication-helpers';
 
 import HeaderIconButton from './HeaderIconButton';
 const isSmallDevice = Dimensions.get('window').width < 375;
@@ -10,13 +11,27 @@ class HeaderActionsLeft extends React.PureComponent {
   render() {
     const { navigate } = this.props.navigation;
 
-    return (
-      <TouchableWithoutFeedback onPress={() => navigate('Account')}>
-        <View style={styles.container}>
-          <Text style={styles.inner}>Sign In</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    );
+    if (Platform.OS === 'android') {
+      return null;
+    }
+
+    if (this.props.user) {
+      return (
+        <TouchableWithoutFeedback onPress={() => navigate('AccountProfile')}>
+          <View style={styles.container}>
+            <Text style={styles.inner}>Account</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    } else {
+      return (
+        <TouchableWithoutFeedback onPress={() => navigate('Account')}>
+          <View style={styles.container}>
+            <Text style={styles.inner}>Sign In</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
   }
 }
 
@@ -45,6 +60,6 @@ const styles = StyleSheet.create({
 });
 
 export default {
-  Left: HeaderActionsLeft,
+  Left: withUser(HeaderActionsLeft),
   Right: HeaderActionsRight
 };

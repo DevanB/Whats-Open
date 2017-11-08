@@ -17,15 +17,17 @@ import { MapView } from 'expo';
 import Marker from '../components/Marker';
 import StyledTextInput from '../components/StyledTextInput';
 import buildAddress from '../helpers/buildAddress';
+import { withUser } from 'react-native-authentication-helpers';
 const { width: WindowWidth, height: WindowHeight } = Dimensions.get('window');
+import ReportPlaceSignUpScreen from './ReportPlaceSignUp';
 
 import { OPEN, LIMITED, CLOSED } from '../constants/LocationStatus';
 
-export default class ReportPlace extends React.Component {
+class ReportPlace extends React.Component {
   static navigationOptions = props => {
     return {
       headerLeft: <Button title="Cancel" onPress={() => props.navigation.goBack()} color="black" />,
-      headerRight: <Button title="Save" onPress={() => props.navigation.goBack()} color="black" />,
+      headerRight: props.user && <Button title="Save" onPress={() => props.navigation.goBack()} color="black" />,
       title: `Report • ${props.navigation.state.params.name}`
     };
   };
@@ -56,68 +58,71 @@ export default class ReportPlace extends React.Component {
 
   render() {
     const { navigation: { state: { params } } } = this.props;
-    return (
-      <View style={styles.outer}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          {this._maybeRenderMap()}
-          {this._maybeRenderOverlay()}
-          <View style={styles.informationView}>
-            <Text numberOfLines={1} style={styles.headerName}>
-              {params.name}
-            </Text>
-            <Text numberOfLines={1} style={styles.addressText}>
-              {buildAddress(params.location)}
-            </Text>
-            <TouchableWithoutFeedback onPress={() => this._handlePressOpen()}>
-              <View style={styles.statusView}>
-                <Text
-                  style={{
-                    color: 'rgb(3, 3, 3)',
-                    fontSize: 19,
-                    letterSpacing: -0.4,
-                    paddingBottom: 15,
-                    paddingTop: 15
-                  }}
-                >
-                  Status
-                </Text>
-                <Text
-                  style={{
-                    color: 'rgb(128, 127, 148)',
-                    fontSize: 19,
-                    letterSpacing: -0.4,
-                    paddingBottom: 15,
-                    paddingTop: 15,
-                    position: 'absolute',
-                    right: 18
-                  }}
-                  onPress={() => this._handlePressOpen()}
-                >
-                  {this.state.status}
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-            <TextInput
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={comment => this.setState({ comment })}
-              type="text"
-              multiline={true}
-              placeholder="Comment"
-              placeholderTextColor="#bababa"
-              ref={view => {
-                this._commentsInput = view;
-              }}
-              selectionColor="rgb(248,205,70)"
-              underlineColorAndroid="#888"
-              value={this.state.comment}
-              style={[styles.input, { marginTop: 18 }]}
-            />
-          </View>
-        </ScrollView>
-        {this._maybeRenderModal()}
-      </View>
-    );
+    if (this.props.user) {
+      return (
+        <View style={styles.outer}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            {this._maybeRenderMap()}
+            {this._maybeRenderOverlay()}
+            <View style={styles.informationView}>
+              <Text numberOfLines={1} style={styles.headerName}>
+                {params.name}
+              </Text>
+              <Text numberOfLines={1} style={styles.addressText}>
+                {buildAddress(params.location)}
+              </Text>
+              <TouchableWithoutFeedback onPress={() => this._handlePressOpen()}>
+                <View style={styles.statusView}>
+                  <Text
+                    style={{
+                      color: 'rgb(3, 3, 3)',
+                      fontSize: 19,
+                      letterSpacing: -0.4,
+                      paddingBottom: 15,
+                      paddingTop: 15
+                    }}
+                  >
+                    Status
+                  </Text>
+                  <Text
+                    style={{
+                      color: 'rgb(128, 127, 148)',
+                      fontSize: 19,
+                      letterSpacing: -0.4,
+                      paddingBottom: 15,
+                      paddingTop: 15,
+                      position: 'absolute',
+                      right: 18
+                    }}
+                    onPress={() => this._handlePressOpen()}
+                  >
+                    {this.state.status}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <TextInput
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={comment => this.setState({ comment })}
+                type="text"
+                multiline={true}
+                placeholder="Comment"
+                placeholderTextColor="#bababa"
+                ref={view => {
+                  this._commentsInput = view;
+                }}
+                selectionColor="rgb(248,205,70)"
+                underlineColorAndroid="#888"
+                value={this.state.comment}
+                style={[styles.input, { marginTop: 18 }]}
+              />
+            </View>
+          </ScrollView>
+          {this._maybeRenderModal()}
+        </View>
+      );
+    }
+    return <ReportPlaceSignUpScreen navigation={this.props.navigation} />;
   }
 
   _handlePressDone = () => {
@@ -313,3 +318,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   }
 });
+
+export default withUser(ReportPlace);

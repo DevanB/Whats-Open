@@ -1,36 +1,9 @@
 // @flow
 
 import React from 'react';
-import {
-  ActivityIndicator,
-  Animated,
-  Button,
-  Dimensions,
-  InteractionManager,
-  Picker,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Touchable from 'react-native-platform-touchable';
-import { MapView } from 'expo';
-import Marker from '../components/Marker';
-import StyledTextInput from '../components/StyledTextInput';
-import buildAddress from '../helpers/buildAddress';
-const { width: WindowWidth, height: WindowHeight } = Dimensions.get('window');
-
-import { OPEN, LIMITED, CLOSED } from '../constants/LocationStatus';
-
 export default class ReportPlace extends React.Component {
-  static navigationOptions = props => {
-    return {
-      headerLeft: <Button title="Cancel" onPress={() => props.navigation.goBack()} color="black" />,
-      title: `Report • ${props.navigation.state.params.name}`
-    };
-  };
-
   render() {
     const { navigation: { state: { params } } } = this.props;
     return (

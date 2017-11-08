@@ -19,7 +19,8 @@ class HeaderActionsRight extends React.PureComponent {
           }}
           background={Touchable.Ripple('#fff', true)}
           style={styles.button}
-          onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}>
+          onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}
+        >
           <Text style={styles.inner}>Report</Text>
         </Touchable>
       </View>
