@@ -7,44 +7,31 @@ import StyledTextInput from '../components/StyledTextInput';
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
 
 const SignUpScreen = ({
-  name,
   email,
   password,
   navigation,
+  onForgotPassword,
   onSubmit,
   setEmail,
-  setName,
   setPassword,
   showAccountDetails,
   showSignUpForm
 }: {
-  name: string,
   email: string,
   password: string,
   navigation: any,
+  onForgotPassword: any,
   onSubmit: any,
   setEmail: any,
-  setName: any,
   setPassword: any,
   showAccountDetails: boolean,
   showSignUpForm: boolean
 }) => (
   <View>
-    <Text style={styles.header}>Create an Account</Text>
-    <StyledTextInput
-      onChangeText={name => setName(name)}
-      onSubmitEditing={() => this._emailInput.focus()}
-      returnKeyType="next"
-      type="text"
-      placeholder="Name"
-      value={name}
-    />
+    <Text style={styles.header}>Sign In</Text>
     <StyledTextInput
       onChangeText={email => setEmail(email)}
       onSubmitEditing={() => this._passwordInput.focus()}
-      ref={view => {
-        this._emailInput = view;
-      }}
       keyboardType="email-address"
       returnKeyType="next"
       type="text"
@@ -64,14 +51,20 @@ const SignUpScreen = ({
       value={password}
       lastStyledTextInputInGroup={true}
     />
-    <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]} onPress={() => onSubmit()}>
-      <Text style={styles.buttonText}>Create Account</Text>
+    <TouchableOpacity style={[styles.button, { marginTop: 16 }]} onPress={() => onSubmit()}>
+      <Text style={styles.buttonText}>Sign In</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
+      onPress={() => onForgotPassword()}
+    >
+      <Text style={styles.buttonText}>Forgot Password</Text>
     </TouchableOpacity>
     <Button
       color="#777777"
       fontSize={15}
       onPress={() => navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })}
-      title={'Already have an account?'}
+      title="Need to create an account?"
     />
     <Button
       color="#777777"
