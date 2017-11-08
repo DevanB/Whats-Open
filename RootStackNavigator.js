@@ -6,6 +6,7 @@ import { StackNavigator } from 'react-navigation';
 import MapScreen from './screens/Map';
 import SearchScreen from './screens/Search';
 import ReportPlaceScreen from './screens/ReportPlace';
+import ReportPlaceSignUpScreen from './screens/ReportPlaceSignUp';
 import PlaceDetailsScreen from './screens/PlaceDetails';
 import AccountScreen from './screens/Account';
 
@@ -47,7 +48,7 @@ const ModalNavigator = StackNavigator(
       }
     },
     ReportPlace: {
-      screen: ReportPlaceScreen
+      screen: ReportPlaceSignUpScreen
     },
     Account: {
       screen: AccountScreen
