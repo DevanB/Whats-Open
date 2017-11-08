@@ -99,6 +99,7 @@ export default class ReportPlace extends React.Component {
             </TouchableWithoutFeedback>
             <TextInput
               autoCorrect={false}
+              clearButtonMode="while-editing"
               onChangeText={comment => this.setState({ comment })}
               type="text"
               multiline={true}

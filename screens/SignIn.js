@@ -30,15 +30,18 @@ const SignUpScreen = ({
   <View>
     <Text style={styles.header}>Sign In</Text>
     <StyledTextInput
+      clearButtonMode="while-editing"
       onChangeText={email => setEmail(email)}
       onSubmitEditing={() => this._passwordInput.focus()}
       keyboardType="email-address"
       returnKeyType="next"
+      autoCapitalize="none"
       type="text"
       placeholder="Email"
       value={email}
     />
     <StyledTextInput
+      clearButtonMode="while-editing"
       onChangeText={password => setPassword(password)}
       onSubmitEditing={() => onSubmit()}
       secureTextEntry={true}
@@ -65,12 +68,6 @@ const SignUpScreen = ({
       fontSize={15}
       onPress={() => navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })}
       title="Need to create an account?"
-    />
-    <Button
-      color="#777777"
-      fontSize={15}
-      onPress={() => navigation.setParams({ accountDetails: !showAccountDetails, signUp: false })}
-      title={showAccountDetails ? 'Hide account details' : 'Show account details'}
     />
   </View>
 );

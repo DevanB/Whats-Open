@@ -9,6 +9,7 @@ import ReportPlaceScreen from './screens/ReportPlace';
 import ReportPlaceSignUpScreen from './screens/ReportPlaceSignUp';
 import PlaceDetailsScreen from './screens/PlaceDetails';
 import AccountScreen from './screens/Account';
+import AccountProfileScreen from './screens/AccountProfile';
 
 const MainScreens = StackNavigator(
   {
@@ -69,7 +70,7 @@ export default (ModalNavigator = StackNavigator(
       }
     },
     ReportPlace: {
-      screen: ReportPlaceSignUpScreen
+      screen: ReportPlaceScreen
     },
     Account: {
       screen: AccountScreen
