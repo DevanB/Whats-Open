@@ -11,7 +11,7 @@ import { getUser, loadUserAsync } from 'react-native-authentication-helpers';
 import RootStackNavigator from './RootStackNavigator';
 
 const client = new ApolloClient({
-  link: new HttpLink('https://5xxlqvm39.lp.gql.zone/graphql'),
+  link: new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cj7m9tx4e09lq0153rj77r7ex' }),
   cache: new InMemoryCache()
 });
 
