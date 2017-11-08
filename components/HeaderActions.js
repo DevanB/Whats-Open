@@ -15,23 +15,13 @@ class HeaderActionsLeft extends React.PureComponent {
       return null;
     }
 
-    if (this.props.user) {
-      return (
-        <TouchableWithoutFeedback onPress={() => navigate('AccountProfile')}>
-          <View style={styles.container}>
-            <Text style={styles.inner}>Account</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      );
-    } else {
-      return (
-        <TouchableWithoutFeedback onPress={() => navigate('Account')}>
-          <View style={styles.container}>
-            <Text style={styles.inner}>Sign In</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      );
-    }
+    return (
+      <TouchableWithoutFeedback onPress={() => navigate('Account')}>
+        <View style={styles.container}>
+          <Text style={styles.inner}>{this.props.user ? 'Account' : 'Sign In'}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
   }
 }
 

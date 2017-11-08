@@ -8,7 +8,6 @@ import SearchScreen from './screens/Search';
 import ReportPlaceScreen from './screens/ReportPlace';
 import PlaceDetailsScreen from './screens/PlaceDetails';
 import AccountScreen from './screens/Account';
-import AccountProfileScreen from './screens/AccountProfile';
 
 const MainScreens = StackNavigator(
   {

@@ -4,11 +4,12 @@ import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from 'react-native-platform-button';
 import StyledTextInput from '../components/StyledTextInput';
-import { setUser } from 'react-native-authentication-helpers';
+import { setUser, withUser } from 'react-native-authentication-helpers';
 import gql from 'graphql-tag';
 import { compose, graphql } from 'react-apollo';
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
 
+import AccountProfile from './AccountProfile';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 
@@ -21,11 +22,11 @@ function inAccountDetails(navigationState) {
 }
 
 class AccountScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation, user }) => {
     const { params } = navigation.state;
     return {
       headerLeft: <Button title="Cancel" onPress={() => navigation.goBack()} color="black" />,
-      title: inSignUpState(navigation.state) ? 'Sign Up' : 'Sign In'
+      title: user ? 'Account' : inSignUpState(navigation.state) ? 'Sign Up' : 'Sign In'
     };
   };
 
@@ -39,6 +40,9 @@ class AccountScreen extends React.Component {
     let showAccountDetails = inAccountDetails(this.props.navigation.state);
     let showSignUpForm = inSignUpState(this.props.navigation.state);
 
+    if (this.props.user) {
+      return <AccountProfile />;
+    }
     return (
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         {showSignUpForm ? (
@@ -159,7 +163,9 @@ const SIGNIN_USER_MUTATION = gql`
   }
 `;
 
-export default compose(
-  graphql(CREATE_USER_MUTATION, { name: 'createUserMutation' }),
-  graphql(SIGNIN_USER_MUTATION, { name: 'signinUserMutation' })
-)(AccountScreen);
+export default withUser(
+  compose(
+    graphql(CREATE_USER_MUTATION, { name: 'createUserMutation' }),
+    graphql(SIGNIN_USER_MUTATION, { name: 'signinUserMutation' })
+  )(AccountScreen)
+);
