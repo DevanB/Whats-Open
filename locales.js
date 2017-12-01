@@ -84,5 +84,48 @@
     'save': 'Speichern',
     'status': 'Status'
     'whats-open': 'What\'s Open'
+  },
+  fr: {
+    account: {
+      'confirm-password': 'Confirmer le mot de passe',
+      'create-account-button': 'S\'inscrire',
+      'create-an-account': 'Inscription',
+      'create-account-question': 'Pas de compte ?',
+      'email': 'Email',
+      'email-example': 'email@example.com',
+      'forgot-password': 'Mot de passe oublié',
+      'my-account': 'Mon compte',
+      'name': 'Nom',
+      'password': 'Mot de passe',
+      'sign-in': 'Connexion',
+      'sign-out': 'Déconnexion',
+      'update-password': 'Mettre à jour le mot de passe'
+    },
+    hours: {
+      'closed': 'Fermé',
+      'hours': 'Horaires d\'ouverture',
+      'limited': 'Horaires limités',
+      'normal': 'Horaires normaux',
+      'open-today': 'Ouvert aujourd\'hui',
+      'times': 'Horaires'
+    },
+    tabs: {
+      'account': 'Compte',
+      'map': 'Carte',
+      'report': 'Signaler',
+      'whats-open-question': 'What\'s Open?'
+    },
+    'cancel': 'Annuler',
+    'closes': 'Se ferme',
+    'comments': 'Commentaires',
+    'locations': 'Lieux',
+    'nearby-locations': 'Lieux autours',
+    'opens': 'S\'ouvre',
+    'recent-comments': 'Commentaires récents',
+    'report': 'Signaler',
+    'report-create-account': 'Pour signaler un business, merci de s\'inscrire et/ou se connecter',
+    'save': 'Enregistrer',
+    'status': 'Statut'
+    'whats-open': 'What\'s Open'
   }
 }
