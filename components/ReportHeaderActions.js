@@ -1,9 +1,8 @@
-import React from 'react';
-import { Dimensions, Platform, StyleSheet, Text, View } from 'react-native';
-import Touchable from 'react-native-platform-touchable';
+import React from "react";
+import { Dimensions, Platform, StyleSheet, Text, View } from "react-native";
+import Touchable from "react-native-platform-touchable";
 
-import HeaderIconButton from './HeaderIconButton';
-const isSmallDevice = Dimensions.get('window').width < 375;
+const isSmallDevice = Dimensions.get("window").width < 375;
 
 class HeaderActionsRight extends React.PureComponent {
   render() {
@@ -17,9 +16,11 @@ class HeaderActionsRight extends React.PureComponent {
             left: 10,
             right: 10
           }}
-          background={Touchable.Ripple('#fff', true)}
+          background={Touchable.Ripple("#fff", true)}
           style={styles.button}
-          onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}
+          onPress={() =>
+            navigate("ReportPlace", { ...this.props.navigation.state.params })
+          }
         >
           <Text style={styles.inner}>Report</Text>
         </Touchable>
@@ -32,13 +33,13 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 15,
     paddingHorizontal: 5,
-    marginLeft: Platform.OS === 'ios' ? 12 : 17
+    marginLeft: Platform.OS === "ios" ? 12 : 17
   },
   container: {
     flex: 1,
     paddingHorizontal: isSmallDevice ? 5 : 10,
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center"
   },
   inner: {
     fontSize: 17

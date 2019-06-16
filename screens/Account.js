@@ -1,17 +1,12 @@
-// @flow
-
-import React from 'react';
-import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Button from 'react-native-platform-button';
-import StyledTextInput from '../components/StyledTextInput';
-import { setUser, withUser } from 'react-native-authentication-helpers';
-import gql from 'graphql-tag';
-import { compose, graphql } from 'react-apollo';
-const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
-
-import AccountProfile from './AccountProfile';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
+import gql from "graphql-tag";
+import React from "react";
+import { compose, graphql } from "react-apollo";
+import { Button, Dimensions, ScrollView, StyleSheet } from "react-native";
+import { setUser, withUser } from "react-native-authentication-helpers";
+import AccountProfile from "./AccountProfile";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
 
 function inSignUpState(navigationState) {
   return !!(navigationState.params && navigationState.params.signUp);
@@ -25,15 +20,25 @@ class AccountScreen extends React.Component {
   static navigationOptions = ({ navigation, user }) => {
     const { params } = navigation.state;
     return {
-      headerLeft: <Button title="Cancel" onPress={() => navigation.goBack()} color="black" />,
-      title: user ? 'Account' : inSignUpState(navigation.state) ? 'Sign Up' : 'Sign In'
+      headerLeft: (
+        <Button
+          title="Cancel"
+          onPress={() => navigation.goBack()}
+          color="black"
+        />
+      ),
+      title: user
+        ? "Account"
+        : inSignUpState(navigation.state)
+        ? "Sign Up"
+        : "Sign In"
     };
   };
 
   state = {
-    email: '',
-    password: '',
-    name: ''
+    email: "",
+    password: "",
+    name: ""
   };
 
   render() {
@@ -62,7 +67,7 @@ class AccountScreen extends React.Component {
           <SignIn
             email={this.state.email}
             password={this.state.password}
-            onForgotPassword={() => console.log('forgot password')}
+            onForgotPassword={() => console.log("forgot password")}
             onSubmit={this._confirm}
             navigation={this.props.navigation}
             showSignUpForm={showSignUpForm}
@@ -80,7 +85,7 @@ class AccountScreen extends React.Component {
     console.log(signUp);
     const { name, email, password } = this.state;
     if (!email || !password || (signUp && !name)) {
-      alert('Please fill in all fields.');
+      alert("Please fill in all fields.");
       return;
     }
 
@@ -110,7 +115,6 @@ class AccountScreen extends React.Component {
 
       this.props.navigation.goBack();
     } catch (e) {
-      console.log(e);
       alert(e.message);
     }
   };
@@ -139,8 +143,15 @@ const styles = StyleSheet.create({
 });
 
 const CREATE_USER_MUTATION = gql`
-  mutation CreatUserMutation($name: String!, $email: String!, $password: String!) {
-    createUser(name: $name, authProvider: { email: { email: $email, password: $password } }) {
+  mutation CreatUserMutation(
+    $name: String!
+    $email: String!
+    $password: String!
+  ) {
+    createUser(
+      name: $name
+      authProvider: { email: { email: $email, password: $password } }
+    ) {
       id
     }
     signinUser(email: { email: $email, password: $password }) {
@@ -165,7 +176,7 @@ const SIGNIN_USER_MUTATION = gql`
 
 export default withUser(
   compose(
-    graphql(CREATE_USER_MUTATION, { name: 'createUserMutation' }),
-    graphql(SIGNIN_USER_MUTATION, { name: 'signinUserMutation' })
+    graphql(CREATE_USER_MUTATION, { name: "createUserMutation" }),
+    graphql(SIGNIN_USER_MUTATION, { name: "signinUserMutation" })
   )(AccountScreen)
 );

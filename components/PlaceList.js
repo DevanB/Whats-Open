@@ -1,7 +1,7 @@
-import React from 'react';
-import { SectionList, Text } from 'react-native';
-import LocationCell from './LocationCell';
-import SectionHeader from './SectionHeader';
+import React from "react";
+import { SectionList } from "react-native";
+import LocationCell from "./LocationCell";
+import SectionHeader from "./SectionHeader";
 
 export default class PlaceList extends React.Component {
   render() {
@@ -16,9 +16,11 @@ export default class PlaceList extends React.Component {
             reportScreen={this.props.reportScreen}
           />
         )}
-        renderSectionHeader={({ section }) => <SectionHeader text={this.props.headerText} />}
+        renderSectionHeader={({ section }) => (
+          <SectionHeader text={this.props.headerText} />
+        )}
         sections={this.props.sections}
-        style={{ flexGrow: 1, flexBasis: '60%' }}
+        style={{ flexGrow: 1, flexBasis: "60%" }}
       />
     );
   }

@@ -1,18 +1,16 @@
-// @flow
-
-import React from 'react';
-import { Dimensions, Text, View } from 'react-native';
-import { Location, MapView, Permissions } from 'expo';
-import { MaterialIcons } from '@expo/vector-icons';
-import LocationCell from '../components/LocationCell';
-import MapLegend from '../components/MapLegend';
-import Marker from '../components/Marker';
-import PlaceList from '../components/PlaceList';
-import buildAddress from '../helpers/buildAddress';
-const { height: WindowHeight } = Dimensions.get('window');
-
-import HeaderActions from '../components/HeaderActions';
-import sections from '../constants/data';
+import { MaterialIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import React from "react";
+import { Dimensions, Text, View } from "react-native";
+import MapView from "react-native-maps";
+import HeaderActions from "../components/HeaderActions";
+import MapLegend from "../components/MapLegend";
+import Marker from "../components/Marker";
+import PlaceList from "../components/PlaceList";
+import sections from "../constants/data";
+import buildAddress from "../helpers/buildAddress";
+const { height: WindowHeight } = Dimensions.get("window");
 
 type Region = {
   latitude: number,
@@ -68,19 +66,34 @@ export default class Map extends React.Component {
           >
             {this.state.sections[0].data.map(marker => (
               <MapView.Marker key={marker.id} coordinate={marker.coordinates}>
-                <Marker status={marker.user_defined && marker.user_defined.status} />
-                <MapView.Callout onPress={() => this.props.navigation.navigate('PlaceDetails', { ...marker })}>
-                  <View style={{ display: 'flex', flexDirection: 'row' }}>
+                <Marker
+                  status={marker.user_defined && marker.user_defined.status}
+                />
+                <MapView.Callout
+                  onPress={() =>
+                    this.props.navigation.navigate("PlaceDetails", {
+                      ...marker
+                    })
+                  }
+                >
+                  <View style={{ display: "flex", flexDirection: "row" }}>
                     <View style={{ width: 225 }}>
-                      <Text numberOfLines={1} style={{ fontSize: 17, fontWeight: '500' }}>
+                      <Text
+                        numberOfLines={1}
+                        style={{ fontSize: 17, fontWeight: "500" }}
+                      >
                         {marker.name}
                       </Text>
                       <Text numberOfLines={1} style={{ flex: 1 }}>
                         {buildAddress(marker.location)}
                       </Text>
                     </View>
-                    <View style={{ alignSelf: 'flex-end', top: -8 }}>
-                      <MaterialIcons name="chevron-right" size={20} color="lightgray" />
+                    <View style={{ alignSelf: "flex-end", top: -8 }}>
+                      <MaterialIcons
+                        name="chevron-right"
+                        size={20}
+                        color="lightgray"
+                      />
                     </View>
                   </View>
                 </MapView.Callout>
@@ -102,9 +115,9 @@ export default class Map extends React.Component {
 
   async _followLocationAsync() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-        errorMessage: 'Permission to access location was denied.'
+        errorMessage: "Permission to access location was denied."
       });
     }
 

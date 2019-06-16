@@ -1,19 +1,28 @@
-// @flow
+import gql from "graphql-tag";
+import React from "react";
+import { graphql } from "react-apollo";
+import {
+  ActivityIndicator,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
+import { clearUser, withUser } from "react-native-authentication-helpers";
+import StyledTextInput from "../components/StyledTextInput";
 
-import React from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import StyledTextInput from '../components/StyledTextInput';
-import { clearUser } from 'react-native-authentication-helpers';
-const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
+const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
 
-export default class AccountScreen extends React.Component {
+class AccountScreen extends React.Component {
   state = {
-    email: '',
-    password: '',
-    name: ''
+    email: "",
+    password: "",
+    name: ""
   };
 
   render() {
+    if (this.props.data.loading) return <ActivityIndicator size="large" />;
     return (
       <View>
         <Text style={styles.header}>My Account</Text>
@@ -26,7 +35,7 @@ export default class AccountScreen extends React.Component {
           autoCaptialize="words"
           placeholder="Name"
           returnKeyType="next"
-          value="Geauxtrude Suedemont"
+          value={this.props.data.User.name}
         />
         <StyledTextInput
           clearButtonMode="while-editing"
@@ -40,7 +49,7 @@ export default class AccountScreen extends React.Component {
           returnKeyType="next"
           type="text"
           placeholder="Email"
-          value="geauxtrude@apple.com"
+          value={this.props.data.User.email}
         />
         <StyledTextInput
           clearButtonMode="while-editing"
@@ -58,7 +67,7 @@ export default class AccountScreen extends React.Component {
         <StyledTextInput
           clearButtonMode="while-editing"
           onChangeText={password => this.setState({ password })}
-          onSubmitEditing={() => console.log('save')}
+          onSubmitEditing={() => console.log("save")}
           ref={view => {
             this._newPasswordInput = view;
           }}
@@ -69,10 +78,16 @@ export default class AccountScreen extends React.Component {
           value={this.state.password}
           lastStyledTextInputInGroup={true}
         />
-        <TouchableOpacity style={[styles.button, { marginTop: 16 }]} onPress={() => console.log('save')}>
+        <TouchableOpacity
+          style={[styles.button, { marginTop: 16 }]}
+          onPress={() => console.log("save")}
+        >
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]} onPress={() => clearUser()}>
+        <TouchableOpacity
+          style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
+          onPress={() => clearUser()}
+        >
           <Text style={styles.buttonText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
@@ -82,9 +97,9 @@ export default class AccountScreen extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#ffffff',
-    borderBottomColor: 'rgb(200, 199, 204)',
-    borderTopColor: 'rgb(200, 199, 204)',
+    backgroundColor: "#ffffff",
+    borderBottomColor: "rgb(200, 199, 204)",
+    borderTopColor: "rgb(200, 199, 204)",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingBottom: 11,
@@ -92,13 +107,13 @@ const styles = StyleSheet.create({
     width: WindowWidth
   },
   buttonText: {
-    color: 'rgb(0, 118, 255)',
+    color: "rgb(0, 118, 255)",
     fontSize: 17,
     letterSpacing: -0.4,
-    textAlign: 'center'
+    textAlign: "center"
   },
   header: {
-    color: 'rgb(3, 3, 3)',
+    color: "rgb(3, 3, 3)",
     fontSize: 15,
     letterSpacing: -0.2,
     marginBottom: 3.5,
@@ -106,3 +121,26 @@ const styles = StyleSheet.create({
     marginTop: 24.5
   }
 });
+
+const USER_DETAILS_QUERY = gql`
+  query UserQuery($userId: ID!) {
+    User(id: $userId) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+export default withUser(
+  graphql(USER_DETAILS_QUERY, {
+    options: ({ user: { id } }) => {
+      return {
+        variables: {
+          userId: id
+        }
+      };
+    },
+    skip: ownProps => !ownProps.user.id
+  })(AccountScreen)
+);

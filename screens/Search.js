@@ -1,20 +1,17 @@
-import React from 'react';
-import { Platform, Text, View } from 'react-native';
-import { Constants } from 'expo';
-import SearchLayout from 'react-navigation-addon-search-layout';
-
-import Colors from '../constants/Colors';
+import React from "react";
+import { Platform } from "react-native";
+import SearchLayout from "react-navigation-addon-search-layout";
 
 export default class Search extends React.Component {
   static navigationOptions = props => {
     return {
-      title: 'Search'
+      title: "Search"
     };
   };
 
   state = {
     locations: [],
-    searchText: '',
+    searchText: "",
     loading: false
   };
 
@@ -25,8 +22,10 @@ export default class Search extends React.Component {
         headerTintColor="#000"
         onChangeQuery={this._handleQueryChange}
         searchInputSelectionColor="#000"
-        searchInputTextColor={Platform.OS === 'android' ? '#000' : 'black'}
-        searchInputPlaceholderTextColor={Platform.OS === 'ios' ? '#898989' : '#fafafa'}
+        searchInputTextColor={Platform.OS === "android" ? "#000" : "black"}
+        searchInputPlaceholderTextColor={
+          Platform.OS === "ios" ? "#898989" : "#fafafa"
+        }
       />
     );
   }

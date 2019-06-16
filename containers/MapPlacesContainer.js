@@ -1,6 +1,5 @@
-import React from 'react';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from "react-apollo";
 
 export default graphql(PLACES_QUERY, {
-  name: 'placesQuery'
+  name: "placesQuery"
 });

@@ -1,10 +1,24 @@
 {
   "expo": {
-    "sdkVersion": "22.0.0",
+    "name": "What's Open",
+    "slug": "whats-open",
+    "privacy": "public",
+    "sdkVersion": "33.0.0",
+    "platforms": ["ios", "android", "web"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "splash": {
-      "backgroundColor": "#f9f5ed",
       "image": "./assets/splash.png",
-      "resizeMode": "cover"
+      "resizeMode": "contain",
+      "backgroundColor": "#f9f5ed"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
     }
   }
 }

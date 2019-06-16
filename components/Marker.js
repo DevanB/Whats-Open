@@ -1,7 +1,6 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import { OPEN, LIMITED, CLOSED } from '../constants/LocationStatus';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 
 export default class Marker extends React.PureComponent {
   render() {
@@ -31,18 +30,18 @@ const styles = StyleSheet.create({
     width: 15
   },
   green: {
-    backgroundColor: 'rgb(48,193,73)',
-    borderColor: 'rgb(13, 138, 35)',
+    backgroundColor: "rgb(48,193,73)",
+    borderColor: "rgb(13, 138, 35)",
     borderWidth: 1
   },
   red: {
-    backgroundColor: 'rgb(254, 40, 81)',
-    borderColor: 'rgb(170, 0, 32)',
+    backgroundColor: "rgb(254, 40, 81)",
+    borderColor: "rgb(170, 0, 32)",
     borderWidth: 1
   },
   yellow: {
-    backgroundColor: 'rgb(255, 205, 0)',
-    borderColor: 'rgb(227, 168, 66)',
+    backgroundColor: "rgb(255, 205, 0)",
+    borderColor: "rgb(227, 168, 66)",
     borderWidth: 1
   }
 });

@@ -1,4 +1,5 @@
-import React from 'react';
+import gql from "graphql-tag";
+import React from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -12,31 +13,41 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   View
-} from 'react-native';
-import { MapView } from 'expo';
-import Marker from '../components/Marker';
-import StyledTextInput from '../components/StyledTextInput';
-import buildAddress from '../helpers/buildAddress';
-import { withUser } from 'react-native-authentication-helpers';
-const { width: WindowWidth, height: WindowHeight } = Dimensions.get('window');
-import ReportPlaceSignUpScreen from './ReportPlaceSignUp';
-
-import { OPEN, LIMITED, CLOSED } from '../constants/LocationStatus';
+} from "react-native";
+import { withUser } from "react-native-authentication-helpers";
+import MapView from "react-native-maps";
+import Marker from "../components/Marker";
+import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
+import buildAddress from "../helpers/buildAddress";
+import ReportPlaceSignUpScreen from "./ReportPlaceSignUp";
+const { width: WindowWidth, height: WindowHeight } = Dimensions.get("window");
 
 class ReportPlace extends React.Component {
   static navigationOptions = props => {
     return {
-      headerLeft: <Button title="Cancel" onPress={() => props.navigation.goBack()} color="black" />,
-      headerRight: props.user && <Button title="Save" onPress={() => props.navigation.goBack()} color="black" />,
+      headerLeft: (
+        <Button
+          title="Cancel"
+          onPress={() => props.navigation.goBack()}
+          color="black"
+        />
+      ),
+      headerRight: props.user && (
+        <Button
+          title="Save"
+          onPress={() => props.navigation.goBack()}
+          color="black"
+        />
+      ),
       title: `Report • ${props.navigation.state.params.name}`
     };
   };
 
   state = {
-    comments: '',
+    comments: "",
     shouldRenderMap: false,
     shouldRenderOverlay: true,
-    status: 'Closed',
+    status: "Closed",
     modalIsVisible: false,
     modalAnimatedValue: new Animated.Value(0)
   };
@@ -57,11 +68,18 @@ class ReportPlace extends React.Component {
   }
 
   render() {
-    const { navigation: { state: { params } } } = this.props;
+    const {
+      navigation: {
+        state: { params }
+      }
+    } = this.props;
     if (this.props.user) {
       return (
         <View style={styles.outer}>
-          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <ScrollView
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}
+          >
             {this._maybeRenderMap()}
             {this._maybeRenderOverlay()}
             <View style={styles.informationView}>
@@ -75,7 +93,7 @@ class ReportPlace extends React.Component {
                 <View style={styles.statusView}>
                   <Text
                     style={{
-                      color: 'rgb(3, 3, 3)',
+                      color: "rgb(3, 3, 3)",
                       fontSize: 19,
                       letterSpacing: -0.4,
                       paddingBottom: 15,
@@ -86,12 +104,12 @@ class ReportPlace extends React.Component {
                   </Text>
                   <Text
                     style={{
-                      color: 'rgb(128, 127, 148)',
+                      color: "rgb(128, 127, 148)",
                       fontSize: 19,
                       letterSpacing: -0.4,
                       paddingBottom: 15,
                       paddingTop: 15,
-                      position: 'absolute',
+                      position: "absolute",
                       right: 18
                     }}
                     onPress={() => this._handlePressOpen()}
@@ -163,8 +181,8 @@ class ReportPlace extends React.Component {
           style={[
             styles.map,
             {
-              backgroundColor: '#f9f5ed',
-              position: 'absolute',
+              backgroundColor: "#f9f5ed",
+              position: "absolute",
               top: 0,
               left: 0,
               right: 0
@@ -173,12 +191,16 @@ class ReportPlace extends React.Component {
         />
       );
     } else {
-      return <View style={[styles.map, { backgroundColor: '#f9f5ed' }]} />;
+      return <View style={[styles.map, { backgroundColor: "#f9f5ed" }]} />;
     }
   }
 
   _maybeRenderMap() {
-    const { navigation: { state: { params } } } = this.props;
+    const {
+      navigation: {
+        state: { params }
+      }
+    } = this.props;
 
     if (!this.state.shouldRenderMap) return;
 
@@ -200,7 +222,11 @@ class ReportPlace extends React.Component {
         showsTraffic={false}
         style={styles.map}
       >
-        <MapView.Marker title={params.name} description={buildAddress(params.location)} coordinate={params.coordinates}>
+        <MapView.Marker
+          title={params.name}
+          description={buildAddress(params.location)}
+          coordinate={params.coordinates}
+        >
           <Marker status={params.user_defined.status} />
         </MapView.Marker>
       </MapView>
@@ -219,13 +245,16 @@ class ReportPlace extends React.Component {
     });
 
     return (
-      <View style={StyleSheet.absoluteFill} pointerEvents={this.state.modalIsVisible ? 'auto' : 'none'}>
+      <View
+        style={StyleSheet.absoluteFill}
+        pointerEvents={this.state.modalIsVisible ? "auto" : "none"}
+      >
         <TouchableWithoutFeedback onPress={this._handlePressDone}>
           <Animated.View />
         </TouchableWithoutFeedback>
         <Animated.View
           style={{
-            position: 'absolute',
+            position: "absolute",
             bottom: 0,
             left: 0,
             transform: [{ translateY }]
@@ -236,7 +265,7 @@ class ReportPlace extends React.Component {
             <Button title="Done" onPress={this._handlePressDone} />
           </View>
           <Picker
-            style={{ width: WindowWidth, backgroundColor: '#e1e1e1' }}
+            style={{ width: WindowWidth, backgroundColor: "#e1e1e1" }}
             selectedValue={this.state.status}
             onValueChange={itemValue => this.setState({ status: itemValue })}
           >
@@ -252,23 +281,23 @@ class ReportPlace extends React.Component {
 
 const styles = StyleSheet.create({
   addressText: {
-    color: 'rgb(143, 142, 148)',
+    color: "rgb(143, 142, 148)",
     fontSize: 13,
     letterSpacing: -0.2,
     paddingLeft: 18,
     paddingRight: 18
   },
   container: {
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
-    display: 'flex',
+    backgroundColor: "rgba(250, 250, 250, 0.8)",
+    display: "flex",
     flex: 1
   },
   contentContainer: {
     height: WindowHeight,
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end"
   },
   headerName: {
-    color: 'rgb(3, 3, 3)',
+    color: "rgb(3, 3, 3)",
     fontSize: 17,
     letterSpacing: -0.4,
     marginBottom: 3,
@@ -276,18 +305,18 @@ const styles = StyleSheet.create({
     paddingRight: 18
   },
   informationView: {
-    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderColor: "rgba(0, 0, 0, 0.2)",
     borderTopWidth: StyleSheet.hairlineWidth,
     flexGrow: 1,
     flexBasis: WindowHeight * 0.7,
     paddingTop: 17
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(0, 0, 0, 0.25)',
+    borderColor: "rgba(0, 0, 0, 0.25)",
     borderTopWidth: StyleSheet.hairlineWidth,
-    color: '#333333',
+    color: "#333333",
     fontSize: 17,
     letterSpacing: -0.4,
     paddingBottom: 15,
@@ -302,21 +331,37 @@ const styles = StyleSheet.create({
     height: WindowHeight
   },
   statusView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(0, 0, 0, 0.25)',
+    borderColor: "rgba(0, 0, 0, 0.25)",
     borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 18,
     paddingLeft: 18
   },
   toolbar: {
-    backgroundColor: '#f1f1f1',
-    display: 'flex',
-    flexDirection: 'row',
+    backgroundColor: "#f1f1f1",
+    display: "flex",
+    flexDirection: "row",
     paddingVertical: 5,
     paddingHorizontal: 15,
-    justifyContent: 'space-between'
+    justifyContent: "space-between"
   }
 });
+
+const CREATE_PLACE_MUTATION = gql`
+  mutation CreatPlaceMutation($place: ID!, $status: String, $comment: String) {
+    createPlace(id: $place, status: $status) {
+      id
+    }
+  }
+`;
+
+const UPDATE_PLACE_MUTATION = gql`
+  mutation CreatPlaceMutation($place: ID!, $status: String, $comment: String) {
+    createPlace(id: $place, status: $status) {
+      id
+    }
+  }
+`;
 
 export default withUser(ReportPlace);

@@ -1,65 +1,59 @@
-//@ flow
+import { createAppContainer, createStackNavigator } from "react-navigation";
+import AccountScreen from "./screens/Account";
+import MapScreen from "./screens/Map";
+import PlaceDetailsScreen from "./screens/PlaceDetails";
+import ReportPlaceScreen from "./screens/ReportPlace";
+import SearchScreen from "./screens/Search";
 
-import React from 'react';
-import { StackNavigator } from 'react-navigation';
-
-import MapScreen from './screens/Map';
-import SearchScreen from './screens/Search';
-import ReportPlaceScreen from './screens/ReportPlace';
-import PlaceDetailsScreen from './screens/PlaceDetails';
-import AccountScreen from './screens/Account';
-
-const MainScreens = StackNavigator(
+const MainScreens = createStackNavigator(
   {
-    Main: {
-      screen: MapScreen
-    },
-    PlaceDetails: {
-      screen: PlaceDetailsScreen
-    }
+    Main: MapScreen,
+    PlaceDetails: PlaceDetailsScreen
   },
   {
-    headerMode: 'screen',
-    navigationOptions: () => ({
-      gesturesEnabled: true,
-      headerTintColor: 'black',
+    initialRouteName: "Main",
+    headerMode: "screen",
+    defaultNavigationOptions: {
+      headerTintColor: "black",
       headerTitleStyle: {
-        color: 'black',
-        fontWeight: 'normal'
+        color: "black",
+        fontWeight: "normal"
       },
       headerStyle: {
-        backgroundColor: 'rgb(248,205,70)'
+        backgroundColor: "rgb(248,205,70)"
       }
+    },
+    navigationOptions: () => ({
+      gesturesEnabled: true
     })
   }
 );
 
-const MainStack = StackNavigator(
+const MainStack = createStackNavigator(
   {
-    Main: {
-      screen: MainScreens
-    },
-    Search: {
-      screen: SearchScreen
-    }
+    Main: MainScreens,
+    Search: SearchScreen
   },
   {
-    headerMode: 'none',
-    navigationOptions: () => ({
-      gesturesEnabled: true,
-      headerTintColor: 'black',
+    initialRouteName: "Main",
+    headerMode: "none",
+    defaultNavigationOptions: {
+      headerTintColor: "black",
       headerTitleStyle: {
-        color: 'black',
-        fontWeight: 'normal'
+        color: "black",
+        fontWeight: "normal"
       },
       headerStyle: {
-        backgroundColor: 'rgb(248,205,70)'
+        backgroundColor: "rgb(248,205,70)"
       }
+    },
+    navigationOptions: () => ({
+      gesturesEnabled: true
     })
   }
 );
 
-export default (ModalNavigator = StackNavigator(
+const ModalNavigator = createStackNavigator(
   {
     MainStack: {
       screen: MainStack,
@@ -67,27 +61,29 @@ export default (ModalNavigator = StackNavigator(
         header: null
       }
     },
-    ReportPlace: {
-      screen: ReportPlaceScreen
-    },
-    Account: {
-      screen: AccountScreen
-    }
+    ReportPlace: ReportPlaceScreen,
+    Account: AccountScreen
   },
   {
-    initialRouteName: 'MainStack',
-    headerMode: 'screen',
-    mode: 'modal',
-    navigationOptions: () => ({
-      gesturesEnabled: false,
-      headerTintColor: 'black',
+    initialRouteName: "MainStack",
+    headerMode: "screen",
+    mode: "modal",
+    defaultNavigationOptions: {
+      headerTintColor: "black",
       headerTitleStyle: {
-        color: 'black',
-        fontWeight: 'normal'
+        color: "black",
+        fontWeight: "normal"
       },
       headerStyle: {
-        backgroundColor: 'rgb(248,205,70)'
+        backgroundColor: "rgb(248,205,70)"
       }
+    },
+    navigationOptions: () => ({
+      gesturesEnabled: false
     })
   }
-));
+);
+
+const AppContainer = createAppContainer(ModalNavigator);
+
+export default AppContainer;

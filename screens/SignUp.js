@@ -1,10 +1,14 @@
-// @flow
-
-import React from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Button from 'react-native-platform-button';
-import StyledTextInput from '../components/StyledTextInput';
-const { height: WindowHeight, width: WindowWidth } = Dimensions.get('window');
+import React from "react";
+import {
+  Button,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
+import StyledTextInput from "../components/StyledTextInput";
+const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
 
 const SignUpScreen = ({
   name,
@@ -65,27 +69,33 @@ const SignUpScreen = ({
       }}
       returnKeyType="go"
       type="text"
-      placeholder={'Password'}
+      placeholder={"Password"}
       value={password}
       lastStyledTextInputInGroup={true}
     />
-    <TouchableOpacity style={[styles.button, { marginTop: 16, marginBottom: 12 }]} onPress={() => onSubmit()}>
+    <TouchableOpacity
+      style={[styles.button, { marginTop: 16, marginBottom: 12 }]}
+      onPress={() => onSubmit()}
+    >
       <Text style={styles.buttonText}>Create Account</Text>
     </TouchableOpacity>
+    {/* @TODO: Fix Button fontSize */}
     <Button
       color="#777777"
       fontSize={15}
-      onPress={() => navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })}
-      title={'Already have an account?'}
+      onPress={() =>
+        navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })
+      }
+      title={"Already have an account?"}
     />
   </View>
 );
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#ffffff',
-    borderBottomColor: 'rgb(200, 199, 204)',
-    borderTopColor: 'rgb(200, 199, 204)',
+    backgroundColor: "#ffffff",
+    borderBottomColor: "rgb(200, 199, 204)",
+    borderTopColor: "rgb(200, 199, 204)",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingBottom: 11,
@@ -93,13 +103,13 @@ const styles = StyleSheet.create({
     width: WindowWidth
   },
   buttonText: {
-    color: 'rgb(0, 118, 255)',
+    color: "rgb(0, 118, 255)",
     fontSize: 17,
     letterSpacing: -0.4,
-    textAlign: 'center'
+    textAlign: "center"
   },
   header: {
-    color: 'rgb(3, 3, 3)',
+    color: "rgb(3, 3, 3)",
     fontSize: 15,
     letterSpacing: -0.2,
     marginBottom: 3.5,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Animated,
   Button,
@@ -7,23 +7,22 @@ import {
   Platform,
   StyleSheet,
   TouchableWithoutFeedback,
-  Text,
   View
-} from 'react-native';
+} from "react-native";
 
-const { width: WindowWidth } = Dimensions.get('window');
+const { width: WindowWidth } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
-    language: 'js',
+    language: "js",
     modalIsVisible: false,
     modalAnimatedValue: new Animated.Value(0)
   };
 
   componentDidMount() {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       alert(
-        'Umm yeah this is meant for iOS, Picker modal looks different on Android. But go for it and try if you want, maybe make your own Snack that gives Android specific styling, that would be neat.'
+        "Umm yeah this is meant for iOS, Picker modal looks different on Android. But go for it and try if you want, maybe make your own Snack that gives Android specific styling, that would be neat."
       );
     }
   }
@@ -73,26 +72,31 @@ export default class App extends React.Component {
     });
 
     return (
-      <View style={StyleSheet.absoluteFill} pointerEvents={this.state.modalIsVisible ? 'auto' : 'none'}>
+      <View
+        style={StyleSheet.absoluteFill}
+        pointerEvents={this.state.modalIsVisible ? "auto" : "none"}
+      >
         <TouchableWithoutFeedback onPress={this._handlePressDone}>
           <Animated.View />
         </TouchableWithoutFeedback>
         <Animated.View
           style={{
-            position: 'absolute',
+            position: "absolute",
             bottom: 0,
             left: 0,
             transform: [{ translateY }]
-          }}>
+          }}
+        >
           <View style={styles.toolbar}>
             <View style={styles.toolbarRight}>
               <Button title="Done" onPress={this._handlePressDone} />
             </View>
           </View>
           <Picker
-            style={{ width: WindowWidth, backgroundColor: '#e1e1e1' }}
+            style={{ width: WindowWidth, backgroundColor: "#e1e1e1" }}
             selectedValue={this.state.language}
-            onValueChange={itemValue => this.setState({ language: itemValue })}>
+            onValueChange={itemValue => this.setState({ language: itemValue })}
+          >
             <Picker.Item label="Java" value="java" />
             <Picker.Item label="Objective C" value="objc" />
             <Picker.Item label="Swift" value="swift" />
@@ -113,16 +117,16 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   toolbar: {
-    backgroundColor: '#f1f1f1',
+    backgroundColor: "#f1f1f1",
     paddingVertical: 5,
     paddingHorizontal: 15
   },
   toolbarRight: {
-    alignSelf: 'flex-end'
+    alignSelf: "flex-end"
   }
 });

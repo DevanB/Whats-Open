@@ -1,8 +1,7 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Marker from '../components/Marker';
-
-import { OPEN, LIMITED, CLOSED } from '../constants/LocationStatus';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Marker from "../components/Marker";
+import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 
 export default class MapLegend extends React.PureComponent {
   render() {
@@ -26,29 +25,29 @@ export default class MapLegend extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   legendBox: {
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
     borderRadius: 8,
     bottom: 12,
-    flexDirection: 'column',
-    height: 'auto',
+    flexDirection: "column",
+    height: "auto",
     paddingBottom: 6,
     paddingLeft: 10,
     paddingRight: 13,
     paddingTop: 8,
-    position: 'absolute',
+    position: "absolute",
     right: 12,
-    width: 'auto'
+    width: "auto"
   },
   legendText: {
-    color: 'rgb(255, 255, 255)',
+    color: "rgb(255, 255, 255)",
     fontSize: 12,
     letterSpacing: -0.2
   },
   row: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'flex-start',
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    justifyContent: "flex-start",
     marginBottom: 3
   }
 });

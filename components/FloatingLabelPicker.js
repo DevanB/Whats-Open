@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Animated, Platform } from 'react-native';
+import React, { Component } from "react";
+import { Animated, Platform, StyleSheet, Text, View } from "react-native";
 
 class FloatingLabel extends Component {
   constructor(props) {
@@ -34,7 +34,14 @@ class FloatingLabel extends Component {
   render() {
     return (
       <Animated.View
-        style={[styles.floatingLabel, { paddingTop: this.state.paddingAnim, opacity: this.state.opacityAnim }]}>
+        style={[
+          styles.floatingLabel,
+          {
+            paddingTop: this.state.paddingAnim,
+            opacity: this.state.opacityAnim
+          }
+        ]}
+      >
         {this.props.children}
       </Animated.View>
     );
@@ -57,7 +64,11 @@ class TextFieldHolder extends Component {
   }
 
   render() {
-    return <Animated.View style={{ marginTop: this.state.marginAnim }}>{this.props.children}</Animated.View>;
+    return (
+      <Animated.View style={{ marginTop: this.state.marginAnim }}>
+        {this.props.children}
+      </Animated.View>
+    );
   }
 }
 
@@ -71,7 +82,10 @@ class FloatLabelTextField extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.hasOwnProperty('value') && newProps.value !== this.state.text) {
+    if (
+      newProps.hasOwnProperty("value") &&
+      newProps.value !== this.state.text
+    ) {
       this.setState({ text: newProps.value });
     }
   }
@@ -93,7 +107,9 @@ class FloatLabelTextField extends Component {
           <View style={[styles.paddingView, this.leftPadding()]} />
           <View style={[styles.fieldContainer, this.withBorder()]}>
             <FloatingLabel visible={this.state.text}>
-              <Text style={[styles.fieldLabel, this.labelStyle()]}>{this.placeholderValue()}</Text>
+              <Text style={[styles.fieldLabel, this.labelStyle()]}>
+                {this.placeholderValue()}
+              </Text>
             </FloatingLabel>
             <TextFieldHolder withValue={this.state.text}>
               {/*<TextInput
@@ -110,7 +126,10 @@ class FloatLabelTextField extends Component {
               />*/}
               <Picker
                 selectedValue={this.state.user_defined.status}
-                onValueChange={(itemValue, itemIndex) => this.setState({ status: itemValue })}>
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({ status: itemValue })
+                }
+              >
                 <Picker.Item label="Normal Hours" value="normal" />
                 <Picker.Item label="Limited Hours" value="limited" />
                 <Picker.Item label="Closed" value="closed" />
@@ -186,42 +205,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 45,
-    backgroundColor: 'white',
-    justifyContent: 'center'
+    backgroundColor: "white",
+    justifyContent: "center"
   },
   viewContainer: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   paddingView: {
     width: 15
   },
   floatingLabel: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0
   },
   fieldLabel: {
     height: 15,
     fontSize: 10,
-    color: '#B1B1B1'
+    color: "#B1B1B1"
   },
   fieldContainer: {
     flex: 1,
-    justifyContent: 'center',
-    position: 'relative'
+    justifyContent: "center",
+    position: "relative"
   },
   withBorder: {
     borderBottomWidth: 1 / 2,
-    borderColor: '#C8C7CC'
+    borderColor: "#C8C7CC"
   },
   valueText: {
-    height: Platform.OS == 'ios' ? 20 : 60,
+    height: Platform.OS == "ios" ? 20 : 60,
     fontSize: 16,
-    color: '#111111'
+    color: "#111111"
   },
   focused: {
-    color: '#1482fe'
+    color: "#1482fe"
   }
 });
 
