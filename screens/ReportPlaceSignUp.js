@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Touchable from "react-native-platform-touchable";
+import colors from "../constants/colors";
 export default class ReportPlace extends React.Component {
   render() {
     const {
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     width: 170
   },
   buttonText: {
-    color: "white",
+    color: colors.white,
     fontSize: 15,
     fontWeight: "500",
     letterSpacing: -0.3,

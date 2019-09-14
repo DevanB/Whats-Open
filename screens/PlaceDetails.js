@@ -15,6 +15,7 @@ import Marker from "../components/Marker";
 import HeaderActions from "../components/ReportHeaderActions";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
+import colors from "../constants/colors";
 const { height: WindowHeight } = Dimensions.get("window");
 
 export default class PlaceDetails extends React.Component {
@@ -237,12 +238,12 @@ class Comment extends React.Component {
 
 const styles = StyleSheet.create({
   addressText: {
-    color: "rgb(143, 142, 148)",
+    color: colors.gray,
     letterSpacing: -0.2,
     fontSize: 13
   },
   blackText: {
-    color: "black"
+    color: colors.black
   },
   button: {
     borderRadius: 4,
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   buttonText: {
-    color: "rgb(251, 251, 251)",
+    color: colors.offWhite,
     fontSize: 15,
     fontWeight: "500",
     letterSpacing: -0.3,
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   commentContainer: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(0, 0, 0, 0.2)",
@@ -397,7 +398,7 @@ const styles = StyleSheet.create({
     width: 170
   },
   recentCommentButtonText: {
-    color: "white",
+    color: colors.white,
     fontSize: 15,
     fontWeight: "500",
     letterSpacing: -0.3,

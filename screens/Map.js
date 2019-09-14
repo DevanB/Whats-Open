@@ -28,11 +28,11 @@ type State = {
 };
 
 export default class Map extends React.Component {
-  static navigationOptions = props => {
+  static navigationOptions = ({screenProps: { t }, navigation}) => {
     return {
-      headerLeft: <HeaderActions.Left navigation={props.navigation} />,
-      headerRight: <HeaderActions.Right navigation={props.navigation} />,
-      title: "What's Open?"
+      headerLeft: <HeaderActions.Left navigation={navigation} />,
+      headerRight: <HeaderActions.Right navigation={navigation} />,
+      title: t("whats-open")
     };
   };
 

@@ -119,7 +119,7 @@ class AccountScreen extends React.Component {
     }
   };
 
-  _saveUserData = (id, token) => {
+  _saveUserData = (id: string , token: string) => {
     setUser({ id, token });
   };
 

@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { clearUser, withUser } from "react-native-authentication-helpers";
 import StyledTextInput from "../components/StyledTextInput";
+import colors from "../constants/colors";
 
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
 
@@ -97,9 +98,9 @@ class AccountScreen extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#ffffff",
-    borderBottomColor: "rgb(200, 199, 204)",
-    borderTopColor: "rgb(200, 199, 204)",
+    backgroundColor: colors.black,
+    borderBottomColor: colors.lightGray,
+    borderTopColor: colors.lightGray,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingBottom: 11,
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
     width: WindowWidth
   },
   buttonText: {
-    color: "rgb(0, 118, 255)",
+    color: colors.blue,
     fontSize: 17,
     letterSpacing: -0.4,
     textAlign: "center"
   },
   header: {
-    color: "rgb(3, 3, 3)",
+    color: colors.black,
     fontSize: 15,
     letterSpacing: -0.2,
     marginBottom: 3.5,

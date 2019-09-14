@@ -4,6 +4,7 @@ import MapScreen from "./screens/Map";
 import PlaceDetailsScreen from "./screens/PlaceDetails";
 import ReportPlaceScreen from "./screens/ReportPlace";
 import SearchScreen from "./screens/Search";
+import colors from "./constants/colors";
 
 const MainScreens = createStackNavigator(
   {
@@ -14,13 +15,13 @@ const MainScreens = createStackNavigator(
     initialRouteName: "Main",
     headerMode: "screen",
     defaultNavigationOptions: {
-      headerTintColor: "black",
+      headerTintColor: colors.black,
       headerTitleStyle: {
-        color: "black",
+        color: colors.black,
         fontWeight: "normal"
       },
       headerStyle: {
-        backgroundColor: "rgb(248,205,70)"
+        backgroundColor: colors.yellow
       }
     },
     navigationOptions: () => ({
@@ -38,13 +39,13 @@ const MainStack = createStackNavigator(
     initialRouteName: "Main",
     headerMode: "none",
     defaultNavigationOptions: {
-      headerTintColor: "black",
+      headerTintColor: colors.black,
       headerTitleStyle: {
-        color: "black",
+        color: colors.black,
         fontWeight: "normal"
       },
       headerStyle: {
-        backgroundColor: "rgb(248,205,70)"
+        backgroundColor: colors.yellow
       }
     },
     navigationOptions: () => ({
@@ -69,13 +70,13 @@ const ModalNavigator = createStackNavigator(
     headerMode: "screen",
     mode: "modal",
     defaultNavigationOptions: {
-      headerTintColor: "black",
+      headerTintColor: colors.black,
       headerTitleStyle: {
-        color: "black",
+        color: colors.black,
         fontWeight: "normal"
       },
       headerStyle: {
-        backgroundColor: "rgb(248,205,70)"
+        backgroundColor: colors.yellow
       }
     },
     navigationOptions: () => ({

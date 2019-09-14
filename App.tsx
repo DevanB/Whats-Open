@@ -15,8 +15,10 @@ export default function App() {
   const [appIsReady, setAppIsReady] = React.useState<boolean>(false);
   const [location, setLocation] = React.useState<Location.LocationData>();
   const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const [locale, setLocale] = React.useState<string>("en");
 
   React.useEffect(() => {
+    _handleLocale();
     _getLocationAsync();
   }, []);
 
@@ -31,6 +33,11 @@ export default function App() {
     Promise.all(cacheImages);
     return;
   };
+
+  const _handleLocale = () => {
+    setLocale(Localization.locale);
+    i18n.locale = locale;
+  }
 
   const _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -55,7 +62,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
-        <RootStackNavigator />
+        <RootStackNavigator screenProps={{t: i18n.t, locale, setLocale}}/>
       </View>
     </ApolloProvider>
   );

@@ -20,6 +20,7 @@ import Marker from "../components/Marker";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
 import ReportPlaceSignUpScreen from "./ReportPlaceSignUp";
+import colors from "../constants/colors";
 const { width: WindowWidth, height: WindowHeight } = Dimensions.get("window");
 
 class ReportPlace extends React.Component {
@@ -312,7 +313,7 @@ const styles = StyleSheet.create({
     paddingTop: 17
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(0, 0, 0, 0.25)",
     borderTopWidth: StyleSheet.hairlineWidth,
@@ -331,7 +332,7 @@ const styles = StyleSheet.create({
     height: WindowHeight
   },
   statusView: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(0, 0, 0, 0.25)",
     borderTopWidth: StyleSheet.hairlineWidth,
