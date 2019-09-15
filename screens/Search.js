@@ -3,9 +3,9 @@ import { Platform } from "react-native";
 import SearchLayout from "react-navigation-addon-search-layout";
 
 export default class Search extends React.Component {
-  static navigationOptions = props => {
+  static navigationOptions = ({screenProps: { t }}) => {
     return {
-      title: "Search"
+      title: t("search")
     };
   };
 
@@ -17,6 +17,7 @@ export default class Search extends React.Component {
 
   render() {
     return (
+      //TODO translate
       <SearchLayout
         headerBackgroundColor="rgb(248,205,70)"
         headerTintColor="#000"

@@ -10,25 +10,27 @@ import Marker from "../components/Marker";
 import PlaceList from "../components/PlaceList";
 import sections from "../constants/data";
 import buildAddress from "../helpers/buildAddress";
+import i18n from "../i18n"
 const { height: WindowHeight } = Dimensions.get("window");
+const { t } = i18n;
 
-type Region = {
+interface Region {
   latitude: number,
   longitude: number,
   latitudeDelta: number,
   longitudeDelta: number
 };
 
-type Props = {};
-
-type State = {
-  errorMessage: string,
-  region: Region,
-  location: {}
+interface MapState {
+  errorMessage?: string;
+  region?: Region;
+  regionSet: boolean;
+  location: {};
+  sections: any;
 };
 
-export default class Map extends React.Component {
-  static navigationOptions = ({screenProps: { t }, navigation}) => {
+export default class Map extends React.Component<{}, MapState> {
+  static navigationOptions = ({screenProps: { t }, navigation}: {screenProps: { t: any }, navigation: any}) => {
     return {
       headerLeft: <HeaderActions.Left navigation={navigation} />,
       headerRight: <HeaderActions.Right navigation={navigation} />,
@@ -36,9 +38,10 @@ export default class Map extends React.Component {
     };
   };
 
-  state: State = {
-    errorMessage: null,
+  state = {
+    errorMessage: undefined,
     location: { coords: { latitude: 0, longitude: 0 } },
+    region: undefined,
     regionSet: false,
     sections
   };
@@ -104,7 +107,7 @@ export default class Map extends React.Component {
         </View>
         <PlaceList
           statusIcon={true}
-          headerText="LOCATIONS"
+          headerText={t("locations").toUpperCase()}
           sections={this.state.sections}
           style={{ flexGrow: 1, flexBasis: WindowHeight * 0.7 }}
           navigate={this.props.navigation.navigate}
@@ -117,6 +120,7 @@ export default class Map extends React.Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
+        //TODOD add translation
         errorMessage: "Permission to access location was denied."
       });
     }

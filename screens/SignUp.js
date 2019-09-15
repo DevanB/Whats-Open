@@ -8,7 +8,9 @@ import {
   View
 } from "react-native";
 import StyledTextInput from "../components/StyledTextInput";
+import i18n from "../i18n";
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
+const { t } = i18n;
 
 const SignUpScreen = ({
   name,
@@ -34,7 +36,7 @@ const SignUpScreen = ({
   showSignUpForm: boolean
 }) => (
   <View>
-    <Text style={styles.header}>Create an Account</Text>
+    <Text style={styles.header}>{t("create-an-account")}</Text>
     <StyledTextInput
       clearButtonMode="while-editing"
       autoCapitalize="words"
@@ -42,7 +44,7 @@ const SignUpScreen = ({
       onSubmitEditing={() => this._emailInput.focus()}
       returnKeyType="next"
       type="text"
-      placeholder="Name"
+      placeholder={t("name")}
       value={name}
     />
     <StyledTextInput
@@ -56,7 +58,7 @@ const SignUpScreen = ({
       autoCapitalize="none"
       returnKeyType="next"
       type="text"
-      placeholder="Email"
+      placeholder={t("email")}
       value={email}
     />
     <StyledTextInput
@@ -69,7 +71,7 @@ const SignUpScreen = ({
       }}
       returnKeyType="go"
       type="text"
-      placeholder={"Password"}
+      placeholder={t("password")}
       value={password}
       lastStyledTextInputInGroup={true}
     />
@@ -77,15 +79,16 @@ const SignUpScreen = ({
       style={[styles.button, { marginTop: 16, marginBottom: 12 }]}
       onPress={() => onSubmit()}
     >
-      <Text style={styles.buttonText}>Create Account</Text>
+      <Text style={styles.buttonText}>{t("create-account-button")}</Text>
     </TouchableOpacity>
-    {/* @TODO: Fix Button fontSize */}
+    {/* TODO Fix Button fontSize */}
     <Button
       color="#777777"
       fontSize={15}
       onPress={() =>
         navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })
       }
+      // TODO translate
       title={"Already have an account?"}
     />
   </View>

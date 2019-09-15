@@ -8,19 +8,12 @@ import {
   View
 } from "react-native";
 import StyledTextInput from "../components/StyledTextInput";
+import i18n from "../i18n";
+import colors from "../constants/colors";
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
+const { t } = i18n;
 
-const SignUpScreen = ({
-  email,
-  password,
-  navigation,
-  onForgotPassword,
-  onSubmit,
-  setEmail,
-  setPassword,
-  showAccountDetails,
-  showSignUpForm
-}: {
+interface SignUpScreenProps {
   email: string,
   password: string,
   navigation: any,
@@ -28,25 +21,35 @@ const SignUpScreen = ({
   onSubmit: any,
   setEmail: any,
   setPassword: any,
-  showAccountDetails: boolean,
   showSignUpForm: boolean
+}
+
+const SignUpScreen: React.FC<SignUpScreenProps> = ({
+  email,
+  password,
+  navigation,
+  onForgotPassword,
+  onSubmit,
+  setEmail,
+  setPassword,
+  showSignUpForm
 }) => (
   <View>
-    <Text style={styles.header}>Sign In</Text>
+    <Text style={styles.header}>{t("sign-in")}</Text>
     <StyledTextInput
       clearButtonMode="while-editing"
-      onChangeText={email => setEmail(email)}
+      onChangeText={(email: string) => setEmail(email)}
       onSubmitEditing={() => this._passwordInput.focus()}
       keyboardType="email-address"
       returnKeyType="next"
       autoCapitalize="none"
       type="text"
-      placeholder="Email"
+      placeholder={t("email")}
       value={email}
     />
     <StyledTextInput
       clearButtonMode="while-editing"
-      onChangeText={password => setPassword(password)}
+      onChangeText={(password: string) => setPassword(password)}
       onSubmitEditing={() => onSubmit()}
       secureTextEntry={true}
       ref={view => {
@@ -54,7 +57,7 @@ const SignUpScreen = ({
       }}
       returnKeyType="go"
       type="text"
-      placeholder={"Password"}
+      placeholder={t("password")}
       value={password}
       lastStyledTextInputInGroup={true}
     />
@@ -62,31 +65,30 @@ const SignUpScreen = ({
       style={[styles.button, { marginTop: 16 }]}
       onPress={() => onSubmit()}
     >
-      <Text style={styles.buttonText}>Sign In</Text>
+      <Text style={styles.buttonText}>{t("sign-in")}</Text>
     </TouchableOpacity>
     <TouchableOpacity
       style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
       onPress={() => onForgotPassword()}
     >
-      <Text style={styles.buttonText}>Forgot Password</Text>
+      <Text style={styles.buttonText}>{t("forgot-password")}</Text>
     </TouchableOpacity>
     {/* @TODO: Fix button fontSize */}
     <Button
       color="#777777"
-      fontSize={15}
       onPress={() =>
         navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })
       }
-      title="Need to create an account?"
+      title={t("create-account-question")}
     />
   </View>
 );
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#ffffff",
-    borderBottomColor: "rgb(200, 199, 204)",
-    borderTopColor: "rgb(200, 199, 204)",
+    backgroundColor: colors.white,
+    borderBottomColor: colors.lightGray,
+    borderTopColor: colors.lightGray,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingBottom: 11,

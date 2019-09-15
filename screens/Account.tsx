@@ -16,22 +16,28 @@ function inAccountDetails(navigationState) {
   return !!(navigationState.params && navigationState.params.accountDetails);
 }
 
-class AccountScreen extends React.Component {
-  static navigationOptions = ({ navigation, user }) => {
-    const { params } = navigation.state;
+interface AccountScreenState {
+  email: string;
+  password: string;
+  name: string;
+}
+
+class AccountScreen extends React.Component<{}, AccountScreenState> {
+  static navigationOptions = ({ screenProps: { t }, navigation, user }: { screenProps: { t: any }, navigation: any, user: any }) => {
     return {
       headerLeft: (
+        // TODO fix fontSize
         <Button
-          title="Cancel"
+          title={t("cancel")}
           onPress={() => navigation.goBack()}
           color="black"
         />
       ),
       title: user
-        ? "Account"
+        ? t("account")
         : inSignUpState(navigation.state)
-        ? "Sign Up"
-        : "Sign In"
+        ? t("create-an-account")
+        : t("sign-in")
     };
   };
 
@@ -67,6 +73,7 @@ class AccountScreen extends React.Component {
           <SignIn
             email={this.state.email}
             password={this.state.password}
+            //TODO handle
             onForgotPassword={() => console.log("forgot password")}
             onSubmit={this._confirm}
             navigation={this.props.navigation}
@@ -85,6 +92,7 @@ class AccountScreen extends React.Component {
     console.log(signUp);
     const { name, email, password } = this.state;
     if (!email || !password || (signUp && !name)) {
+      //TODO translate
       alert("Please fill in all fields.");
       return;
     }

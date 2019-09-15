@@ -16,7 +16,9 @@ import HeaderActions from "../components/ReportHeaderActions";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
 import colors from "../constants/colors";
+import i18n from "../i18n";
 const { height: WindowHeight } = Dimensions.get("window");
+const { t } = i18n;
 
 export default class PlaceDetails extends React.Component {
   static navigationOptions = props => {
@@ -27,6 +29,7 @@ export default class PlaceDetails extends React.Component {
   };
 
   state = {
+    //TODO translate
     hours: [
       { day: "Open Today", hours: "7:00 AM to 10:00 PM" },
       { day: "Saturday", hours: "7:00 AM to 10:00 PM" },
@@ -56,7 +59,6 @@ export default class PlaceDetails extends React.Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
     const {
       navigation: {
         state: { params }
@@ -86,17 +88,18 @@ export default class PlaceDetails extends React.Component {
                 params.user_defined.status === LIMITED && styles.blackText
               ]}
             >
-              {params.user_defined.status}
+              {t(params.user_defined.status)}
             </Text>
           </Touchable>
         </View>
         <View style={styles.informationView}>
           <View style={styles.hoursContainer}>
-            <Text style={styles.hoursText}>HOURS</Text>
+            <Text style={styles.hoursText}>{t("hours").toUpperCase()}</Text>
             {this.state.hours.map((hour, index) => (
               <View key={index} style={styles.hoursListing}>
                 <Text style={styles.day}>
-                  {hour.day}
+                  {/* TODO translate */}
+                  {t(hour.day)}
                   {": "}
                 </Text>
                 <Text style={styles.hours}>{hour.hours}</Text>
@@ -111,7 +114,7 @@ export default class PlaceDetails extends React.Component {
             }}
           />
           <View style={styles.recentCommentsContainer}>
-            <Text style={styles.recentCommentsHeader}>RECENT COMMENTS</Text>
+            <Text style={styles.recentCommentsHeader}>{t("recent-comments").toUpperCase()}</Text>
             {/* <Text style={styles.recentCommentsEmpty}>Looks like no one has commented on this location. Have you visited here in the past 24 hours?</Text>
             <Touchable
               style={styles.recentCommentButton}

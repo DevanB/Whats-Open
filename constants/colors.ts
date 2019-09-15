@@ -7,7 +7,7 @@ export default {
   blue: "#0077ff",
   errorBackground: "red",
   errorText: white,
-  lightGray: "#c8c7cc",
+  lightGray: "#c8c7cc", // rgb(200, 199, 204)
   gray: "#8f8e94",
   noticeBackground: tintColor,
   noticeText: white,

@@ -21,26 +21,29 @@ import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
 import ReportPlaceSignUpScreen from "./ReportPlaceSignUp";
 import colors from "../constants/colors";
+import i18n from "../i18n";
 const { width: WindowWidth, height: WindowHeight } = Dimensions.get("window");
+const { t } = i18n;
 
 class ReportPlace extends React.Component {
-  static navigationOptions = props => {
+  static navigationOptions = ({ screenProps: { t }, navigation, user }) => {
     return {
       headerLeft: (
+        // TODO fix fontSize
         <Button
-          title="Cancel"
-          onPress={() => props.navigation.goBack()}
+          title={t("cancel")}
+          onPress={() => navigation.goBack()}
           color="black"
         />
       ),
-      headerRight: props.user && (
+      headerRight: user && (
         <Button
-          title="Save"
-          onPress={() => props.navigation.goBack()}
+          title={t("save")}
+          onPress={() => navigation.goBack()}
           color="black"
         />
       ),
-      title: `Report • ${props.navigation.state.params.name}`
+      title: `${t("report")} • ${navigation.state.params.name}`
     };
   };
 
@@ -101,7 +104,7 @@ class ReportPlace extends React.Component {
                       paddingTop: 15
                     }}
                   >
-                    Status
+                    t("status")
                   </Text>
                   <Text
                     style={{
@@ -115,7 +118,7 @@ class ReportPlace extends React.Component {
                     }}
                     onPress={() => this._handlePressOpen()}
                   >
-                    {this.state.status}
+                    {t(this.state.status)}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
@@ -125,7 +128,7 @@ class ReportPlace extends React.Component {
                 onChangeText={comment => this.setState({ comment })}
                 type="text"
                 multiline={true}
-                placeholder="Comment"
+                placeholder={t("comment")}
                 placeholderTextColor="#bababa"
                 ref={view => {
                   this._commentsInput = view;
@@ -262,17 +265,17 @@ class ReportPlace extends React.Component {
           }}
         >
           <View style={styles.toolbar}>
-            <Button title="Next" onPress={this._handlePressNext} />
-            <Button title="Done" onPress={this._handlePressDone} />
+            <Button title={t("next")} onPress={this._handlePressNext} />
+            <Button title={t("done")} onPress={this._handlePressDone} />
           </View>
           <Picker
             style={{ width: WindowWidth, backgroundColor: "#e1e1e1" }}
             selectedValue={this.state.status}
             onValueChange={itemValue => this.setState({ status: itemValue })}
           >
-            <Picker.Item label={OPEN} value={OPEN} />
-            <Picker.Item label={LIMITED} value={LIMITED} />
-            <Picker.Item label={CLOSED} value={CLOSED} />
+            <Picker.Item label={t(OPEN)} value={OPEN} />
+            <Picker.Item label={t(LIMITED)} value={LIMITED} />
+            <Picker.Item label={t(CLOSED)} value={CLOSED} />
           </Picker>
         </Animated.View>
       </View>

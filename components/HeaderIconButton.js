@@ -41,37 +41,37 @@ const IconNames = {
     ios: {
       person: {
         name: "ios-person-outline",
-        size: 33
+        size: 29
       },
       search: {
         name: "ios-search",
-        size: 25
+        size: 21
       }
     },
     android: {
       person: {
         name: "md-person",
-        size: 25
+        size: 21
       },
       search: {
         name: "md-search",
-        size: 25
+        size: 21
       }
     }
   }),
   authenticate: {
     name: "md-key",
-    size: 25
+    size: 21
   },
   user: {
     name: "md-person",
-    size: 25
+    size: 21
   }
 };
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 15,
+    paddingVertical: 5,
     paddingHorizontal: 5,
     marginLeft: Platform.OS === "ios" ? 12 : 17
   }

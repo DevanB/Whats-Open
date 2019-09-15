@@ -2,6 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Touchable from "react-native-platform-touchable";
 import colors from "../constants/colors";
+import i18n from "../i18n";
+const { t } = i18n;
+
 export default class ReportPlace extends React.Component {
   render() {
     const {
@@ -12,13 +15,13 @@ export default class ReportPlace extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.reportSignUpText}>
-          To report a business, please create an account and/or sign in.
+          {t("report-create-account")}
         </Text>
         <Touchable
           style={styles.button}
           onPress={() => this.props.navigation.navigate("Account")}
         >
-          <Text style={styles.buttonText}>Create an Account</Text>
+          <Text style={styles.buttonText}>{t("create-an-account")}</Text>
         </Touchable>
       </View>
     );

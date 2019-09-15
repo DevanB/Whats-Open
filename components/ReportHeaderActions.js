@@ -1,8 +1,10 @@
 import React from "react";
 import { Dimensions, Platform, StyleSheet, Text, View } from "react-native";
 import Touchable from "react-native-platform-touchable";
+import i18n from "../i18n";
 
 const isSmallDevice = Dimensions.get("window").width < 375;
+const { t } = i18n;
 
 class HeaderActionsRight extends React.PureComponent {
   render() {
@@ -22,7 +24,7 @@ class HeaderActionsRight extends React.PureComponent {
             navigate("ReportPlace", { ...this.props.navigation.state.params })
           }
         >
-          <Text style={styles.inner}>Report</Text>
+          <Text style={styles.inner}>{t("report")}</Text>
         </Touchable>
       </View>
     );
@@ -31,7 +33,7 @@ class HeaderActionsRight extends React.PureComponent {
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 15,
+    paddingVertical: 5,
     paddingHorizontal: 5,
     marginLeft: Platform.OS === "ios" ? 12 : 17
   },
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   inner: {
-    fontSize: 17
+    fontSize: 21
   }
 });
 

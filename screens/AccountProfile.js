@@ -12,8 +12,10 @@ import {
 import { clearUser, withUser } from "react-native-authentication-helpers";
 import StyledTextInput from "../components/StyledTextInput";
 import colors from "../constants/colors";
+import i18n from "../i18n"
 
 const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
+const { t } = i18n;
 
 class AccountScreen extends React.Component {
   state = {
@@ -26,7 +28,7 @@ class AccountScreen extends React.Component {
     if (this.props.data.loading) return <ActivityIndicator size="large" />;
     return (
       <View>
-        <Text style={styles.header}>My Account</Text>
+        <Text style={styles.header}>t("my-account")</Text>
 
         <StyledTextInput
           clearButtonMode="while-editing"
@@ -34,7 +36,7 @@ class AccountScreen extends React.Component {
           onSubmitEditing={() => this._emailInput.focus()}
           type="text"
           autoCaptialize="words"
-          placeholder="Name"
+          placeholder={t("name")}
           returnKeyType="next"
           value={this.props.data.User.name}
         />
@@ -49,7 +51,7 @@ class AccountScreen extends React.Component {
           autoCapitalize="none"
           returnKeyType="next"
           type="text"
-          placeholder="Email"
+          placeholder={t("email")}
           value={this.props.data.User.email}
         />
         <StyledTextInput
@@ -62,7 +64,7 @@ class AccountScreen extends React.Component {
           secureTextEntry={true}
           returnKeyType="next"
           type="text"
-          placeholder="Current password"
+          placeholder={t("current-password")}
           value={this.state.password}
         />
         <StyledTextInput
@@ -75,7 +77,7 @@ class AccountScreen extends React.Component {
           secureTextEntry={true}
           type="text"
           returnKeyType="go"
-          placeholder="New password"
+          placeholder={t("new-password")}
           value={this.state.password}
           lastStyledTextInputInGroup={true}
         />
@@ -83,13 +85,13 @@ class AccountScreen extends React.Component {
           style={[styles.button, { marginTop: 16 }]}
           onPress={() => console.log("save")}
         >
-          <Text style={styles.buttonText}>Save</Text>
+          <Text style={styles.buttonText}>{t("save")}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
           onPress={() => clearUser()}
         >
-          <Text style={styles.buttonText}>Sign Out</Text>
+          <Text style={styles.buttonText}>{t("sign-out")}</Text>
         </TouchableOpacity>
       </View>
     );

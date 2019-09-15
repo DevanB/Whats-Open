@@ -9,7 +9,9 @@ import {
 } from "react-native";
 import { withUser } from "react-native-authentication-helpers";
 import HeaderIconButton from "./HeaderIconButton";
+import i18n from "../i18n";
 
+const { t } = i18n;
 const isSmallDevice = Dimensions.get("window").width < 375;
 
 class HeaderActionsLeft extends React.PureComponent {
@@ -24,7 +26,7 @@ class HeaderActionsLeft extends React.PureComponent {
       <TouchableWithoutFeedback onPress={() => navigate("Account")}>
         <View style={styles.container}>
           <Text style={styles.inner}>
-            {this.props.user ? "Account" : "Sign In"}
+            {this.props.user ? t("account") : t("sign-in")}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   inner: {
-    fontSize: 17
+    fontSize: 21
   }
 });
 
