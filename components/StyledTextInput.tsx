@@ -2,12 +2,22 @@ import React from "react";
 import { Platform, StyleSheet, TextInput } from "react-native";
 
 interface StyledTextInputProps {
-  lastStyledTextInputInGroup: any;
-  style: any;
+  autoCapitalize: any;
+  clearButtonMode: any;
+  keyboardType: any;
+  lastStyledTextInputInGroup?: any;
+  onChangeText: any;
+  onSubmitEditing: any;
+  placeholder: any;
+  returnKeyType: any;
+  secureTextEntry?: boolean;
+  style?: any;
+  type: any;
+  value: any;
 }
 
 const StyledTextInput: React.FC<StyledTextInputProps> = ({ lastStyledTextInputInGroup, style, ...props }) => {
-  focus() {
+  const focus = () => {
     this._input.focus();
   }
 
@@ -55,3 +65,5 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 });
+
+export default StyledTextInput;
