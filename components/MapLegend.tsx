@@ -2,27 +2,27 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Marker from "../components/Marker";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
+import i18n from "../i18n";
 
-export default class MapLegend extends React.PureComponent {
-  render() {
-    return (
-      <View style={styles.legendBox}>
-        <View style={styles.row}>
-          <Marker status={OPEN} legend={true} style={{ marginRight: 6 }} />
-          <Text style={styles.legendText}>{OPEN}</Text>
-        </View>
-        <View style={styles.row}>
-          <Marker status={LIMITED} legend={true} style={{ marginRight: 6 }} />
-          <Text style={styles.legendText}>{LIMITED}</Text>
-        </View>
-        <View style={styles.row}>
-          <Marker status={CLOSED} legend={true} style={{ marginRight: 6 }} />
-          <Text style={styles.legendText}>{CLOSED}</Text>
-        </View>
-      </View>
-    );
-  }
-}
+const { t } = i18n;
+
+const MapLegend: React.SFC = () => (
+  <View style={styles.legendBox}>
+    <View style={styles.row}>
+      <Marker status={OPEN} legend={true} style={{ marginRight: 6 }} />
+      <Text style={styles.legendText}>{t("normal")}</Text>
+    </View>
+    <View style={styles.row}>
+      <Marker status={LIMITED} legend={true} style={{ marginRight: 6 }} />
+      <Text style={styles.legendText}>{t("limited")}</Text>
+    </View>
+    <View style={styles.row}>
+      <Marker status={CLOSED} legend={true} style={{ marginRight: 6 }} />
+      <Text style={styles.legendText}>{t("closed")}</Text>
+    </View>
+  </View>
+);
+
 const styles = StyleSheet.create({
   legendBox: {
     backgroundColor: "rgba(0, 0, 0, 0.85)",
@@ -51,3 +51,5 @@ const styles = StyleSheet.create({
     marginBottom: 3
   }
 });
+
+export default MapLegend

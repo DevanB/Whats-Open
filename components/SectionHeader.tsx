@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 
-export default class SectionHeader extends React.PureComponent {
-  render() {
-    return <Text style={styles.sectionHeader}>{this.props.text}</Text>;
-  }
+interface SectionHeaderProps {
+  text: string;
 }
+
+const SectionHeader: React.SFC<SectionHeaderProps> = ({text}) => <Text style={styles.sectionHeader}>{text}</Text>;
 
 const styles = StyleSheet.create({
   sectionHeader: {
@@ -24,3 +24,5 @@ const styles = StyleSheet.create({
     shadowRadius: 0
   }
 });
+
+export default SectionHeader;

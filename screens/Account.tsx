@@ -89,7 +89,6 @@ class AccountScreen extends React.Component<{}, AccountScreenState> {
 
   _confirm = async () => {
     const signUp = inSignUpState(this.props.navigation.state);
-    console.log(signUp);
     const { name, email, password } = this.state;
     if (!email || !password || (signUp && !name)) {
       //TODO translate

@@ -1182,6 +1182,14 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.3.tgz#1c3b71b091eaeaf5924538006b7f70603ce63d38"
   integrity sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
 
+"@types/react-native-platform-touchable@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#84a294c2bde37f1dbaa74d6a569929f13f49dace"
+  integrity sha512-eYwyVh9KXDsSmq8ULc3uqqVjv2A7vzuSbFMgK8WiOZ7wzu/TSCRw/BHVTnweTAMVL3b4MoZUwFwaoWJUk0eYFw==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*":
   version "0.60.14"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.14.tgz#76b07b97127a563ec0c996848925f81fcee1320b"

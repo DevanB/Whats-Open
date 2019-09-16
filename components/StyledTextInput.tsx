@@ -1,32 +1,33 @@
 import React from "react";
 import { Platform, StyleSheet, TextInput } from "react-native";
 
-export default class StyledTextInput extends React.Component {
-  render() {
-    let { lastStyledTextInputInGroup, ...props } = this.props;
+interface StyledTextInputProps {
+  lastStyledTextInputInGroup: any;
+  style: any;
+}
 
-    return (
-      <TextInput
-        autoCorrect={false}
-        ref={view => {
-          this._input = view;
-        }}
-        selectionColor="rgb(248,205,70)"
-        underlineColorAndroid="#888"
-        placeholderTextColor="#bababa"
-        {...props}
-        style={[
-          styles.input,
-          lastStyledTextInputInGroup && styles.lastInGroup,
-          this.props.style
-        ]}
-      />
-    );
-  }
-
+const StyledTextInput: React.FC<StyledTextInputProps> = ({ lastStyledTextInputInGroup, style, ...props }) => {
   focus() {
     this._input.focus();
   }
+
+  return (
+    <TextInput
+      autoCorrect={false}
+      ref={view => {
+        this._input = view;
+      }}
+      selectionColor="rgb(248,205,70)"
+      underlineColorAndroid="#888"
+      placeholderTextColor="#bababa"
+      {...props}
+      style={[
+        styles.input,
+        lastStyledTextInputInGroup && styles.lastInGroup,
+        style
+      ]}
+    />
+  );
 }
 
 const styles = StyleSheet.create({

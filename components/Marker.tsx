@@ -2,22 +2,24 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 
-export default class Marker extends React.PureComponent {
-  render() {
-    return (
-      <View
-        style={[
-          styles.marker,
-          this.props.legend && styles.legendMarker,
-          this.props.status === CLOSED && styles.red,
-          this.props.status === LIMITED && styles.yellow,
-          this.props.status === OPEN && styles.green,
-          { ...this.props.style }
-        ]}
-      />
-    );
-  }
+interface MarkerProps {
+  legend: any;
+  status: any;
+  style: any;
 }
+
+const Marker: React.FC<MarkerProps> = ({ legend, status, style }) => (
+  <View
+    style={[
+      styles.marker,
+      legend && styles.legendMarker,
+      status === CLOSED && styles.red,
+      status === LIMITED && styles.yellow,
+      status === OPEN && styles.green,
+      { ...style }
+    ]}
+  />
+);
 
 const styles = StyleSheet.create({
   legendMarker: {
@@ -45,3 +47,5 @@ const styles = StyleSheet.create({
     borderWidth: 1
   }
 });
+
+export default Marker;
