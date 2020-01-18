@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -17,20 +17,13 @@ import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
 import colors from "../constants/colors";
 import i18n from "../i18n";
+import { useNavigation } from 'react-navigation-hooks'
 const { height: WindowHeight } = Dimensions.get("window");
 const { t } = i18n;
 
-export default class PlaceDetails extends React.Component {
-  static navigationOptions = props => {
-    return {
-      title: props.navigation.state.params.name,
-      headerRight: <HeaderActions.Right navigation={props.navigation} />
-    };
-  };
-
-  state = {
+const PlaceDetails: React.FC<any> = () => {
     //TODO translate
-    hours: [
+  const [hours] = useState<any[]>([
       { day: "Open Today", hours: "7:00 AM to 10:00 PM" },
       { day: "Saturday", hours: "7:00 AM to 10:00 PM" },
       { day: "Sunday", hours: "7:00 AM to 10:00 PM" },
@@ -38,105 +31,33 @@ export default class PlaceDetails extends React.Component {
       { day: "Tuesday", hours: "7:00 AM to 10:00 PM" },
       { day: "Wednesday", hours: "7:00 AM to 10:00 PM" },
       { day: "Thursday", hours: "7:00 AM to 10:00 PM" }
-    ],
-    shouldRenderMap: false,
-    shouldRenderOverlay: true
-  };
+    ]);
+  const [shouldRenderMap, setShouldRenderMap] = useState<boolean>(false);
+  const [shouldRenderOverlay, setShouldRenderOverlay] = useState<boolean>(false);
+  const [, setRegion] = useState<any>(null);
+  const [regionSet, setRegionSet] = useState<boolean>(false);
+  const navigation = useNavigation();
+  const { state: { params } } = navigation;
 
-  componentDidMount() {
-    this._isMounted = true;
+  useEffect(() => {
+    let _isMounted = true;
 
     InteractionManager.runAfterInteractions(() => {
-      this._isMounted && this.setState({ shouldRenderMap: true });
+      _isMounted && setShouldRenderMap(true);
       setTimeout(() => {
-        this._isMounted && this.setState({ shouldRenderOverlay: false });
+        _isMounted && setShouldRenderOverlay(false);
       }, 500);
     });
-  }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+    return () => {
+      _isMounted = false;
+    }
+  }, [])
 
-  render() {
-    const {
-      navigation: {
-        state: { params }
-      }
-    } = this.props;
-    return (
-      <ScrollView style={styles.container}>
-        {this._maybeRenderMap()}
-        {this._maybeRenderOverlay()}
-        <View style={styles.informationHeader}>
-          <Text style={styles.headerName}>{params.name}</Text>
-          <Text style={styles.addressText}>
-            {buildAddress(params.location)}
-          </Text>
-          <Touchable
-            style={[
-              styles.button,
-              params.user_defined.status === CLOSED && styles.red,
-              params.user_defined.status === LIMITED && styles.yellow,
-              params.user_defined.status === OPEN && styles.green
-            ]}
-            onPress={() => this._openDirections()}
-          >
-            <Text
-              style={[
-                styles.buttonText,
-                params.user_defined.status === LIMITED && styles.blackText
-              ]}
-            >
-              {t(params.user_defined.status)}
-            </Text>
-          </Touchable>
-        </View>
-        <View style={styles.informationView}>
-          <View style={styles.hoursContainer}>
-            <Text style={styles.hoursText}>{t("hours").toUpperCase()}</Text>
-            {this.state.hours.map((hour, index) => (
-              <View key={index} style={styles.hoursListing}>
-                <Text style={styles.day}>
-                  {/* TODO translate */}
-                  {t(hour.day)}
-                  {": "}
-                </Text>
-                <Text style={styles.hours}>{hour.hours}</Text>
-              </View>
-            ))}
-          </View>
-          <View
-            style={{
-              borderBottomColor: "rgba(0, 0, 0, 0.15)",
-              borderBottomWidth: StyleSheet.hairlineWidth,
-              marginBottom: 20
-            }}
-          />
-          <View style={styles.recentCommentsContainer}>
-            <Text style={styles.recentCommentsHeader}>{t("recent-comments").toUpperCase()}</Text>
-            {/* <Text style={styles.recentCommentsEmpty}>Looks like no one has commented on this location. Have you visited here in the past 24 hours?</Text>
-            <Touchable
-              style={styles.recentCommentButton}
-              onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}
-            >
-              <Text style={styles.recentCommentButtonText}>Leave a comment</Text>
-            </Touchable> */}
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-          </View>
-        </View>
-      </ScrollView>
-    );
-  }
+  const _maybeRenderOverlay = () => {
+    if (!shouldRenderOverlay) return;
 
-  _maybeRenderOverlay() {
-    if (!this.state.shouldRenderOverlay) return;
-
-    if (this.state.shouldRenderMap) {
+    if (shouldRenderMap) {
       return (
         <ActivityIndicator
           size="large"
@@ -157,14 +78,8 @@ export default class PlaceDetails extends React.Component {
     }
   }
 
-  _maybeRenderMap() {
-    const {
-      navigation: {
-        state: { params }
-      }
-    } = this.props;
-
-    if (!this.state.shouldRenderMap) return;
+  const _maybeRenderMap = () => {
+    if (!shouldRenderMap) return;
 
     return (
       <MapView
@@ -175,10 +90,10 @@ export default class PlaceDetails extends React.Component {
         }}
         cacheEnabled={true}
         onRegionChangeComplete={region => {
-          if (this.state.regionSet) this.setState({ region });
+          if (regionSet) setRegion(region);
         }}
         onMapReady={() => {
-          this.setState({ regionSet: true });
+          setRegionSet(true);
         }}
         showsPointsOfInterest={false}
         showsTraffic={false}
@@ -195,49 +110,114 @@ export default class PlaceDetails extends React.Component {
     );
   }
 
-  _openDirections() {
-    const {
-      navigation: {
-        state: {
-          params: { location }
-        }
-      }
-    } = this.props;
-
+  const _openDirections = () => {
+    const { location } = params;
     let daddr = encodeURIComponent(buildAddress(location));
-
     Linking.openURL(`http://maps.apple.com/?daddr=${daddr}`);
   }
-}
 
-class Comment extends React.Component {
-  render() {
-    return (
-      <View style={styles.comment}>
-        <View style={styles.commentContainer}>
-          <View style={styles.commentHeader}>
-            <View style={styles.commentInitialsContainer}>
-              <Text style={styles.commentInitials}>GS</Text>
-            </View>
-            <View>
-              <Text style={styles.commentName}>Geauxtrude Suedemont</Text>
-              <Text style={styles.commentMeta}>July 25, 2017</Text>
-            </View>
-          </View>
-          <Text style={styles.commentText}>
-            Maecenas sed diam eget risus varius blandit sit amet non magna.
-            Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
-            Donec id elit non mi porta gravida at eget metus. Maecenas sed diam
-            eget risus varius blandit sit amet non magna. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo
-            luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-            Cras mattis consectetur purus sit amet fermentum.
+  return (
+    <ScrollView style={styles.container}>
+      {_maybeRenderMap()}
+      {_maybeRenderOverlay()}
+      <View style={styles.informationHeader}>
+        <Text style={styles.headerName}>{params.name}</Text>
+        <Text style={styles.addressText}>
+          {buildAddress(params.location)}
+        </Text>
+        <Touchable
+          style={[
+            styles.button,
+            params.user_defined.status === CLOSED && styles.red,
+            params.user_defined.status === LIMITED && styles.yellow,
+            params.user_defined.status === OPEN && styles.green
+          ]}
+          onPress={_openDirections}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              params.user_defined.status === LIMITED && styles.blackText
+            ]}
+          >
+            {t(params.user_defined.status)}
           </Text>
+        </Touchable>
+      </View>
+      <View style={styles.informationView}>
+        <View style={styles.hoursContainer}>
+          <Text style={styles.hoursText}>{t("hours").toUpperCase()}</Text>
+          {hours.map((hour, index) => (
+            <View key={index} style={styles.hoursListing}>
+              <Text style={styles.day}>
+                {/* TODO translate */}
+                {t(hour.day)}
+                {": "}
+              </Text>
+              <Text style={styles.hours}>{hour.hours}</Text>
+            </View>
+          ))}
+        </View>
+        <View
+          style={{
+            borderBottomColor: "rgba(0, 0, 0, 0.15)",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginBottom: 20
+          }}
+        />
+        <View style={styles.recentCommentsContainer}>
+          <Text style={styles.recentCommentsHeader}>{t("recent-comments").toUpperCase()}</Text>
+          {/* <Text style={styles.recentCommentsEmpty}>Looks like no one has commented on this location. Have you visited here in the past 24 hours?</Text>
+          <Touchable
+            style={styles.recentCommentButton}
+            onPress={() => navigate('ReportPlace', { ...this.props.navigation.state.params })}
+          >
+            <Text style={styles.recentCommentButtonText}>Leave a comment</Text>
+          </Touchable> */}
+          <Comment />
+          <Comment />
+          <Comment />
+          <Comment />
+          <Comment />
         </View>
       </View>
-    );
-  }
+    </ScrollView>
+  );
 }
+
+PlaceDetails.navigationOptions = (props: any) => {
+  return {
+    title: props.navigation.state.params.name,
+    headerRight: <HeaderActions.Right />
+  };
+};
+
+export default PlaceDetails
+
+const Comment: React.FC = () => (
+  <View style={styles.comment}>
+    <View style={styles.commentContainer}>
+      <View style={styles.commentHeader}>
+        <View style={styles.commentInitialsContainer}>
+          <Text style={styles.commentInitials}>GS</Text>
+        </View>
+        <View>
+          <Text style={styles.commentName}>Geauxtrude Suedemont</Text>
+          <Text style={styles.commentMeta}>July 25, 2017</Text>
+        </View>
+      </View>
+      <Text style={styles.commentText}>
+        Maecenas sed diam eget risus varius blandit sit amet non magna.
+        Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam
+        eget risus varius blandit sit amet non magna. Morbi leo risus, porta
+        ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo
+        luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+        Cras mattis consectetur purus sit amet fermentum.
+      </Text>
+    </View>
+  </View>
+);
 
 const styles = StyleSheet.create({
   addressText: {

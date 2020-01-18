@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Platform, StyleSheet, TextInput } from "react-native";
 
 interface StyledTextInputProps {
-  autoCapitalize: any;
+  autoCapitalize?: any;
   clearButtonMode: any;
-  keyboardType: any;
+  keyboardType?: any;
   lastStyledTextInputInGroup?: any;
   onChangeText: any;
   onSubmitEditing: any;
   placeholder: any;
+  ref?: any;
   returnKeyType: any;
   secureTextEntry?: boolean;
   style?: any;
@@ -16,21 +17,21 @@ interface StyledTextInputProps {
   value: any;
 }
 
-const StyledTextInput: React.FC<StyledTextInputProps> = ({ lastStyledTextInputInGroup, style, ...props }) => {
-  const focus = () => {
-    this._input.focus();
-  }
+const StyledTextInput: React.FC<StyledTextInputProps> = ({
+  lastStyledTextInputInGroup, 
+  style, 
+  ...props 
+}) => {
+  const myRef = useRef(null);
 
   return (
     <TextInput
       autoCorrect={false}
-      ref={view => {
-        this._input = view;
-      }}
       selectionColor="rgb(248,205,70)"
       underlineColorAndroid="#888"
       placeholderTextColor="#bababa"
       {...props}
+      ref={myRef}
       style={[
         styles.input,
         lastStyledTextInputInGroup && styles.lastInGroup,

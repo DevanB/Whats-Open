@@ -1,24 +1,26 @@
-import React from "react";
+import React, { FC } from "react";
 import { SectionList } from "react-native";
 import LocationCell from "./LocationCell";
 import SectionHeader from "./SectionHeader";
 
+// TODO any
 interface PlaceListProps {
-  headerText: any;
-  navigate: any;
-  reportScreen: any;
+  headerText: string;
   sections: any;
-  statusIcon: any;
+  statusIcon: boolean;
+  style?: any;
 }
 
-const PlaceList: React.SFC<PlaceListProps> = ({ headerText, navigate, reportScreen, sections, statusIcon }) => (
+const PlaceList: FC<PlaceListProps> = ({ 
+  headerText, 
+  sections, 
+  statusIcon,
+  style
+}) => (
   <SectionList
-    renderItem={({ item, index }) => (
+    renderItem={({ item }) => (
       <LocationCell
-        index={index}
         item={item}
-        navigateOnPress={navigate}
-        reportScreen={reportScreen}
         statusIcon={statusIcon}
       />
     )}
@@ -26,7 +28,7 @@ const PlaceList: React.SFC<PlaceListProps> = ({ headerText, navigate, reportScre
       <SectionHeader text={headerText} />
     )}
     sections={sections}
-    style={{ flexGrow: 1, flexBasis: "60%" }}
+    style={style}
   />
 );
 

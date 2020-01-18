@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Button,
   Dimensions,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View
 } from "react-native";
 import StyledTextInput from "../components/StyledTextInput";
 import i18n from "../i18n";
 import colors from "../constants/colors";
-const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
+const { width: WindowWidth } = Dimensions.get("window");
 const { t } = i18n;
 
 interface SignUpScreenProps {
@@ -33,56 +34,58 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({
   setEmail,
   setPassword,
   showSignUpForm
-}) => (
-  <View>
-    <Text style={styles.header}>{t("sign-in")}</Text>
-    <StyledTextInput
-      clearButtonMode="while-editing"
-      onChangeText={(email: string) => setEmail(email)}
-      onSubmitEditing={() => this._passwordInput.focus()}
-      keyboardType="email-address"
-      returnKeyType="next"
-      autoCapitalize="none"
-      type="text"
-      placeholder={t("email")}
-      value={email}
-    />
-    <StyledTextInput
-      clearButtonMode="while-editing"
-      onChangeText={(password: string) => setPassword(password)}
-      onSubmitEditing={() => onSubmit()}
-      secureTextEntry={true}
-      ref={view => {
-        this._passwordInput = view;
-      }}
-      returnKeyType="go"
-      type="text"
-      placeholder={t("password")}
-      value={password}
-      lastStyledTextInputInGroup={true}
-    />
-    <TouchableOpacity
-      style={[styles.button, { marginTop: 16 }]}
-      onPress={() => onSubmit()}
-    >
-      <Text style={styles.buttonText}>{t("sign-in")}</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
-      onPress={() => onForgotPassword()}
-    >
-      <Text style={styles.buttonText}>{t("forgot-password")}</Text>
-    </TouchableOpacity>
-    {/* @TODO: Fix button fontSize */}
-    <Button
-      color="#777777"
-      onPress={() =>
-        navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })
-      }
-      title={t("create-account-question")}
-    />
-  </View>
-);
+}) => {
+  const passwordInputRef = useRef<TextInput>(null);
+
+  return (
+    <View>
+      <Text style={styles.header}>{t("sign-in")}</Text>
+      <StyledTextInput
+        clearButtonMode="while-editing"
+        onChangeText={(email: string) => setEmail(email)}
+        onSubmitEditing={() => passwordInputRef && passwordInputRef.current && passwordInputRef.current.focus()}
+        keyboardType="email-address"
+        returnKeyType="next"
+        autoCapitalize="none"
+        type="text"
+        placeholder={t("email")}
+        value={email}
+      />
+      <StyledTextInput
+        clearButtonMode="while-editing"
+        onChangeText={(password: string) => setPassword(password)}
+        onSubmitEditing={() => onSubmit()}
+        secureTextEntry={true}
+        ref={passwordInputRef}
+        returnKeyType="go"
+        type="text"
+        placeholder={t("password")}
+        value={password}
+        lastStyledTextInputInGroup={true}
+      />
+      <TouchableOpacity
+        style={[styles.button, { marginTop: 16 }]}
+        onPress={() => onSubmit()}
+      >
+        <Text style={styles.buttonText}>{t("sign-in")}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
+        onPress={() => onForgotPassword()}
+      >
+        <Text style={styles.buttonText}>{t("forgot-password")}</Text>
+      </TouchableOpacity>
+      {/* TODO: Fix button fontSize */}
+      <Button
+        color="#777777"
+        onPress={() =>
+          navigation.setParams({ accountDetails: false, signUp: !showSignUpForm })
+        }
+        title={t("create-account-question")}
+      />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   button: {

@@ -76,9 +76,9 @@ const HeaderIconButton: React.FC<HeaderIconButtonProps> = ({ name, onPress }) =>
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 5,
+    marginLeft: Platform.OS === "ios" ? 12 : 17,
     paddingHorizontal: 5,
-    marginLeft: Platform.OS === "ios" ? 12 : 17
+    paddingVertical: 5
   }
 });
 

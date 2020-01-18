@@ -2,13 +2,18 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 
+// TODO any
 interface MarkerProps {
   legend: any;
   status: any;
   style: any;
 }
 
-const Marker: React.FC<MarkerProps> = ({ legend, status, style }) => (
+const Marker: React.FC<MarkerProps> = ({
+  legend, 
+  status, 
+  style 
+}) => (
   <View
     style={[
       styles.marker,
@@ -22,6 +27,11 @@ const Marker: React.FC<MarkerProps> = ({ legend, status, style }) => (
 );
 
 const styles = StyleSheet.create({
+  green: {
+    backgroundColor: "rgb(48,193,73)",
+    borderColor: "rgb(13, 138, 35)",
+    borderWidth: 1
+  },
   legendMarker: {
     height: 10,
     width: 10
@@ -30,11 +40,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 15,
     width: 15
-  },
-  green: {
-    backgroundColor: "rgb(48,193,73)",
-    borderColor: "rgb(13, 138, 35)",
-    borderWidth: 1
   },
   red: {
     backgroundColor: "rgb(254, 40, 81)",

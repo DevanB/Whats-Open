@@ -5,7 +5,7 @@ interface SectionHeaderProps {
   text: string;
 }
 
-const SectionHeader: React.SFC<SectionHeaderProps> = ({text}) => <Text style={styles.sectionHeader}>{text}</Text>;
+const SectionHeader: React.FC<SectionHeaderProps> = ({text}) => <Text style={styles.sectionHeader}>{text}</Text>;
 
 const styles = StyleSheet.create({
   sectionHeader: {

@@ -1,101 +1,99 @@
 import gql from "graphql-tag";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { graphql } from "react-apollo";
 import {
   ActivityIndicator,
   Dimensions,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View
 } from "react-native";
+// TODO add declaration
 import { clearUser, withUser } from "react-native-authentication-helpers";
 import StyledTextInput from "../components/StyledTextInput";
 import colors from "../constants/colors";
 import i18n from "../i18n"
 
-const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
+const { width: WindowWidth } = Dimensions.get("window");
 const { t } = i18n;
 
-class AccountScreen extends React.Component {
-  state = {
-    email: "",
-    password: "",
-    name: ""
-  };
+// TODO
+const AccountScreen: React.FC<any> = ({ data }) => {
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ name, setName ] = useState("");
+  const emailInputRef = useRef<TextInput>(null);
+  const currentPasswordInputRef = useRef<TextInput>(null);
+  const newPasswordInputRef = useRef<TextInput>(null);
 
-  render() {
-    if (this.props.data.loading) return <ActivityIndicator size="large" />;
-    return (
-      <View>
-        <Text style={styles.header}>t("my-account")</Text>
+  if (data.loading) return <ActivityIndicator size="large" />;
 
-        <StyledTextInput
-          clearButtonMode="while-editing"
-          onChangeText={name => this.setState({ name })}
-          onSubmitEditing={() => this._emailInput.focus()}
-          type="text"
-          autoCaptialize="words"
-          placeholder={t("name")}
-          returnKeyType="next"
-          value={this.props.data.User.name}
-        />
-        <StyledTextInput
-          clearButtonMode="while-editing"
-          onChangeText={email => this.setState({ email })}
-          onSubmitEditing={() => this._currentPasswordInput.focus()}
-          ref={view => {
-            this._emailInput = view;
-          }}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          returnKeyType="next"
-          type="text"
-          placeholder={t("email")}
-          value={this.props.data.User.email}
-        />
-        <StyledTextInput
-          clearButtonMode="while-editing"
-          onChangeText={password => this.setState({ password })}
-          onSubmitEditing={() => this._newPasswordInput.focus()}
-          ref={view => {
-            this._currentPasswordInput = view;
-          }}
-          secureTextEntry={true}
-          returnKeyType="next"
-          type="text"
-          placeholder={t("current-password")}
-          value={this.state.password}
-        />
-        <StyledTextInput
-          clearButtonMode="while-editing"
-          onChangeText={password => this.setState({ password })}
-          onSubmitEditing={() => console.log("save")}
-          ref={view => {
-            this._newPasswordInput = view;
-          }}
-          secureTextEntry={true}
-          type="text"
-          returnKeyType="go"
-          placeholder={t("new-password")}
-          value={this.state.password}
-          lastStyledTextInputInGroup={true}
-        />
-        <TouchableOpacity
-          style={[styles.button, { marginTop: 16 }]}
-          onPress={() => console.log("save")}
-        >
-          <Text style={styles.buttonText}>{t("save")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
-          onPress={() => clearUser()}
-        >
-          <Text style={styles.buttonText}>{t("sign-out")}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  return (
+    <View>
+      <Text style={styles.header}>t("my-account")</Text>
+      <StyledTextInput
+        clearButtonMode="while-editing"
+        onChangeText={(name: string) => setName(name)}
+        onSubmitEditing={() => emailInputRef && emailInputRef.current && emailInputRef.current.focus()}
+        type="text"
+        autoCapitalize="words"
+        placeholder={t("name")}
+        returnKeyType="next"
+        value={data.User.name}
+      />
+      <StyledTextInput
+        clearButtonMode="while-editing"
+        onChangeText={(email: string) => setEmail(email)}
+        onSubmitEditing={() => currentPasswordInputRef && currentPasswordInputRef.current && currentPasswordInputRef.current.focus()}
+        ref={emailInputRef}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        returnKeyType="next"
+        type="text"
+        placeholder={t("email")}
+        value={data.User.email}
+      />
+      <StyledTextInput
+        autoCapitalize="none"
+        clearButtonMode="while-editing"
+        onChangeText={(password: string) => setPassword(password)}
+        onSubmitEditing={() => newPasswordInputRef && newPasswordInputRef.current && newPasswordInputRef.current.focus()}
+        ref={currentPasswordInputRef}
+        secureTextEntry={true}
+        returnKeyType="next"
+        type="text"
+        placeholder={t("current-password")}
+        value={password}
+      />
+      <StyledTextInput
+        autoCapitalize="none"
+        clearButtonMode="while-editing"
+        onChangeText={(password: string) => setPassword(password)}
+        onSubmitEditing={() => console.log("save")}
+        ref={newPasswordInputRef}
+        secureTextEntry={true}
+        type="text"
+        returnKeyType="go"
+        placeholder={t("new-password")}
+        value={password}
+        lastStyledTextInputInGroup={true}
+      />
+      <TouchableOpacity
+        style={[styles.button, { marginTop: 16 }]}
+        onPress={() => console.log("save")}
+      >
+        <Text style={styles.buttonText}>{t("save")}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
+        onPress={() => clearUser()}
+      >
+        <Text style={styles.buttonText}>{t("sign-out")}</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -135,9 +133,10 @@ const USER_DETAILS_QUERY = gql`
   }
 `;
 
+// TODO user any
 export default withUser(
   graphql(USER_DETAILS_QUERY, {
-    options: ({ user: { id } }) => {
+    options: ({ user: { id } }: { user: any }) => {
       return {
         variables: {
           userId: id

@@ -28,7 +28,8 @@
     "react-native-viewport-units": "~0.0.5",
     "react-native-web": "~0.11.4",
     "react-navigation": "~3.11.1",
-    "react-navigation-addon-search-layout": "~0.13.1"
+    "react-navigation-addon-search-layout": "~0.13.1",
+    "react-navigation-hooks": "^1.1.0"
   },
   "devDependencies": {
     "@types/expo": "~32.0.13",

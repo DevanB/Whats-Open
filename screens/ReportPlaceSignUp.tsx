@@ -1,31 +1,31 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+// TODO add defintion file
 import Touchable from "react-native-platform-touchable";
+import { useNavigation } from "react-navigation-hooks"
+
 import colors from "../constants/colors";
 import i18n from "../i18n";
+
+// TODO: migrate to hook
 const { t } = i18n;
 
-export default class ReportPlace extends React.Component {
-  render() {
-    const {
-      navigation: {
-        state: { params }
-      }
-    } = this.props;
-    return (
-      <View style={styles.container}>
-        <Text style={styles.reportSignUpText}>
-          {t("report-create-account")}
-        </Text>
-        <Touchable
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("Account")}
-        >
-          <Text style={styles.buttonText}>{t("create-an-account")}</Text>
-        </Touchable>
-      </View>
-    );
-  }
+export const ReportPlace = () => {
+  const { navigate } = useNavigation();
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.reportSignUpText}>
+        {t("report-create-account")}
+      </Text>
+      <Touchable
+        style={styles.button}
+        onPress={() => navigate("Account")}
+      >
+        <Text style={styles.buttonText}>{t("create-an-account")}</Text>
+      </Touchable>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

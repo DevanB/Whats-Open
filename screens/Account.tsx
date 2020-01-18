@@ -1,95 +1,50 @@
 import gql from "graphql-tag";
-import React from "react";
+import React, { FC, useState } from "react";
 import { compose, graphql } from "react-apollo";
-import { Button, Dimensions, ScrollView, StyleSheet } from "react-native";
+import { Button, ScrollView, StyleSheet } from "react-native";
+// TODO add declaration file
 import { setUser, withUser } from "react-native-authentication-helpers";
 import AccountProfile from "./AccountProfile";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-const { height: WindowHeight, width: WindowWidth } = Dimensions.get("window");
+import { useNavigation } from "react-navigation-hooks";
 
-function inSignUpState(navigationState) {
+// TODO any
+function inSignUpState(navigationState: any) {
   return !!(navigationState.params && navigationState.params.signUp);
 }
 
-function inAccountDetails(navigationState) {
-  return !!(navigationState.params && navigationState.params.accountDetails);
-}
+// TODO any props
+const AccountScreen: FC<any> = ({ 
+  createUserMutation, 
+  user, 
+  signinUserMutation 
+}) => {
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ name, setName ] = useState("");
+  const navigation = useNavigation();
 
-interface AccountScreenState {
-  email: string;
-  password: string;
-  name: string;
-}
+  let showSignUpForm = inSignUpState(navigation.state);
 
-class AccountScreen extends React.Component<{}, AccountScreenState> {
-  static navigationOptions = ({ screenProps: { t }, navigation, user }: { screenProps: { t: any }, navigation: any, user: any }) => {
-    return {
-      headerLeft: (
-        // TODO fix fontSize
-        <Button
-          title={t("cancel")}
-          onPress={() => navigation.goBack()}
-          color="black"
-        />
-      ),
-      title: user
-        ? t("account")
-        : inSignUpState(navigation.state)
-        ? t("create-an-account")
-        : t("sign-in")
-    };
+  const _saveUserData = (id: string , token: string) => {
+    setUser({ id, token });
   };
 
-  state = {
-    email: "",
-    password: "",
-    name: ""
+  const _setEmail = (email: string) => {
+    setEmail(email);
   };
 
-  render() {
-    let showAccountDetails = inAccountDetails(this.props.navigation.state);
-    let showSignUpForm = inSignUpState(this.props.navigation.state);
+  const _setPassword = (password: string) => {
+    setPassword(password);
+  };
 
-    if (this.props.user) {
-      return <AccountProfile />;
-    }
-    return (
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        {showSignUpForm ? (
-          <SignUp
-            name={this.state.name}
-            email={this.state.email}
-            password={this.state.password}
-            onSubmit={this._confirm}
-            navigation={this.props.navigation}
-            showSignUpForm={showSignUpForm}
-            showAccountDetails={showAccountDetails}
-            setEmail={this._setEmail}
-            setPassword={this._setPassword}
-            setName={this._setName}
-          />
-        ) : (
-          <SignIn
-            email={this.state.email}
-            password={this.state.password}
-            //TODO handle
-            onForgotPassword={() => console.log("forgot password")}
-            onSubmit={this._confirm}
-            navigation={this.props.navigation}
-            showSignUpForm={showSignUpForm}
-            showAccountDetails={showAccountDetails}
-            setEmail={this._setEmail}
-            setPassword={this._setPassword}
-          />
-        )}
-      </ScrollView>
-    );
-  }
+  const _setName = (name: string) => {
+    setName(name);
+  };
 
-  _confirm = async () => {
-    const signUp = inSignUpState(this.props.navigation.state);
-    const { name, email, password } = this.state;
+  const _confirm = async () => {
+    const signUp = inSignUpState(navigation.state);
     if (!email || !password || (signUp && !name)) {
       //TODO translate
       alert("Please fill in all fields.");
@@ -98,7 +53,7 @@ class AccountScreen extends React.Component<{}, AccountScreenState> {
 
     try {
       if (signUp) {
-        const result = await this.props.createUserMutation({
+        const result = await createUserMutation({
           variables: {
             name,
             email,
@@ -107,9 +62,9 @@ class AccountScreen extends React.Component<{}, AccountScreenState> {
         });
         const id = result.data.signinUser.user.id;
         const token = result.data.signinUser.token;
-        this._saveUserData(id, token);
+        _saveUserData(id, token);
       } else {
-        const result = await this.props.signinUserMutation({
+        const result = await signinUserMutation({
           variables: {
             email,
             password
@@ -117,31 +72,77 @@ class AccountScreen extends React.Component<{}, AccountScreenState> {
         });
         const id = result.data.signinUser.user.id;
         const token = result.data.signinUser.token;
-        this._saveUserData(id, token);
+        _saveUserData(id, token);
       }
 
-      this.props.navigation.goBack();
+      navigation.goBack();
     } catch (e) {
       alert(e.message);
     }
   };
 
-  _saveUserData = (id: string , token: string) => {
-    setUser({ id, token });
-  };
 
-  _setEmail = (email: string) => {
-    this.setState({ email });
-  };
+  if (user) {
+    return <AccountProfile />;
+  }
+  return (
+    <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+      {showSignUpForm ? (
+        <SignUp
+          name={name}
+          email={email}
+          password={password}
+          onSubmit={_confirm}
+          navigation={navigation}
+          showSignUpForm={showSignUpForm}
+          setEmail={_setEmail}
+          setPassword={_setPassword}
+          setName={_setName}
+        />
+      ) : (
+        <SignIn
+          email={email}
+          password={password}
+          //TODO handle
+          onForgotPassword={() => console.log("forgot password")}
+          onSubmit={_confirm}
+          navigation={navigation}
+          showSignUpForm={showSignUpForm}
+          setEmail={_setEmail}
+          setPassword={_setPassword}
+        />
+      )}
+    </ScrollView>
+  );
 
-  _setPassword = (password: string) => {
-    this.setState({ password });
-  };
-
-  _setName = (name: string) => {
-    this.setState({ name });
-  };
 }
+
+// TODO handle any
+AccountScreen.navigationOptions = ({
+  screenProps: { t }, 
+  navigation, 
+  user 
+}: { 
+  screenProps: { t: any }, 
+  navigation: any,
+  user: any 
+}) => {
+  return {
+    headerLeft: (
+      // TODO fix fontSize
+      <Button
+        title={t("cancel")}
+        onPress={() => navigation.goBack()}
+        color="black"
+      />
+    ),
+    title: user
+      ? t("account")
+      : inSignUpState(navigation.state)
+      ? t("create-an-account")
+      : t("sign-in")
+  };
+};
 
 const styles = StyleSheet.create({
   container: {

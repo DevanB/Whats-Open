@@ -1,51 +1,50 @@
 import React from "react";
 import { Platform } from "react-native";
+// TODO types definition
 import SearchLayout from "react-navigation-addon-search-layout";
 
-export default class Search extends React.Component {
-  static navigationOptions = ({screenProps: { t }}) => {
-    return {
-      title: t("search")
-    };
+// TODO: this screen needs refactoring
+
+export const Search = () => {
+  const [, setLocations ] = React.useState([]);
+  const [ searchText, setSearchText ] = React.useState("");
+  const [, setLoading ] = React.useState(false);
+
+  // TODO: any
+  const _handleQueryChange = (incomingSearchText: any) => {
+    setSearchText(incomingSearchText);
   };
 
-  state = {
-    locations: [],
-    searchText: "",
-    loading: false
-  };
-
-  render() {
-    return (
-      //TODO translate
-      <SearchLayout
-        headerBackgroundColor="rgb(248,205,70)"
-        headerTintColor="#000"
-        onChangeQuery={this._handleQueryChange}
-        searchInputSelectionColor="#000"
-        searchInputTextColor={Platform.OS === "android" ? "#000" : "black"}
-        searchInputPlaceholderTextColor={
-          Platform.OS === "ios" ? "#898989" : "#fafafa"
-        }
-      />
-    );
-  }
-
-  _handleQueryChange = searchText => {
-    this.setState({ searchText });
-  };
-
-  _executeSearch = async () => {
-    const { searchText } = this.state;
+  const _executeSearch = async () => {
     if (!searchText) {
-      this.setState({ locations: [] });
+      setLocations([]);
       return;
     }
 
     try {
-      this.setState({ loading: true });
+      setLoading(true);
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
+
+  return (
+    //TODO translate
+    <SearchLayout
+      headerBackgroundColor="rgb(248,205,70)"
+      headerTintColor="#000"
+      onChangeQuery={_handleQueryChange}
+      searchInputSelectionColor="#000"
+      searchInputTextColor={Platform.OS === "android" ? "#000" : "black"}
+      searchInputPlaceholderTextColor={
+        Platform.OS === "ios" ? "#898989" : "#fafafa"
+      }
+    />
+  );
 }
+
+Search.navigationOptions = ({screenProps: { t }}: { screenProps: any }) => {
+  return {
+    title: t("search")
+  };
+};

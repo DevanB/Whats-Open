@@ -1,5 +1,7 @@
+// TODO definitions
+import { withUser } from "react-native-authentication-helpers";
 import gql from "graphql-tag";
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -14,171 +16,75 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { withUser } from "react-native-authentication-helpers";
 import MapView from "react-native-maps";
 import Marker from "../components/Marker";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
-import ReportPlaceSignUpScreen from "./ReportPlaceSignUp";
+import { ReportPlace as ReportPlaceSignUpScreen } from "./ReportPlaceSignUp";
 import colors from "../constants/colors";
 import i18n from "../i18n";
+import { useNavigation } from 'react-navigation-hooks'
 const { width: WindowWidth, height: WindowHeight } = Dimensions.get("window");
 const { t } = i18n;
 
-class ReportPlace extends React.Component {
-  static navigationOptions = ({ screenProps: { t }, navigation, user }) => {
-    return {
-      headerLeft: (
-        // TODO fix fontSize
-        <Button
-          title={t("cancel")}
-          onPress={() => navigation.goBack()}
-          color="black"
-        />
-      ),
-      headerRight: user && (
-        <Button
-          title={t("save")}
-          onPress={() => navigation.goBack()}
-          color="black"
-        />
-      ),
-      title: `${t("report")} • ${navigation.state.params.name}`
-    };
-  };
+const ReportPlace: React.FC<any> = ({ user }) => {
+  const [comments, setComments] = useState<string>("");
+  const [shouldRenderMap, setShouldRenderMap] = useState<boolean>(false);
+  const [shouldRenderOverlay, setShouldRenderOverlay] = useState<boolean>(true);
+  const [status] = useState<string>("Closed");
+  const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
+  const [modalAnimatedValue] = useState<any>(new Animated.Value(0));
+  const [regionSet, setRegionSet] = useState<boolean>(false);
+  const [, setRegion] = useState<any>(null);
+  const [, setItemValue] = useState<any>(null);
+  const navigation = useNavigation();
+  const { state: { params } } = navigation;
+  const commentsInputRef = useRef<TextInput>(null);
 
-  state = {
-    comments: "",
-    shouldRenderMap: false,
-    shouldRenderOverlay: true,
-    status: "Closed",
-    modalIsVisible: false,
-    modalAnimatedValue: new Animated.Value(0)
-  };
-
-  componentDidMount() {
-    this._isMounted = true;
+  useEffect(() => {
+    let _isMounted = true;
 
     InteractionManager.runAfterInteractions(() => {
-      this._isMounted && this.setState({ shouldRenderMap: true });
+      _isMounted && setShouldRenderMap(true);
       setTimeout(() => {
-        this._isMounted && this.setState({ shouldRenderOverlay: false });
+        _isMounted && setShouldRenderOverlay(false);
       }, 500);
     });
-  }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  render() {
-    const {
-      navigation: {
-        state: { params }
-      }
-    } = this.props;
-    if (this.props.user) {
-      return (
-        <View style={styles.outer}>
-          <ScrollView
-            style={styles.container}
-            contentContainerStyle={styles.contentContainer}
-          >
-            {this._maybeRenderMap()}
-            {this._maybeRenderOverlay()}
-            <View style={styles.informationView}>
-              <Text numberOfLines={1} style={styles.headerName}>
-                {params.name}
-              </Text>
-              <Text numberOfLines={1} style={styles.addressText}>
-                {buildAddress(params.location)}
-              </Text>
-              <TouchableWithoutFeedback onPress={() => this._handlePressOpen()}>
-                <View style={styles.statusView}>
-                  <Text
-                    style={{
-                      color: "rgb(3, 3, 3)",
-                      fontSize: 19,
-                      letterSpacing: -0.4,
-                      paddingBottom: 15,
-                      paddingTop: 15
-                    }}
-                  >
-                    t("status")
-                  </Text>
-                  <Text
-                    style={{
-                      color: "rgb(128, 127, 148)",
-                      fontSize: 19,
-                      letterSpacing: -0.4,
-                      paddingBottom: 15,
-                      paddingTop: 15,
-                      position: "absolute",
-                      right: 18
-                    }}
-                    onPress={() => this._handlePressOpen()}
-                  >
-                    {t(this.state.status)}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <TextInput
-                autoCorrect={false}
-                clearButtonMode="while-editing"
-                onChangeText={comment => this.setState({ comment })}
-                type="text"
-                multiline={true}
-                placeholder={t("comment")}
-                placeholderTextColor="#bababa"
-                ref={view => {
-                  this._commentsInput = view;
-                }}
-                selectionColor="rgb(248,205,70)"
-                underlineColorAndroid="#888"
-                value={this.state.comment}
-                style={[styles.input, { marginTop: 18 }]}
-              />
-            </View>
-          </ScrollView>
-          {this._maybeRenderModal()}
-        </View>
-      );
+    return () => {
+      _isMounted = false;
     }
-    return <ReportPlaceSignUpScreen navigation={this.props.navigation} />;
-  }
+  }, [])
 
-  _handlePressDone = () => {
-    Animated.timing(this.state.modalAnimatedValue, {
+  const _handlePressDone = () => {
+    Animated.timing(modalAnimatedValue, {
       toValue: 0,
       duration: 150,
       useNativeDriver: true
     }).start(() => {
-      this.setState({ modalIsVisible: false });
+      setModalIsVisible(false)
     });
   };
 
-  _handlePressNext = () => {
-    this._commentsInput.focus();
+  const _handlePressNext = () => {
+    commentsInputRef && commentsInputRef.current && commentsInputRef.current.focus()
   };
 
-  _handlePressOpen = () => {
-    if (this.state.modalIsVisible) {
-      return;
-    }
+  const _handlePressOpen = () => {
+    if (modalIsVisible) return;
 
-    this.setState({ modalIsVisible: true }, () => {
-      Animated.timing(this.state.modalAnimatedValue, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true
-      }).start();
-    });
+    setModalIsVisible(true)
+    Animated.timing(modalAnimatedValue, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true
+    }).start();
   };
 
-  _maybeRenderOverlay() {
-    if (!this.state.shouldRenderOverlay) return;
+  const _maybeRenderOverlay = () => {
+    if (!shouldRenderOverlay) return;
 
-    if (this.state.shouldRenderMap) {
+    if (shouldRenderMap) {
       return (
         <ActivityIndicator
           size="large"
@@ -199,14 +105,8 @@ class ReportPlace extends React.Component {
     }
   }
 
-  _maybeRenderMap() {
-    const {
-      navigation: {
-        state: { params }
-      }
-    } = this.props;
-
-    if (!this.state.shouldRenderMap) return;
+  const _maybeRenderMap = () => {
+    if (!shouldRenderMap) return;
 
     return (
       <MapView
@@ -217,10 +117,10 @@ class ReportPlace extends React.Component {
         }}
         cacheEnabled={true}
         onRegionChangeComplete={region => {
-          if (this.state.regionSet) this.setState({ region });
+          if (regionSet) setRegion(region);
         }}
         onMapReady={() => {
-          this.setState({ regionSet: true });
+          setRegionSet(true)
         }}
         showsPointsOfInterest={false}
         showsTraffic={false}
@@ -237,12 +137,9 @@ class ReportPlace extends React.Component {
     );
   }
 
-  _maybeRenderModal = () => {
-    if (!this.state.modalIsVisible) {
-      return null;
-    }
+  const _maybeRenderModal = () => {
+    if (!modalIsVisible) return null;
 
-    const { modalAnimatedValue } = this.state;
     const translateY = modalAnimatedValue.interpolate({
       inputRange: [0, 1],
       outputRange: [300, 0]
@@ -251,9 +148,9 @@ class ReportPlace extends React.Component {
     return (
       <View
         style={StyleSheet.absoluteFill}
-        pointerEvents={this.state.modalIsVisible ? "auto" : "none"}
+        pointerEvents={modalIsVisible ? "auto" : "none"}
       >
-        <TouchableWithoutFeedback onPress={this._handlePressDone}>
+        <TouchableWithoutFeedback onPress={_handlePressDone}>
           <Animated.View />
         </TouchableWithoutFeedback>
         <Animated.View
@@ -265,13 +162,13 @@ class ReportPlace extends React.Component {
           }}
         >
           <View style={styles.toolbar}>
-            <Button title={t("next")} onPress={this._handlePressNext} />
-            <Button title={t("done")} onPress={this._handlePressDone} />
+            <Button title={t("next")} onPress={_handlePressNext} />
+            <Button title={t("done")} onPress={_handlePressDone} />
           </View>
           <Picker
             style={{ width: WindowWidth, backgroundColor: "#e1e1e1" }}
-            selectedValue={this.state.status}
-            onValueChange={itemValue => this.setState({ status: itemValue })}
+            selectedValue={status}
+            onValueChange={itemValue => setItemValue(itemValue)}
           >
             <Picker.Item label={t(OPEN)} value={OPEN} />
             <Picker.Item label={t(LIMITED)} value={LIMITED} />
@@ -281,7 +178,97 @@ class ReportPlace extends React.Component {
       </View>
     );
   };
+
+  if (user) {
+    return (
+      <View style={styles.outer}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          {_maybeRenderMap()}
+          {_maybeRenderOverlay()}
+          <View style={styles.informationView}>
+            <Text numberOfLines={1} style={styles.headerName}>
+              {params.name}
+            </Text>
+            <Text numberOfLines={1} style={styles.addressText}>
+              {buildAddress(params.location)}
+            </Text>
+            <TouchableWithoutFeedback onPress={_handlePressOpen}>
+              <View style={styles.statusView}>
+                <Text
+                  style={{
+                    color: "rgb(3, 3, 3)",
+                    fontSize: 19,
+                    letterSpacing: -0.4,
+                    paddingBottom: 15,
+                    paddingTop: 15
+                  }}
+                >
+                  t("status")
+                </Text>
+                <Text
+                  style={{
+                    color: "rgb(128, 127, 148)",
+                    fontSize: 19,
+                    letterSpacing: -0.4,
+                    paddingBottom: 15,
+                    paddingTop: 15,
+                    position: "absolute",
+                    right: 18
+                  }}
+                  onPress={_handlePressOpen}
+                >
+                  {t(status)}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+            {/* TODO */}
+            <TextInput
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={(comment: string) => setComments(comment)}
+              type="text"
+              multiline={true}
+              placeholder={t("comment")}
+              placeholderTextColor="#bababa"
+              ref={commentsInputRef}
+              selectionColor="rgb(248,205,70)"
+              underlineColorAndroid="#888"
+              value={comments}
+              style={[styles.input, { marginTop: 18 }]}
+            />
+          </View>
+        </ScrollView>
+        {_maybeRenderModal()}
+      </View>
+    );
+  }
+
+  return <ReportPlaceSignUpScreen />;
 }
+
+ReportPlace.navigationOptions = ({ screenProps: { t }, navigation, user }: { screenProps: any, navigation: any, user: any }) => {
+  return {
+    headerLeft: (
+      // TODO fix fontSize
+      <Button
+        title={t("cancel")}
+        onPress={() => navigation.goBack()}
+        color="black"
+      />
+    ),
+    headerRight: user && (
+      <Button
+        title={t("save")}
+        onPress={() => navigation.goBack()}
+        color="black"
+      />
+    ),
+    title: `${t("report")} • ${navigation.state.params.name}`
+  };
+};
 
 const styles = StyleSheet.create({
   addressText: {

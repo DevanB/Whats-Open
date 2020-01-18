@@ -4,9 +4,10 @@ import Marker from "../components/Marker";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import i18n from "../i18n";
 
+// TODO move to hook
 const { t } = i18n;
 
-const MapLegend: React.SFC = () => (
+const MapLegend = () => (
   <View style={styles.legendBox}>
     <View style={styles.row}>
       <Marker status={OPEN} legend={true} style={{ marginRight: 6 }} />

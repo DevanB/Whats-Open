@@ -3,7 +3,7 @@ import AccountScreen from "./screens/Account";
 import MapScreen from "./screens/Map";
 import PlaceDetailsScreen from "./screens/PlaceDetails";
 import ReportPlaceScreen from "./screens/ReportPlace";
-import SearchScreen from "./screens/Search";
+import { Search as SearchScreen } from "./screens/Search";
 import colors from "./constants/colors";
 
 const MainScreens = createStackNavigator(
