@@ -16,13 +16,13 @@ import HeaderActions from "../components/ReportHeaderActions";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
 import colors from "../constants/colors";
-import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from 'react-navigation-hooks'
 const { height: WindowHeight } = Dimensions.get("window");
-const { t } = i18n;
 
 const PlaceDetails: React.FC<any> = () => {
-    //TODO translate
+  const { t } = useTranslation();
+  //TODO translate
   const [hours] = useState<any[]>([
       { day: "Open Today", hours: "7:00 AM to 10:00 PM" },
       { day: "Saturday", hours: "7:00 AM to 10:00 PM" },
@@ -188,7 +188,7 @@ const PlaceDetails: React.FC<any> = () => {
 PlaceDetails.navigationOptions = (props: any) => {
   return {
     title: props.navigation.state.params.name,
-    headerRight: <HeaderActions.Right />
+    headerRight: () => <HeaderActions.Right />
   };
 };
 

@@ -1,6 +1,4 @@
-import gql from "graphql-tag";
 import React, { useRef, useState } from "react";
-import { graphql } from "react-apollo";
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,14 +8,11 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-// TODO add declaration
-import { clearUser, withUser } from "react-native-authentication-helpers";
 import StyledTextInput from "../components/StyledTextInput";
 import colors from "../constants/colors";
-import i18n from "../i18n"
+import { useTranslation } from 'react-i18next';
 
 const { width: WindowWidth } = Dimensions.get("window");
-const { t } = i18n;
 
 // TODO
 const AccountScreen: React.FC<any> = ({ data }) => {
@@ -27,6 +22,7 @@ const AccountScreen: React.FC<any> = ({ data }) => {
   const emailInputRef = useRef<TextInput>(null);
   const currentPasswordInputRef = useRef<TextInput>(null);
   const newPasswordInputRef = useRef<TextInput>(null);
+  const { t } = useTranslation();
 
   if (data.loading) return <ActivityIndicator size="large" />;
 
@@ -88,7 +84,9 @@ const AccountScreen: React.FC<any> = ({ data }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, { borderTopWidth: 0, marginBottom: 12 }]}
-        onPress={() => clearUser()}
+        onPress={() => {
+          return null // clear user
+        }}
       >
         <Text style={styles.buttonText}>{t("sign-out")}</Text>
       </TouchableOpacity>
@@ -123,26 +121,5 @@ const styles = StyleSheet.create({
   }
 });
 
-const USER_DETAILS_QUERY = gql`
-  query UserQuery($userId: ID!) {
-    User(id: $userId) {
-      id
-      name
-      email
-    }
-  }
-`;
-
-// TODO user any
-export default withUser(
-  graphql(USER_DETAILS_QUERY, {
-    options: ({ user: { id } }: { user: any }) => {
-      return {
-        variables: {
-          userId: id
-        }
-      };
-    },
-    skip: ownProps => !ownProps.user.id
-  })(AccountScreen)
-);
+// with user
+export default AccountScreen;

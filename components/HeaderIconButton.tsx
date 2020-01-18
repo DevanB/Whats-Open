@@ -1,4 +1,4 @@
-import * as Icon from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import Touchable from "react-native-platform-touchable";
@@ -63,8 +63,8 @@ const HeaderIconButton: React.FC<HeaderIconButtonProps> = ({ name, onPress }) =>
       style={styles.button}
       onPress={onPress}
     >
-      <Icon.Ionicons
-        // TODO translate
+        {/* TODO translate */}
+      <Ionicons
         name={presetIconName}
         style={{ color: "#000" }}
         size={presetIconSize}

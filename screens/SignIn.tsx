@@ -9,10 +9,9 @@ import {
   View
 } from "react-native";
 import StyledTextInput from "../components/StyledTextInput";
-import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 import colors from "../constants/colors";
 const { width: WindowWidth } = Dimensions.get("window");
-const { t } = i18n;
 
 interface SignUpScreenProps {
   email: string,
@@ -36,6 +35,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({
   showSignUpForm
 }) => {
   const passwordInputRef = useRef<TextInput>(null);
+  const { t } = useTranslation();
 
   return (
     <View>

@@ -1,6 +1,3 @@
-// TODO definitions
-import { withUser } from "react-native-authentication-helpers";
-import gql from "graphql-tag";
 import React, { useEffect, useState, useRef } from "react";
 import {
   ActivityIndicator,
@@ -22,10 +19,9 @@ import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
 import buildAddress from "../helpers/buildAddress";
 import { ReportPlace as ReportPlaceSignUpScreen } from "./ReportPlaceSignUp";
 import colors from "../constants/colors";
-import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from 'react-navigation-hooks'
 const { width: WindowWidth, height: WindowHeight } = Dimensions.get("window");
-const { t } = i18n;
 
 const ReportPlace: React.FC<any> = ({ user }) => {
   const [comments, setComments] = useState<string>("");
@@ -40,6 +36,7 @@ const ReportPlace: React.FC<any> = ({ user }) => {
   const navigation = useNavigation();
   const { state: { params } } = navigation;
   const commentsInputRef = useRef<TextInput>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     let _isMounted = true;
@@ -251,15 +248,14 @@ const ReportPlace: React.FC<any> = ({ user }) => {
 
 ReportPlace.navigationOptions = ({ screenProps: { t }, navigation, user }: { screenProps: any, navigation: any, user: any }) => {
   return {
-    headerLeft: (
-      // TODO fix fontSize
+    // TODO fix fontSize
+    headerLeft: () =>
       <Button
         title={t("cancel")}
         onPress={() => navigation.goBack()}
         color="black"
-      />
-    ),
-    headerRight: user && (
+      />,
+    headerRight: () => user && (
       <Button
         title={t("save")}
         onPress={() => navigation.goBack()}
@@ -339,20 +335,5 @@ const styles = StyleSheet.create({
   }
 });
 
-const CREATE_PLACE_MUTATION = gql`
-  mutation CreatPlaceMutation($place: ID!, $status: String, $comment: String) {
-    createPlace(id: $place, status: $status) {
-      id
-    }
-  }
-`;
-
-const UPDATE_PLACE_MUTATION = gql`
-  mutation CreatPlaceMutation($place: ID!, $status: String, $comment: String) {
-    createPlace(id: $place, status: $status) {
-      id
-    }
-  }
-`;
-
-export default withUser(ReportPlace);
+// with user
+export default ReportPlace;

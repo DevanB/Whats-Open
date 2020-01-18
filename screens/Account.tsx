@@ -1,9 +1,5 @@
-import gql from "graphql-tag";
 import React, { FC, useState } from "react";
-import { compose, graphql } from "react-apollo";
 import { Button, ScrollView, StyleSheet } from "react-native";
-// TODO add declaration file
-import { setUser, withUser } from "react-native-authentication-helpers";
 import AccountProfile from "./AccountProfile";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -28,7 +24,7 @@ const AccountScreen: FC<any> = ({
   let showSignUpForm = inSignUpState(navigation.state);
 
   const _saveUserData = (id: string , token: string) => {
-    setUser({ id, token });
+    // set user here
   };
 
   const _setEmail = (email: string) => {
@@ -128,14 +124,13 @@ AccountScreen.navigationOptions = ({
   user: any 
 }) => {
   return {
-    headerLeft: (
-      // TODO fix fontSize
+    // TODO fix fontSize
+    headerLeft: () =>
       <Button
         title={t("cancel")}
         onPress={() => navigation.goBack()}
         color="black"
-      />
-    ),
+      />,
     title: user
       ? t("account")
       : inSignUpState(navigation.state)
@@ -150,41 +145,5 @@ const styles = StyleSheet.create({
   }
 });
 
-const CREATE_USER_MUTATION = gql`
-  mutation CreatUserMutation(
-    $name: String!
-    $email: String!
-    $password: String!
-  ) {
-    createUser(
-      name: $name
-      authProvider: { email: { email: $email, password: $password } }
-    ) {
-      id
-    }
-    signinUser(email: { email: $email, password: $password }) {
-      token
-      user {
-        id
-      }
-    }
-  }
-`;
-
-const SIGNIN_USER_MUTATION = gql`
-  mutation SigninUserMutation($email: String!, $password: String!) {
-    signinUser(email: { email: $email, password: $password }) {
-      token
-      user {
-        id
-      }
-    }
-  }
-`;
-
-export default withUser(
-  compose(
-    graphql(CREATE_USER_MUTATION, { name: "createUserMutation" }),
-    graphql(SIGNIN_USER_MUTATION, { name: "signinUserMutation" })
-  )(AccountScreen)
-);
+// with user
+export default AccountScreen;

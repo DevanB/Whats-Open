@@ -1,17 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-// TODO add defintion file
 import Touchable from "react-native-platform-touchable";
 import { useNavigation } from "react-navigation-hooks"
+import { useTranslation } from 'react-i18next';
 
 import colors from "../constants/colors";
-import i18n from "../i18n";
-
-// TODO: migrate to hook
-const { t } = i18n;
 
 export const ReportPlace = () => {
   const { navigate } = useNavigation();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>

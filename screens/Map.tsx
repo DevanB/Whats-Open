@@ -10,10 +10,9 @@ import Marker from "../components/Marker";
 import PlaceList from "../components/PlaceList";
 import incomingSections from "../constants/data";
 import buildAddress from "../helpers/buildAddress";
-import i18n from "../i18n"
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from "react-navigation-hooks";
 const { height: WindowHeight } = Dimensions.get("window");
-const { t } = i18n;
 
 interface Region {
   latitude: number,
@@ -34,6 +33,7 @@ const Map: React.FC<any> = () => {
   const [regionSet, setRegionSet] = useState<boolean>(false);
   const [sections] = useState<any>(incomingSections);
   const { navigate } = useNavigation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     _followLocationAsync();
@@ -121,8 +121,8 @@ const Map: React.FC<any> = () => {
 
 Map.navigationOptions = ({screenProps: { t }}: {screenProps: { t: any }}) => {
   return {
-    headerLeft: <HeaderActions.Left />,
-    headerRight: <HeaderActions.Right />,
+    headerLeft: () => <HeaderActions.Left />,
+    headerRight: () => <HeaderActions.Right />,
     title: t("whats-open")
   };
 };

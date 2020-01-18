@@ -7,19 +7,16 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-// TODO add declaration
-import { withUser } from "react-native-authentication-helpers";
 import { useNavigation } from 'react-navigation-hooks'
 import HeaderIconButton from "./HeaderIconButton";
-import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 
-// TODO move to hook
-const { t } = i18n;
 const isSmallDevice = Dimensions.get("window").width < 375;
 
 // TODO any
 const HeaderActionsLeft: React.FC<any> = ({ user }) => {
   const { navigate } = useNavigation();
+  const { t } = useTranslation();
 
   if (Platform.OS === "android") {
     return null;
@@ -59,6 +56,6 @@ const styles = StyleSheet.create({
 });
 
 export default {
-  Left: withUser(HeaderActionsLeft),
+  Left: HeaderActionsLeft, //with user
   Right: HeaderActionsRight
 };

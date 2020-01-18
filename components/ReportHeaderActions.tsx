@@ -1,15 +1,15 @@
 import React from "react";
 import { Dimensions, Platform, StyleSheet, Text, View } from "react-native";
 import Touchable from "react-native-platform-touchable";
-import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from "react-navigation-hooks";
 
 const isSmallDevice = Dimensions.get("window").width < 375;
-const { t } = i18n;
 
 // TODO handle any
 const HeaderActionsRight: React.FC<any> = () => {
   const { state: { params }, navigate } = useNavigation();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>

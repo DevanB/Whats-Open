@@ -1,21 +1,18 @@
-import ApolloClient from "apollo-boost";
+import "./i18n";
+
 import { AppLoading, Asset } from "expo";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import React from "react";
-import { ApolloProvider } from "react-apollo";
 import { StyleSheet, View } from "react-native";
 import RootStackNavigator from "./RootStackNavigator";
-import i18n from "./i18n";
-
-const client = new ApolloClient({
-  uri: "https://api.graph.cool/simple/v1/cj7m9tx4e09lq0153rj77r7ex"
-});
+import { useTranslation } from 'react-i18next';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = React.useState<boolean>(false);
   const [location, setLocation] = React.useState<Location.LocationData>();
   const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     _getLocationAsync();
@@ -36,6 +33,7 @@ export default function App() {
   const _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
+      // TODO translate
       setErrorMessage("Permission to access location was denied.");
     }
     let location = await Location.getCurrentPositionAsync({
@@ -54,11 +52,9 @@ export default function App() {
     );
   }
   return (
-    <ApolloProvider client={client}>
-      <View style={styles.container}>
-        <RootStackNavigator screenProps={i18n}/>
-      </View>
-    </ApolloProvider>
+    <View style={styles.container}>
+      <RootStackNavigator screenProps={{t}}/>
+    </View>
   );
 }
 

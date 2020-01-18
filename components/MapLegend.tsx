@@ -2,27 +2,28 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Marker from "../components/Marker";
 import { CLOSED, LIMITED, OPEN } from "../constants/locationStatus";
-import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 
-// TODO move to hook
-const { t } = i18n;
+const MapLegend = () => {
+  const { t } = useTranslation();
 
-const MapLegend = () => (
-  <View style={styles.legendBox}>
-    <View style={styles.row}>
-      <Marker status={OPEN} legend={true} style={{ marginRight: 6 }} />
-      <Text style={styles.legendText}>{t("normal")}</Text>
+  return (
+    <View style={styles.legendBox}>
+      <View style={styles.row}>
+        <Marker status={OPEN} legend={true} style={{ marginRight: 6 }} />
+        <Text style={styles.legendText}>{t("normal")}</Text>
+      </View>
+      <View style={styles.row}>
+        <Marker status={LIMITED} legend={true} style={{ marginRight: 6 }} />
+        <Text style={styles.legendText}>{t("limited")}</Text>
+      </View>
+      <View style={styles.row}>
+        <Marker status={CLOSED} legend={true} style={{ marginRight: 6 }} />
+        <Text style={styles.legendText}>{t("closed")}</Text>
+      </View>
     </View>
-    <View style={styles.row}>
-      <Marker status={LIMITED} legend={true} style={{ marginRight: 6 }} />
-      <Text style={styles.legendText}>{t("limited")}</Text>
-    </View>
-    <View style={styles.row}>
-      <Marker status={CLOSED} legend={true} style={{ marginRight: 6 }} />
-      <Text style={styles.legendText}>{t("closed")}</Text>
-    </View>
-  </View>
-);
+  );
+}
 
 const styles = StyleSheet.create({
   legendBox: {

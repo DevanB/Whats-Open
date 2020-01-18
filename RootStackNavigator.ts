@@ -1,4 +1,5 @@
-import { createAppContainer, createStackNavigator } from "react-navigation";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import AccountScreen from "./screens/Account";
 import MapScreen from "./screens/Map";
 import PlaceDetailsScreen from "./screens/PlaceDetails";
@@ -25,7 +26,7 @@ const MainScreens = createStackNavigator(
       }
     },
     navigationOptions: () => ({
-      gesturesEnabled: true
+      gestureEnabled: true
     })
   }
 );
@@ -49,7 +50,7 @@ const MainStack = createStackNavigator(
       }
     },
     navigationOptions: () => ({
-      gesturesEnabled: true
+      gestureEnabled: true
     })
   }
 );
@@ -59,7 +60,7 @@ const ModalNavigator = createStackNavigator(
     MainStack: {
       screen: MainStack,
       navigationOptions: {
-        header: null
+        headerShown: false
       }
     },
     ReportPlace: ReportPlaceScreen,
@@ -80,7 +81,7 @@ const ModalNavigator = createStackNavigator(
       }
     },
     navigationOptions: () => ({
-      gesturesEnabled: false
+      gestureEnabled: false
     })
   }
 );
