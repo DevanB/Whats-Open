@@ -1,0 +1,15 @@
+{
+    "local": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-whats-open-local-230253-authRole",
+            "UnauthRoleArn": "arn:aws:iam::712894162182:role/amplify-whats-open-local-230253-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::712894162182:role/amplify-whats-open-local-230253-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-whats-open-local-230253-deployment",
+            "UnauthRoleName": "amplify-whats-open-local-230253-unauthRole",
+            "StackName": "amplify-whats-open-local-230253",
+            "StackId": "arn:aws:cloudformation:us-east-1:712894162182:stack/amplify-whats-open-local-230253/925cb9c0-3a70-11ea-80b1-0ad4194c8c9d",
+            "AmplifyAppId": "d2az80f5f1mybw"
+        }
+    }
+}
