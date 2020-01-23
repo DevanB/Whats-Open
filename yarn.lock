@@ -5059,10 +5059,10 @@ jest-environment-node@^24.9.0:
     jest-mock "^24.9.0"
     jest-util "^24.9.0"
 
-jest-expo@36.0.0:
-  version "36.0.0"
-  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-36.0.0.tgz#e07519c6bb8b8491f4ca0607d0d72157478b4c4c"
-  integrity sha512-hni7XIAZ0QA/CwHLemB++G+XY+3MBPhQpKPeKJiqMJlvD6sd+D5Wp4gRoMly2Vjc4Z5qq7i9uhip5rovQHUwYQ==
+jest-expo@36.0.1:
+  version "36.0.1"
+  resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-36.0.1.tgz#0b16b9fe4ffddb812af03f4bde0b6d1a1a415591"
+  integrity sha512-oZSIFRdmW/OzsoWedDC+fKlYRks0CYRBWEC1ihk31JmoNSmPhXwHHmLJ9w8dwXeOdNQFnQdL3va+3V8toXISTA==
   dependencies:
     babel-jest "^24.7.1"
     jest "^24.7.1"
