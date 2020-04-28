@@ -36,7 +36,7 @@
     "@types/react-native": "0.62.1",
     "@types/react-native-maps": "0.24.0",
     "@types/react-native-platform-touchable": "1.1.1",
-    "babel-preset-expo": "8.0.0",
+    "babel-preset-expo": "8.1.0",
     "jest-expo": "36.0.1",
     "react-test-renderer": "16.13.0",
     "typescript": "3.7.5"
