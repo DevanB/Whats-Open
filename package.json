@@ -11,7 +11,7 @@
     "@react-native-community/masked-view": "0.1.7",
     "aws-amplify": "^2.2.2",
     "aws-amplify-react-native": "^4.0.2",
-    "expo": "36.0.2",
+    "expo": "38.0.4",
     "expo-localization": "8.0.0",
     "expo-location": "8.0.0",
     "expo-permissions": "8.0.0",
