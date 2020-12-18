@@ -7039,10 +7039,10 @@ react-native-web@0.14.10:
     stacktrace-parser "^0.1.3"
     whatwg-fetch "^3.0.0"
 
-react-navigation-addon-search-layout@0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/react-navigation-addon-search-layout/-/react-navigation-addon-search-layout-0.13.1.tgz#a69a35a376be11d7a365037ceb9112c8faaba482"
-  integrity sha512-UQ4PdxCnvGI3/68R2ptDngkFwlhohS5fWt9MjVylz8k+PDuDZPUt0tNUcou5qj9nVHYEVe4WjG/VAPnKhaqXDw==
+react-navigation-addon-search-layout@0.14.1:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-addon-search-layout/-/react-navigation-addon-search-layout-0.14.1.tgz#51f87b47b902f80eee115e43e0c4e2f994867b8c"
+  integrity sha512-Wvc20yBSk2QnrvUTaWvtSyG9sE6kH0ZX/ww5ZMGAbHQrCeUrhoTVxIbNsLiyTJesvshPvvjicIdQQR7GUEjceA==
   dependencies:
     react-native-iphone-x-helper "^1.2.0"
     react-native-platform-touchable "^1.1.1"
