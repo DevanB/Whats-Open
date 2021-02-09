@@ -6895,10 +6895,10 @@ react-devtools-core@^3.6.3:
     shell-quote "^1.6.1"
     ws "^3.3.1"
 
-react-i18next@11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.4.0.tgz#dde6bf3a695910af7a4270fea2e111bc331cf151"
-  integrity sha512-lyOZSSQkif4H9HnHN3iEKVkryLI+WkdZSEw3VAZzinZLopfYRMHVY5YxCopdkXPLEHs6S5GjKYPh3+j0j336Fg==
+react-i18next@11.8.6:
+  version "11.8.6"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.8.6.tgz#f9a09964fb38407247ae9542fe51741b6fb93d1a"
+  integrity sha512-Nr4Fq7BvzDLJQmaDyJRkPPINgMW1Y1qeT4STBoY/ePGmYlCZGShTYqqyBm0ly6M8dV1X0twt7M5dfmDzfi9yGQ==
   dependencies:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
