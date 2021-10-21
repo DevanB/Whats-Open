@@ -32,7 +32,7 @@
     "react-navigation-stack": "2.1.1"
   },
   "devDependencies": {
-    "@types/react": "16.9.34",
+    "@types/react": "17.0.31",
     "@types/react-native": "0.62.1",
     "@types/react-native-maps": "0.24.0",
     "@types/react-native-platform-touchable": "1.1.1",
